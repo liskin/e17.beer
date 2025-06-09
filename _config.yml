@@ -1,0 +1,27 @@
+url: https://e17.beer # URL of your website
+name: E17.beer
+description: >-
+  E17 — run clubs, breweries, happy hours, …
+
+logo: assets/logo256.png
+favicon:
+  path: assets/logo256.png
+  type: png
+image:
+  path: assets/logo256.png
+  type: png
+  height: 256
+  width: 256
+  alt: logo
+
+badge:
+  enable: false
+twitter:
+  username: ''
+
+locale: en_GB
+
+theme: linkhub-jekyll-theme
+
+exclude:
+  - Makefile
