@@ -20,3 +20,15 @@ buttons:
       - title: Blackhorse Beer Mile website
         url: https://www.blackhorsebeermile.co.uk/
         icon: mdi:web
+      - title: Signature
+        url: https://www.signaturebrew.co.uk/pages/e17-locals-sign-up
+        icon: mdi:loyalty
+        tag: E17 locals card
+      - title: Exale
+        url: https://www.exale.uk/offers
+        icon: mdi:loyalty
+        tag: E17 locals card
+      - title: Renegade
+        url: https://mailchi.mp/renegadelondonwine/kkt3uxddad
+        icon: mdi:loyalty
+        tag: E17 locals card
