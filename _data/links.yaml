@@ -1,17 +1,22 @@
 fixed-button-width: true
 
 buttons:
-  - category: Run Clubs
+  - category: 🏃 Run Clubs 🏃
     items:
       - title: Calendar (preview)
         url: https://calendar.google.com/calendar/embed?src=0a2764edfca663dd8e5add46e73652c0abfe7efe3980264b02d733f9f9bb09fc%40group.calendar.google.com&ctz=Europe%2FLondon
+        icon: mdi:calendar
       - title: Add to Google Calendar
         url: https://calendar.google.com/calendar/u/0?cid=MGEyNzY0ZWRmY2E2NjNkZDhlNWFkZDQ2ZTczNjUyYzBhYmZlN2VmZTM5ODAyNjRiMDJkNzMzZjlmOWJiMDlmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t
+        icon: logos:google-calendar
       - title: iCal (for Outlook, Apple, …)
         url: https://calendar.google.com/calendar/ical/0a2764edfca663dd8e5add46e73652c0abfe7efe3980264b02d733f9f9bb09fc%40group.calendar.google.com/public/basic.ics
-  - category: Beer
+        icon: mdi:calendar-outline
+  - category: 🍻 Beer 🍻
     items:
-      - title: Blackhorse Beer Mile
-        url: https://www.blackhorsebeermile.co.uk/
       - title: Happy Hours near BHR
         url: https://docs.google.com/spreadsheets/d/1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0/edit?usp=sharing
+        icon: ic:outline-discount
+      - title: Blackhorse Beer Mile website
+        url: https://www.blackhorsebeermile.co.uk/
+        icon: mdi:web
