@@ -18,6 +18,14 @@ serve-public: .bundle/.done
 	$(BUNDLE) install
 	touch $@
 
+.PHONY: bundle-outdated
+bundle-outdated: .bundle/.done
+	$(BUNDLE) outdated --only-explicit
+
+.PHONY: bundle-update
+bundle-update: .bundle/.done
+	$(BUNDLE) update
+
 .PHONY: clean
 clean:
 	git clean -ffdX
