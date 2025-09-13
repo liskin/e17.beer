@@ -28,6 +28,10 @@ buttons:
         url: https://www.exale.uk/offers
         icon: mdi:loyalty
         tag: E17 locals card
+      - title: 40ft
+        url: https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood
+        icon: mdi:loyalty
+        tag: E17 locals card
       - title: Renegade
         url: https://mailchi.mp/renegadelondonwine/kkt3uxddad
         icon: mdi:loyalty
