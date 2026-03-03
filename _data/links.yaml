@@ -36,3 +36,8 @@ buttons:
         url: https://mailchi.mp/renegadelondonwine/kkt3uxddad
         icon: mdi:loyalty
         tag: E17 locals card
+  - category: 📩 Contact 📩
+    items:
+      - title: Tomas J.
+        url: https://lisk.in/contact
+        icon: mdi:contact-outline
