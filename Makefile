@@ -1,31 +1,6 @@
-BUNDLE ?= bundle
+$(warning $(shell tput bold setaf 1)Use just instead of make.$(shell tput sgr0))
 
-export BUNDLE_PATH ?= $(CURDIR)/.bundle/gems
-
-.PHONY: build
-build: .bundle/.done
-	$(BUNDLE) exec jekyll build --drafts
-
-.PHONY: serve
-serve: .bundle/.done
-	$(BUNDLE) exec jekyll serve --drafts --host localhost --port 12345 --livereload
-
-.PHONY: serve
-serve-public: .bundle/.done
-	$(BUNDLE) exec jekyll serve --drafts --host 0.0.0.0 --port 12123 --livereload --livereload-port 12124
-
-.bundle/.done: Gemfile
-	$(BUNDLE) install
-	touch $@
-
-.PHONY: bundle-outdated
-bundle-outdated: .bundle/.done
-	$(BUNDLE) outdated --only-explicit
-
-.PHONY: bundle-update
-bundle-update: .bundle/.done
-	$(BUNDLE) update
-
-.PHONY: clean
-clean:
-	git clean -ffdX
+# Forward all targets to just
+.PHONY: _just_default_ $(MAKECMDGOALS)
+_just_default_ $(MAKECMDGOALS) &::
+	@just $(MAKECMDGOALS)
