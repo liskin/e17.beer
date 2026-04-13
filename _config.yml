@@ -24,4 +24,5 @@ locale: en_GB
 theme: linkhub-jekyll-theme
 
 exclude:
+  - Justfile
   - Makefile
