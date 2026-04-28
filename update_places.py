@@ -25,29 +25,71 @@ places_ids = [
     # TODO: add remaining here
 ]
 
+def get_week_percentage(day_nmb, time_str):
+    """
+    Calculates the percentage of the week elapsed.
+    Week Start: Sunday (0) at 0000.
+    Week End: Saturday (6) at 2359.
+    """
+    #TODO: update if needed for 24 hours opened venues (returns open the day when asked 0000 truncated, close day in a week 2359 truncated)
+    #TODO: fix for open before midnight yesterday and not closed yet at the time of request (will have truncated in this day and day in week before today)
+    # Input values validation
+    if not isinstance(time_str, str) or len(time_str) != 4 or not time_str.isdigit():
+        raise ValueError(f"Invalid time format received: '{time_str}'. Expected HHMM string.")
+
+    if not (0 <= day_nmb <= 6):
+        raise ValueError(f"Invalid day index: {day_nmb}. Google indices must be 0-6.")
+
+    hours = int(time_str[:2])
+    minutes = int(time_str[2:])
+
+    if not (0 <= hours <= 23) or not (0 <= minutes <= 59):
+        raise ValueError(f"Time out of range: '{time_str}'.")
+
+    # Percentage calculation
+    total_week_minutes = 7 * 24 * 60
+    minutes_passed_in_day = (hours * 60) + minutes
+    minutes_passed_in_week = (day_nmb * 1440) + minutes_passed_in_day
+
+    percentage = (minutes_passed_in_week / total_week_minutes) * 100
+
+    return round(percentage, 2)
+
+# print("Times percentages")
+# print(get_week_percentage(0, '0000')) # 0.00
+# print(get_week_percentage(6, '2359')) # 99.99
+# print(get_week_percentage(3, '1200')) # 50.00
+
+
 def fetch_place_data(place_id):
     fields = ['name', 'opening_hours']
     details = gmaps.place(place_id=place_id, fields=fields)
 
     if details.get('status') != 'OK':
         # This looks for Google's error, if Google is silent uses the alternative error message
-        error_msg = details.get('error_message', f'The listing is missing some of the required fields: {", ".join(fields)}.')
+        error_msg = details.get('error_message', f'Missing some of the required fields: {", ".join(fields)}.')
         raise ValueError(f"API Error: {details.get('status')} - {error_msg}")
 
     result = details.get('result', {})
     opening_hours = result.get('opening_hours', {})
-    # print(f"result: {result}")
-    # if 'opening_hours' in result:
-    #     if 'weekday_text' in result['opening_hours']:
-    #         print('Opening hours:')
-    #         for day in result['opening_hours']['weekday_text']:
-    #             print(f'''       {day}''')
+    raw_periods = opening_hours.get('periods', [])
+
+    percentage_periods = []
+    for p in raw_periods:
+        if 'open' not in p or 'close' not in p:
+            raise KeyError(f"The listing for {result.get('name')} is incomplete: 'open' or 'close' data is missing.") # see TODOs in get_week_percentage()
+
+        percentage_periods.append({
+            "open": get_week_percentage(p['open']['day'], p['open']['time']),
+            "close": get_week_percentage(p['close']['day'], p['close']['time'])
+        })
 
     return {
         "name": result.get('name'),
         "weekday_text": opening_hours.get('weekday_text', []),
         "is_open_now": opening_hours.get('open_now'), # For testing color-coding
-        "periods": opening_hours.get('periods', [])    # Raw data for color-coding
+        "periods": raw_periods,    # Raw periods data
+        "percentage_periods": percentage_periods,    # Periods data as percentage for color-coding
     }
 
 def save_to_json(data_list):
