@@ -53,7 +53,7 @@ def get_week_percentage(day_nmb, time_str):
 
     percentage = (minutes_passed_in_week / total_week_minutes) * 100
 
-    return round(percentage, 2)
+    return round(percentage, 4)
 
 # print("Times percentages")
 # print(get_week_percentage(0, '0000')) # 0.00
