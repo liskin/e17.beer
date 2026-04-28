@@ -16,7 +16,7 @@ serve-public: bundle-install
     {{ BUNDLE }} exec jekyll serve --drafts --host 0.0.0.0 --port 12123 --livereload --livereload-port 12124
 
 clean:
-    git clean -ffdX
+    git -c core.excludesFile= clean -ffdX
 
 bundle-install:
     {{ BUNDLE }} install
