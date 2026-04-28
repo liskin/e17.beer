@@ -45,12 +45,12 @@ def get_place_name_and_id(brewery_name):
 
     return {
         "name": data['results'][0]['name'],
-        "place_id": data['results'][0]['place_id']
+        "place_id": data['results'][0]['place_id'],
     }
 
 def run_discovery():
     excel_file = 'BlackhorseBeerMile_HappyHours.xlsx'
-    output_file = 'E17_brewery_ids.json'
+    output_file = 'E17_brewery_ids_urls.json'
 
     try:
         df = pd.read_excel(excel_file, skiprows=1)  # skiprows=1 ignores the note in the first row
@@ -60,9 +60,7 @@ def run_discovery():
 
     # Take unique names from the first column
     brewery_names_raw = df.iloc[:, 0].dropna().unique()
-    id_map = {}
-
-    EXCLUSIONS = ['near, but not beer mile:', 'near, but not beer line:']
+    EXCLUSIONS = ['near, but not beer mile:']
     brewery_names = [
         name for name in brewery_names_raw
         if str(name).strip() not in EXCLUSIONS and pd.notna(name)
@@ -70,6 +68,8 @@ def run_discovery():
 
     print(f"Processing {len(brewery_names)} breweries...")
 
+    id_map = {}
+    url_map = {}
     for brewery_name in brewery_names:
 
         try:
@@ -82,6 +82,8 @@ def run_discovery():
                 if pid:
                     id_map[brewery_name] = pid
                     print(f"✅ {brewery_name}: name= {name}, Place_ID= {pid}")
+                    url_map[brewery_name] = \
+                        f"https://www.google.com/maps/search/?api=1&query=google&query_place_id={pid}"
                 else:
                     print(f"❌ {brewery_name}: Google found the place, but it has no Place ID.")
 
@@ -95,11 +97,16 @@ def run_discovery():
             # This catches everything else (Internet down, API key expired, etc.)
             print(f"🔥 {brewery_name}: Unexpected error: {e}")
 
+    final_data = {
+        "place_ids": id_map,
+        "map_urls": url_map
+    }
+
     # Save to JSON
     with open(output_file, 'w') as f:
-        json.dump(id_map, f, indent=4)
+        json.dump(final_data, f, indent=4)
 
-    print(f"\nDone! IDs saved to {output_file}")
+    print(f"\nDone! IDs and URLs saved to {output_file}")
 
 if __name__ == "__main__":
     run_discovery()
