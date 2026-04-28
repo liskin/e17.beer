@@ -6,23 +6,24 @@ import googlemaps
 # LOAD API Key
 load_dotenv()
 API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
-gmaps = googlemaps.Client(key=API_KEY)
-print("dir(gmaps):")
-print(dir(gmaps))
-
-load_dotenv()
-API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 if not API_KEY:
     raise ValueError("No API Key found! Check your .env file.")
 
+gmaps = googlemaps.Client(key=API_KEY)
 
-# DEFINE YOUR INPUTS HERE (The Place IDs)
-# Location: E17
-places_ids = [
-    'ChIJKVqfjZgddkgRPsLCEegdp_Y', # Signature Brew
-    'ChIJn5s47P0ddkgRs97vifafiI0', # Exale Taproom
-    # TODO: add remaining here
-]
+def load_places_from_json(filename):
+    try:
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        return list(data['place_ids'].values())
+
+    except FileNotFoundError:
+        print(f"Error: {filename} not found. Run your discovery script first.")
+        return []
+    except KeyError:
+        print(f"Error: JSON structure is incorrect. Could not find 'place_ids'.")
+        return []
+
 
 def get_week_percentage(day_nmb, time_str):
     """
@@ -30,7 +31,7 @@ def get_week_percentage(day_nmb, time_str):
     Week Start: Sunday (0) at 0000.
     Week End: Saturday (6) at 2359.
     """
-    #TODO: update if needed for 24 hours opened venues (returns open the day when asked 0000 truncated, close day in a week 2359 truncated)
+    #TODO: update to work for 24 hours opened venues (returns open the day when asked 0000 truncated, close day in a week 2359 truncated)
     #TODO: fix for open before midnight yesterday and not closed yet at the time of request (will have truncated in this day and day in week before today)
     # Input values validation
     if not isinstance(time_str, str) or len(time_str) != 4 or not time_str.isdigit():
@@ -54,11 +55,6 @@ def get_week_percentage(day_nmb, time_str):
 
     return round(percentage, 4)
 
-# print("Times percentages")
-# print(get_week_percentage(0, '0000')) # 0.00
-# print(get_week_percentage(6, '2359')) # 99.99
-# print(get_week_percentage(3, '1200')) # 50.00
-
 
 def fetch_place_data(place_id):
     fields = ['name', 'opening_hours']
@@ -76,7 +72,8 @@ def fetch_place_data(place_id):
     percentage_periods = []
     for p in raw_periods:
         if 'open' not in p or 'close' not in p:
-            raise KeyError(f"The listing for {result.get('name')} is incomplete: 'open' or 'close' data is missing.") # see TODOs in get_week_percentage()
+            raise KeyError(f"The listing for {result.get('name')} is incomplete: 'open' or 'close' data is missing.")
+            # see TODOs in get_week_percentage()
 
         percentage_periods.append({
             "open": get_week_percentage(p['open']['day'], p['open']['time']),
@@ -98,6 +95,16 @@ def save_to_json(data_list):
 
 # RUN THE PROCESS
 if __name__ == "__main__":
+    # DEFINE YOUR INPUTS HERE (The Place IDs)
+    # Input file structured as a nested dictionary:
+    # {
+    #   "place_ids": { "Place Name": "Google Place ID", ... },
+    #   "map_urls":  { "Place Name": "Google Maps URL", ... }
+    # }
+    file_name = 'E17_brewery_ids_urls.json'
+    places_ids = load_places_from_json(file_name)
+    print(places_ids)
+
     all_places_info = []
 
     print(f"Fetching data for {len(places_ids)} places...")
