@@ -18,6 +18,21 @@ class TestUpdatePlaces(unittest.TestCase):
         """Wednesday 12:00 should be exactly 50.0"""
         self.assertEqual(get_week_percentage(3, '1200'), 50.0)
 
+    def test_week_percentage_spectrum(self):
+        """Verify that days 0-2 are always < 50% and days 4-6 are always > 50%"""
+
+        # Days before Wednesday (Sun, Mon, Tue)
+        for day in [0, 1, 2]:
+            for hour in range(24):
+                pct = get_week_percentage(day, f"{hour:02}00")
+                self.assertLess(pct, 50.0, f"Failed: Day {day} should be < 50%")
+
+        # Days after Wednesday (Thu, Fri, Sat)
+        for day in [4, 5, 6]:
+            for hour in range(24):
+                pct = get_week_percentage(day, f"{hour:02}00")
+                self.assertGreater(pct, 50.0, f"Failed: Day {day} should be > 50%")
+
     def test_midnight_transition(self):
         """Test Monday midnight vs Sunday midnight"""
         sun_midnight = get_week_percentage(0, '0000') # Start of week
@@ -37,7 +52,7 @@ class TestUpdatePlaces(unittest.TestCase):
         with self.assertRaises(ValueError):
             get_week_percentage(1, '900')
 
-            # Test: Logic error in input (Hours cannot be 90)
+        # Test: Logic error in input (Hours cannot be 90)
         with self.assertRaises(ValueError):
             get_week_percentage(1, '9000')
 
