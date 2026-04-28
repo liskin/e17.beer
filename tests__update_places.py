@@ -40,6 +40,38 @@ class TestUpdatePlaces(unittest.TestCase):
         self.assertEqual(sun_midnight, 0.0)
         self.assertEqual(mon_midnight, 14.2857) # (1440/10080)*100 ~ 1/7
 
+    @patch('update_places.gmaps.place')
+    def test_wrap_around_split(self, mock_place):
+        """Verify Saturday night to Sunday morning split logic"""
+        mock_place.return_value = {
+            'status': 'OK',
+            'result': {
+                'name': 'Late Night Venue',
+                'opening_hours': {
+                    'periods': [
+                        {
+                            'open': {'day': 6, 'time': '2200'},
+                            'close': {'day': 0, 'time': '0200'}
+                        }
+                    ]
+                }
+            }
+        }
+
+        result = fetch_place_data('dummy_id')
+        intervals = result['percentage_periods']
+
+        # We expect the Saturday night shift to be split into TWO intervals
+        self.assertEqual(len(intervals), 2)
+
+        # Interval 1: Saturday Night to End of Week
+        self.assertEqual(intervals[0]['close'], 100.0)
+        self.assertGreater(intervals[0]['close'], 98.8) # Close at ~98.81%
+
+        # Interval 2: Start of Week to Sunday Morning
+        self.assertEqual(intervals[1]['open'], 0.0)
+        self.assertLess(intervals[1]['close'], 1.2) # Close at ~1.19%
+
     # --- VALIDATION TESTS ---
     def test_invalid_day_index(self):
         """Should raise ValueError for day index 7"""
