@@ -53,6 +53,15 @@ permalink: /hours/
 				min-width: 12em;
 			}
 
+			th.venue a {
+				color: unset;
+				text-decoration: unset;
+
+				&::after {
+					content: " 🔗";
+				}
+			}
+
 			/* sticky column headers */
 			thead {
 				position: sticky;
@@ -196,7 +205,9 @@ permalink: /hours/
 			{% for place in site.data.places -%}
 			{% assign i = forloop.index0 -%}
 			<tr style="--venue: venue{{ i }}">
-				<th class="venue" scope="row">{{ place.place_name }}</th>
+				<th class="venue" scope="row">
+					<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
+				</th>
 				<td class="day">{{ place.time_text_sun_to_sat[1] }}</td>
 				<td class="day">{{ place.time_text_sun_to_sat[2] }}</td>
 				<td class="day">{{ place.time_text_sun_to_sat[3] }}</td>

@@ -116,7 +116,8 @@
                 "open": 0.0,
                 "close": 0.5952
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJKVqfjZgddkgRPsLCEegdp_Y"
     },
     {
         "place_name": "Pretty Decent",
@@ -203,7 +204,8 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJK_3JDekddkgR_9lv8ApNmVo"
     },
     {
         "place_name": "Hackney Church",
@@ -294,7 +296,8 @@
                 "open": 0.0,
                 "close": 0.5952
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJmcEKbdwddkgRTntDc6Ttn3E"
     },
     {
         "place_name": "Exale",
@@ -371,7 +374,8 @@
                 "open": 0.0,
                 "close": 1.1905
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJn5s47P0ddkgRs97vifafiI0"
     },
     {
         "place_name": "Renegade",
@@ -444,7 +448,8 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJ57WCm8cddkgRxgrdo8eIs7c"
     },
     {
         "place_name": "40ft",
@@ -517,7 +522,8 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJGWBqTAAddkgRGIDV9sSwSPQ"
     },
     {
         "place_name": "Big Penny",
@@ -636,7 +642,8 @@
                 "open": 0.0,
                 "close": 0.5952
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJOXISL-oddkgR8T4iCezLtY4"
     },
     {
         "place_name": "Burnt Faith",
@@ -709,7 +716,8 @@
                 "open": 93.4524,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJt44reHMddkgRK2rJwANEAyI"
     },
     {
         "place_name": "Tavern on the Hill",
@@ -828,7 +836,8 @@
                 "open": 0.0,
                 "close": 0.2976
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJNZQZJjcddkgRJlbGoKPRzg8"
     },
     {
         "place_name": "Ferry Boat Inn",
@@ -943,7 +952,8 @@
                 "open": 92.2619,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJMx4DJDIcdkgRxOVl_zEjmCE"
     },
     {
         "place_name": "Pressure Drop",
@@ -1002,7 +1012,8 @@
                 "open": 92.8571,
                 "close": 97.619
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJQeFXoy8cdkgRrIXf96VGQyI"
     },
     {
         "place_name": "Blondies Brewery",
@@ -1089,6 +1100,7 @@
                 "open": 91.0714,
                 "close": 99.4048
             }
-        ]
+        ],
+        "url": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJj4Jz2N4ddkgRo7KEHp0rGRM"
     }
 ]
