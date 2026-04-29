@@ -35,8 +35,8 @@ permalink: /hours/
 			width: 100%;
 			table-layout: fixed;
 
-			border-collapse: collapse;
-			border: 2px solid rgb(140 140 140);
+			border-spacing: 0;
+			border: 2px solid rgb(190 190 190);
 
 			caption {
 				caption-side: top;
@@ -45,9 +45,18 @@ permalink: /hours/
 				font-weight: bold;
 			}
 
+			thead {
+				position: sticky;
+				top: 0;
+
+				th, td {
+					background-color: white;
+				}
+			}
+
 			th,
 			td {
-				border: 1px solid rgb(160 160 160);
+				border: 1px solid rgb(190 190 190);
 				padding: 8px 10px;
 			}
 
