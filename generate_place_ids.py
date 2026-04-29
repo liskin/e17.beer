@@ -18,8 +18,6 @@ def get_place_name_and_id(brewery_name):
     headers = {}
     response = requests.request("GET", URL, headers=headers, data=payload)
     data = response.json()
-    print("data")
-    print(data)
 
     nmb_candidates = len(data['results'])
 
@@ -33,15 +31,6 @@ def get_place_name_and_id(brewery_name):
             f"Ambiguous result for '{brewery_name}': Found {nmb_candidates} candidates "
             f"({'\n'.join(candidate_names)}). Please be more specific in the Excel file."
         )
-
-    print("data['results'][0]")
-    print(data['results'][0])
-
-    print("output:")
-    print({
-        "name": data['results'][0]['name'],
-        "place_id": data['results'][0]['place_id']
-    })
 
     return {
         "name": data['results'][0]['name'],
@@ -110,7 +99,7 @@ def run_discovery():
     with open(output_file, 'w') as f:
         json.dump(final_data, f, indent=4)
 
-    print(f"\nDone! IDs and URLs saved to {output_file}")
+    print(f"\nDone! IDs,  URLs, and Google names saved to {output_file}.")
 
 if __name__ == "__main__":
     run_discovery()
