@@ -18,8 +18,13 @@ permalink: /hours/
 		:root {
 			--week-seconds-elapsed: 0s; /* will be updated by JS */
 
-			--background-open: rgb(0 255 0 / 0.2);
-			--background-closed: unset;
+			--today: 0;
+			--background-today: rgb(240 240 240);
+			--background-day: rgb(255 255 255);
+
+			--open: 0;
+			--background-open: rgb(220 255 220);
+			--background-closed: rgb(255 255 255);
 		}
 
 		body {
@@ -46,11 +51,12 @@ permalink: /hours/
 				padding: 8px 10px;
 			}
 
-			col.venue {
+			th.venue {
 				width: 20%;
 			}
 
-			col.day {
+			/* column header - highlight today */
+			th.day {
 				animation: day 604800s step-end infinite;
 				animation-delay: calc(0s
 					- var(--week-seconds-elapsed)
@@ -58,25 +64,60 @@ permalink: /hours/
 					+ 4 * 3600s            /* make days start at 4am */
 					- 604800s              /* ensure it's always negative (animation started) */
 				);
+
+				background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
 			}
 
+			tr .day:nth-child(2) { --day: 1; }
+			tr .day:nth-child(3) { --day: 2; }
+			tr .day:nth-child(4) { --day: 3; }
+			tr .day:nth-child(5) { --day: 4; }
+			tr .day:nth-child(6) { --day: 5; }
+			tr .day:nth-child(7) { --day: 6; }
+			tr .day:nth-child(8) { --day: 0; }
+
 			tbody tr {
-				animation: 604800s step-end infinite;
-				animation-delay: calc(0s - var(--week-seconds-elapsed));
+				/* row header - highlight today */
+				th {
+					animation: var(--venue) 604800s step-end infinite;
+					animation-delay: calc(0s - var(--week-seconds-elapsed));
+
+					background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
+				}
+
+				/* cells - highlight open/today */
+				td {
+					animation: var(--venue) 604800s step-end infinite, day 604800s step-end infinite;
+					animation-delay: calc(0s - var(--week-seconds-elapsed)), calc(0s
+						- var(--week-seconds-elapsed)
+						+ var(--day) * 86400s  /* align 0 with the selected day */
+						+ 4 * 3600s            /* make days start at 4am */
+						- 604800s              /* ensure it's always negative (animation started) */
+					);
+
+					/* column header - highlight today */
+					background-color: color-mix(in srgb,
+						var(--background-closed),
+						color-mix(in srgb,
+							var(--background-today),
+							var(--background-open) calc(var(--open) * 100%)
+						) calc(var(--today) * 100%)
+					);
+				}
 			}
 		}
 
 		@keyframes day {
-			0% { background: rgb(0 0 0 / 0.1); }
-			14.2857% { background: unset; }
+			0%       { --today: 1; }
+			14.2857% { --today: 0; }
 		}
 
 		{% for place in site.data.places -%}
 		{% assign i = forloop.index0 -%}
 		@keyframes venue{{ i }} {
 			{% for period in place.percentage_periods -%}
-			{{ period.open  }}% { background: var(--background-open); }
-			{{ period.close }}% { background: var(--background-close); }
+			{{ period.open  }}% { --open: 1; }
+			{{ period.close }}% { --open: 0; }
 			{% endfor %}
 		}
 		{% endfor %}
@@ -98,16 +139,6 @@ permalink: /hours/
 			<caption>
 				Venue opening hours
 			</caption>
-			<colgroup>
-				<col class="venue" />
-				<col class="day" style="--day: 1" />
-				<col class="day" style="--day: 2" />
-				<col class="day" style="--day: 3" />
-				<col class="day" style="--day: 4" />
-				<col class="day" style="--day: 5" />
-				<col class="day" style="--day: 6" />
-				<col class="day" style="--day: 0" />
-			</colgroup>
 			<thead>
 				<tr id="time-machine-row" hidden>
 					<th scope="row">time machine</th>
@@ -116,27 +147,27 @@ permalink: /hours/
 					</td>
 				</tr>
 				<tr>
-					<th scope="col" id="time-machine-trigger">venue / day</th>
-					<th scope="col">Monday</th>
-					<th scope="col">Tuesday</th>
-					<th scope="col">Wednesday</th>
-					<th scope="col">Thursday</th>
-					<th scope="col">Friday</th>
-					<th scope="col">Saturday</th>
-					<th scope="col">Sunday</th>
+					<th scope="col" class="venue" id="time-machine-trigger">venue / day</th>
+					<th scope="col" class="day">Monday</th>
+					<th scope="col" class="day">Tuesday</th>
+					<th scope="col" class="day">Wednesday</th>
+					<th scope="col" class="day">Thursday</th>
+					<th scope="col" class="day">Friday</th>
+					<th scope="col" class="day">Saturday</th>
+					<th scope="col" class="day">Sunday</th>
 				</tr>
 			</thead>
 			{% for place in site.data.places -%}
 			{% assign i = forloop.index0 -%}
-			<tr style="animation-name: venue{{ i }}">
-				<th scope="row">{{ place.name }}</th>
-				<td>{{ place.weekday_text.Monday }}</td>
-				<td>{{ place.weekday_text.Tuesday }}</td>
-				<td>{{ place.weekday_text.Wednesday }}</td>
-				<td>{{ place.weekday_text.Thursday }}</td>
-				<td>{{ place.weekday_text.Friday }}</td>
-				<td>{{ place.weekday_text.Saturday }}</td>
-				<td>{{ place.weekday_text.Sunday }}</td>
+			<tr style="--venue: venue{{ i }}">
+				<th class="venue" scope="row">{{ place.name }}</th>
+				<td class="day">{{ place.weekday_text.Monday }}</td>
+				<td class="day">{{ place.weekday_text.Tuesday }}</td>
+				<td class="day">{{ place.weekday_text.Wednesday }}</td>
+				<td class="day">{{ place.weekday_text.Thursday }}</td>
+				<td class="day">{{ place.weekday_text.Friday }}</td>
+				<td class="day">{{ place.weekday_text.Saturday }}</td>
+				<td class="day">{{ place.weekday_text.Sunday }}</td>
 			</tr>
 			{% endfor %}
 		</table>
