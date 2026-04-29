@@ -1,0 +1,418 @@
+[
+    {
+        "name": "Signature Brew Blackhorse Road",
+        "weekday_text": {
+            "Monday": "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Tuesday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Wednesday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Thursday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Sunday": "12:00\u2009\u2013\u200911:30\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 13.9881
+            },
+            {
+                "open": 23.8095,
+                "close": 28.5714
+            },
+            {
+                "open": 35.7143,
+                "close": 42.8571
+            },
+            {
+                "open": 50.0,
+                "close": 57.1429
+            },
+            {
+                "open": 64.2857,
+                "close": 72.0238
+            },
+            {
+                "open": 78.5714,
+                "close": 86.3095
+            },
+            {
+                "open": 92.8571,
+                "close": 0.5952
+            }
+        ]
+    },
+    {
+        "name": "Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Thursday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 11.9048
+            },
+            {
+                "open": 52.381,
+                "close": 56.5476
+            },
+            {
+                "open": 66.6667,
+                "close": 70.8333
+            },
+            {
+                "open": 80.9524,
+                "close": 85.119
+            },
+            {
+                "open": 92.8571,
+                "close": 99.4048
+            }
+        ]
+    },
+    {
+        "name": "Hackney Church Brew Co. Blackhorse Lane",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Thursday": "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Sunday": "12:00\u2009\u2013\u200911:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 13.6905
+            },
+            {
+                "open": 52.9762,
+                "close": 57.1429
+            },
+            {
+                "open": 67.2619,
+                "close": 71.4286
+            },
+            {
+                "open": 78.5714,
+                "close": 86.3095
+            },
+            {
+                "open": 92.8571,
+                "close": 0.5952
+            }
+        ]
+    },
+    {
+        "name": "Exale Taproom",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "Closed",
+            "Thursday": "4:00\u2009\u2013\u200910:00\u202fPM",
+            "Friday": "4:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
+            "Saturday": "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
+            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 11.9048
+            },
+            {
+                "open": 66.6667,
+                "close": 70.2381
+            },
+            {
+                "open": 80.9524,
+                "close": 86.9048
+            },
+            {
+                "open": 92.8571,
+                "close": 1.1905
+            }
+        ]
+    },
+    {
+        "name": "Renegade Urban Winery - Bar, Kitchen & Winery",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "Closed",
+            "Thursday": "5:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "12:00\u2009\u2013\u20096:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 10.7143
+            },
+            {
+                "open": 67.2619,
+                "close": 70.8333
+            },
+            {
+                "open": 78.5714,
+                "close": 85.119
+            },
+            {
+                "open": 92.8571,
+                "close": 99.4048
+            }
+        ]
+    },
+    {
+        "name": "40ft Brewery Blackhorse",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "Closed",
+            "Thursday": "5:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "3:00\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 11.9048
+            },
+            {
+                "open": 67.2619,
+                "close": 70.8333
+            },
+            {
+                "open": 80.3571,
+                "close": 85.119
+            },
+            {
+                "open": 92.8571,
+                "close": 99.4048
+            }
+        ]
+    },
+    {
+        "name": "Big Penny Social",
+        "weekday_text": {
+            "Monday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Tuesday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Wednesday": "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Thursday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 11.9048
+            },
+            {
+                "open": 21.4286,
+                "close": 27.9762
+            },
+            {
+                "open": 35.7143,
+                "close": 42.2619
+            },
+            {
+                "open": 50.0,
+                "close": 56.5476
+            },
+            {
+                "open": 64.2857,
+                "close": 71.4286
+            },
+            {
+                "open": 78.5714,
+                "close": 86.3095
+            },
+            {
+                "open": 92.8571,
+                "close": 0.5952
+            }
+        ]
+    },
+    {
+        "name": "Burnt Faith Brandy House",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "Closed",
+            "Thursday": "6:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "5:00\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "1:00\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "1:00\u2009\u2013\u20097:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.7381,
+                "close": 11.3095
+            },
+            {
+                "open": 67.8571,
+                "close": 70.8333
+            },
+            {
+                "open": 81.5476,
+                "close": 85.119
+            },
+            {
+                "open": 93.4524,
+                "close": 99.4048
+            }
+        ]
+    },
+    {
+        "name": "The Tavern on the Hill",
+        "weekday_text": {
+            "Monday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Tuesday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Wednesday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Thursday": "4:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
+            "Saturday": "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
+            "Sunday": "12:00\u2009\u2013\u200910:30\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 13.3929
+            },
+            {
+                "open": 23.8095,
+                "close": 27.9762
+            },
+            {
+                "open": 38.0952,
+                "close": 42.2619
+            },
+            {
+                "open": 52.381,
+                "close": 56.5476
+            },
+            {
+                "open": 66.6667,
+                "close": 70.8333
+            },
+            {
+                "open": 78.5714,
+                "close": 86.0119
+            },
+            {
+                "open": 92.8571,
+                "close": 0.2976
+            }
+        ]
+    },
+    {
+        "name": "Ferry Boat Inn Tottenham",
+        "weekday_text": {
+            "Monday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Tuesday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Wednesday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Thursday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 6.5476,
+                "close": 13.6905
+            },
+            {
+                "open": 20.8333,
+                "close": 27.9762
+            },
+            {
+                "open": 35.119,
+                "close": 42.2619
+            },
+            {
+                "open": 49.4048,
+                "close": 56.5476
+            },
+            {
+                "open": 63.6905,
+                "close": 70.8333
+            },
+            {
+                "open": 77.9762,
+                "close": 85.119
+            },
+            {
+                "open": 92.2619,
+                "close": 99.4048
+            }
+        ]
+    },
+    {
+        "name": "Pressure Drop Brewery and Taproom",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "Closed",
+            "Thursday": "Closed",
+            "Friday": "5:00\u2009\u2013\u20099:00\u202fPM",
+            "Saturday": "12:00\u2009\u2013\u20098:00\u202fPM",
+            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 7.1429,
+                "close": 11.9048
+            },
+            {
+                "open": 81.5476,
+                "close": 83.9286
+            },
+            {
+                "open": 92.8571,
+                "close": 97.619
+            }
+        ]
+    },
+    {
+        "name": "Blondies Brewery",
+        "weekday_text": {
+            "Monday": "Closed",
+            "Tuesday": "Closed",
+            "Wednesday": "3:00\u2009\u2013\u200911:00\u202fPM",
+            "Thursday": "3:00\u2009\u2013\u200911:00\u202fPM",
+            "Friday": "2:00\u2009\u2013\u200911:00\u202fPM",
+            "Saturday": "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "Sunday": "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM"
+        },
+        "percentage_periods": [
+            {
+                "open": 5.3571,
+                "close": 13.0952
+            },
+            {
+                "open": 51.7857,
+                "close": 56.5476
+            },
+            {
+                "open": 66.0714,
+                "close": 70.8333
+            },
+            {
+                "open": 79.7619,
+                "close": 85.119
+            },
+            {
+                "open": 91.0714,
+                "close": 99.4048
+            }
+        ]
+    }
+]

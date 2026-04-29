@@ -26,7 +26,3 @@ bundle-outdated: bundle-install
 
 bundle-update: bundle-install
     {{ BUNDLE }} update
-
-# ----------------------------------------------------------------------
-
-mod _scripts

@@ -1,3 +1,7 @@
+---
+permalink: /hours/
+---
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -67,8 +71,8 @@
 			14.2857% { background: unset; }
 		}
 
-		{% for place in places -%}
-		{% set i = loop.index0 -%}
+		{% for place in site.data.places -%}
+		{% assign i = forloop.index0 -%}
 		@keyframes venue{{ i }} {
 			{% for period in place.percentage_periods -%}
 			{{ period.open  }}% { background: var(--background-open); }
@@ -122,17 +126,17 @@
 					<th scope="col">Sunday</th>
 				</tr>
 			</thead>
-			{% for place in places -%}
-			{% set i = loop.index0 -%}
+			{% for place in site.data.places -%}
+			{% assign i = forloop.index0 -%}
 			<tr style="animation-name: venue{{ i }}">
 				<th scope="row">{{ place.name }}</th>
-				<td>{{ place.human_readable_hours.Monday }}</td>
-				<td>{{ place.human_readable_hours.Tuesday }}</td>
-				<td>{{ place.human_readable_hours.Wednesday }}</td>
-				<td>{{ place.human_readable_hours.Thursday }}</td>
-				<td>{{ place.human_readable_hours.Friday }}</td>
-				<td>{{ place.human_readable_hours.Saturday }}</td>
-				<td>{{ place.human_readable_hours.Sunday }}</td>
+				<td>{{ place.weekday_text.Monday }}</td>
+				<td>{{ place.weekday_text.Tuesday }}</td>
+				<td>{{ place.weekday_text.Wednesday }}</td>
+				<td>{{ place.weekday_text.Thursday }}</td>
+				<td>{{ place.weekday_text.Friday }}</td>
+				<td>{{ place.weekday_text.Saturday }}</td>
+				<td>{{ place.weekday_text.Sunday }}</td>
 			</tr>
 			{% endfor %}
 		</table>
@@ -157,5 +161,5 @@
 <!-- TODO: add vertical line for current time -->
 <!-- TODO: convert local to UK time zone -->
 
-<!-- vim:set ft=html.jinja -->
+<!-- vim:set ft=liquid -->
 </html>

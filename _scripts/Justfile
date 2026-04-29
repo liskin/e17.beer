@@ -1,7 +1,0 @@
-help:
-    @just --list --unsorted
-
-# ----------------------------------------------------------------------
-
-test:
-    uv run --with-requirements hours-table.py pytest hours-table.py
