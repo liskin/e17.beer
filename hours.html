@@ -37,6 +37,19 @@ permalink: /hours/
 			border-spacing: 0;
 			border: 2px solid rgb(190 190 190);
 
+			th, td {
+				border: 1px solid rgb(190 190 190);
+				padding: 6px 8px;
+				text-align: center;
+			}
+
+			th.venue {
+				min-width: 8em;
+			}
+			th.day, td.day {
+				min-width: 12em;
+			}
+
 			/* sticky column headers */
 			thead {
 				position: sticky;
@@ -53,20 +66,6 @@ permalink: /hours/
 				position: sticky;
 				left: 0;
 				z-index: 4;
-			}
-
-			th,
-			td {
-				border: 1px solid rgb(190 190 190);
-				padding: 6px 8px;
-				text-align: center;
-			}
-
-			th.venue {
-				min-width: 8em;
-			}
-			th.day, td.day {
-				min-width: 12em;
 			}
 
 			tr .day:nth-child(2) { --day: 1; }
