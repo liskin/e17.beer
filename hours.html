@@ -44,13 +44,22 @@ permalink: /hours/
 				font-weight: bold;
 			}
 
+			/* sticky column headers */
 			thead {
 				position: sticky;
 				top: 0;
+				z-index: 5;
 
 				th, td {
 					background-color: white;
 				}
+			}
+
+			/* sticky row headers */
+			th.venue {
+				position: sticky;
+				left: 0;
+				z-index: 4;
 			}
 
 			th,
