@@ -100,7 +100,7 @@ def fetch_place_data(place_id, gname_mapping=None):
         else:
             percentage_periods.append({"open": open_pct, "close": close_pct})
 
-    # Convert weekday_text to list of times only (without the name of day, ordered from Sun to Mon)
+    # Convert weekday_text to list of times only (without the name of day, ordered from Sun to Sat)
     days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     weekday_text = opening_hours.get('weekday_text', [])
     week_dict = {}
@@ -117,7 +117,7 @@ def fetch_place_data(place_id, gname_mapping=None):
 
     return {
         "place_name": place_name,
-        "time_text_sun_to_mon": weekday_times_list,
+        "time_text_sun_to_sat": weekday_times_list,
         "is_open_now": opening_hours.get('open_now'), # For testing color-coding
         "periods": raw_periods,    # Raw periods data
         "percentage_periods": percentage_periods,    # Periods data as percentage for color-coding

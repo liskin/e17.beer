@@ -46,6 +46,11 @@ def test_wrap_around_split(mock_place):
         'result': {
             'name': 'Late Night Venue',
             'opening_hours': {
+                'weekday_text': [
+                    "Monday: Closed", "Tuesday: Closed", "Wednesday: Closed", "Thursday: Closed", "Friday: Closed",
+                    "Sunday: Closed",
+                    "Saturday: 10:00 PM – 2:00 AM"
+                ],
                 'periods': [
                     {
                         'open': {'day': 6, 'time': '2200'},
@@ -72,6 +77,42 @@ def test_wrap_around_split(mock_place):
     # 2 / (7 * 24 ) * 100 ~ 1.1905
     assert intervals[1]['close'] < 1.2
 
+# --- DATA TRANSFORMATION TESTS ---
+
+@patch('update_places.gmaps.place')
+def test_weekday_text_ordering_and_format(mock_place):
+    """Verify raw text is split correctly and ordered Sunday to Saturday"""
+    mock_place.return_value = {
+        'status': 'OK',
+        'result': {
+            'name': 'Test Brewery',
+            'opening_hours': {
+                'weekday_text': [
+                    "Monday: 4:00 PM – 12:00 AM",
+                    "Tuesday: 12:00 PM – 12:00 AM",
+                    "Wednesday: 12:00 PM – 12:00 AM",
+                    "Thursday: 12:00 PM – 1:00 AM",
+                    "Friday: 12:00 PM – 1:00 AM",
+                    "Saturday: 12:00 PM – 1:30 AM",
+                    "Sunday: 12:00 – 11:30 PM"
+                ],
+                'periods': []
+            }
+        }
+    }
+
+    result = fetch_place_data('dummy_id')
+    times = result['time_text_sun_to_sat']
+
+    # Verify Sunday is first (index 0)
+    assert times[0] == "12:00 – 11:30 PM"
+    # Verify Monday is second (index 1)
+    assert times[1] == "4:00 PM – 12:00 AM"
+    # Verify Saturday is last (index -1)
+    assert times[-1] == "12:00 PM – 1:30 AM"
+    # Verify the list length is exactly 7
+    assert len(times) == 7
+
 # --- VALIDATION TESTS ---
 
 def test_invalid_day_index():
@@ -92,6 +133,23 @@ def test_valid_time_format():
     """Should complete without raising an error"""
     get_week_percentage(1, '0900')
 
+@patch('update_places.gmaps.place')
+def test_incomplete_weekday_text_raises_error(mock_place):
+    """Verify ValueError is raised if a day is missing from weekday_text"""
+    mock_place.return_value = {
+        'status': 'OK',
+        'result': {
+            'name': 'Broken Data Pub',
+            'opening_hours': {
+                'weekday_text': ["Monday: 9:00 AM – 5:00 PM"] # Missing 6 days
+            }
+        }
+    }
+
+    # Match your custom error message (case-insensitive)
+    with pytest.raises(ValueError, match=r"(?i)Data Integrity Error"):
+        fetch_place_data('dummy_id')
+
 # --- API RETURN TESTS ---
 
 @patch('update_places.gmaps.place')
@@ -101,7 +159,16 @@ def test_incomplete_data_handling(mock_place):
         'status': 'OK',
         'result': {
             'name': 'Test Place',
-            'opening_hours': {'periods': [{'open': {'day': 1, 'time': '0900'}}]}
+            'opening_hours': {
+                'weekday_text': [
+                    "Monday: 09:00 PM – 2:00 AM"
+                    "Tuesday: Closed", "Wednesday: Closed", "Thursday: Closed", "Friday: Closed", "Saturday: Closed",
+                    "Sunday: Closed",
+                ],
+                'periods': [
+                    {'open': {'day': 1, 'time': '0900'}}
+                ]
+            }
         }
     }
     with pytest.raises(KeyError, match=r"(?i)incomplete"):
