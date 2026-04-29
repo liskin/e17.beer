@@ -50,7 +50,7 @@ def get_place_name_and_id(brewery_name):
 
 def run_discovery():
     excel_file = 'BlackhorseBeerMile_HappyHours.xlsx'
-    output_file = 'E17_brewery_ids_urls.json'
+    output_file = 'E17_brewery_ids_urls_gname-mapping.json'
 
     try:
         df = pd.read_excel(excel_file, skiprows=1)  # skiprows=1 ignores the note in the first row
@@ -70,6 +70,7 @@ def run_discovery():
 
     id_map = {}
     url_map = {}
+    name_map = {} # This will map "Google Name" -> "Data Place Name (from the excel_file)"
     for brewery_name in brewery_names:
 
         try:
@@ -78,6 +79,8 @@ def run_discovery():
             if result:
                 name = result['name']
                 pid = result['place_id']
+
+                name_map[name] = brewery_name
 
                 if pid:
                     id_map[brewery_name] = pid
@@ -98,8 +101,9 @@ def run_discovery():
             print(f"🔥 {brewery_name}: Unexpected error: {e}")
 
     final_data = {
-        "place_ids": id_map,
-        "map_urls": url_map
+        "place_ids": id_map,       # Excel Name -> Place ID
+        "map_urls": url_map,       # Excel Name -> URL
+        "gname_mapping": name_map   # Google Name -> Excel Name
     }
 
     # Save to JSON
