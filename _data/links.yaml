@@ -14,6 +14,9 @@ buttons:
         icon: mdi:calendar-outline
   - category: 🍻 Beer 🍻
     items:
+      - title: Beer Mile Opening Hours
+        url: /hours/
+        icon: fluent-mdl2:business-hours-sign
       - title: Happy Hours near BHR
         url: https://docs.google.com/spreadsheets/d/1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0/edit?usp=sharing
         icon: ic:outline-discount
