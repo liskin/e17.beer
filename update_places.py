@@ -100,9 +100,24 @@ def fetch_place_data(place_id, gname_mapping=None):
         else:
             percentage_periods.append({"open": open_pct, "close": close_pct})
 
+    # Convert weekday_text to list of times only (without the name of day, ordered from Sun to Mon)
+    days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    weekday_text = opening_hours.get('weekday_text', [])
+    week_dict = {}
+    for entry in weekday_text:
+        if ': ' in entry:
+            day_name, times_text = entry.split(': ', 1)
+            week_dict[day_name.strip()] = times_text.strip()
+
+    try:
+        weekday_times_list = [week_dict[day] for day in days_order]
+    except KeyError as e:
+        raise ValueError(f"Data Integrity Error: Google provided no opening times for {e}. "
+                             "This venue may have incomplete business information.")
+
     return {
         "place_name": place_name,
-        "weekday_text": opening_hours.get('weekday_text', []),
+        "time_text_sun_to_mon": weekday_times_list,
         "is_open_now": opening_hours.get('open_now'), # For testing color-coding
         "periods": raw_periods,    # Raw periods data
         "percentage_periods": percentage_periods,    # Periods data as percentage for color-coding
