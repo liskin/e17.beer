@@ -31,6 +31,9 @@ permalink: /hours/
 
 		body {
 			padding: 8px 10px;
+
+			width: fit-content;
+			min-width: 100%;
 		}
 
 		table.opening-hours {
@@ -137,6 +140,20 @@ permalink: /hours/
 			{% endfor %}
 		}
 		{% endfor %}
+
+		footer {
+			position: sticky;
+			left: 10vw;
+			width: 80vw;
+			margin: 20px 0;
+			text-align: center;
+			border-top: 1px solid rgb(200 200 200);
+
+			a {
+				color: rgb(0, 0, 238);
+				text-decoration-color: rgb(0, 0, 238);
+			}
+		}
 		</style>
 
 		<script>
@@ -209,6 +226,15 @@ permalink: /hours/
 			scrollDayIntoView(isNaN(selectedDate) ? new Date() : selectedDate);
 		});
 		</script>
+
+		<footer>
+			<p>
+			Tip: triple-click "venue / day" to show the Time Machine
+			</p>
+			<p>
+			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
+			</p>
+		</footer>
 	</body>
 
 <!-- TODO: vis opening hours within cells -->
