@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Venue opening hours</title>
+
+		<!-- TODO: inline maybe? -->
+		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"> -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css">
+
+		<style>
+		:root {
+			--week-seconds-elapsed: 0s; /* will be updated by JS */
+
+			--background-open: rgb(0 255 0 / 0.2);
+			--background-closed: unset;
+		}
+
+		body {
+			padding: 8px 10px;
+		}
+
+		table.opening-hours {
+			width: 100%;
+			table-layout: fixed;
+
+			border-collapse: collapse;
+			border: 2px solid rgb(140 140 140);
+
+			caption {
+				caption-side: top;
+				text-align: center;
+				padding-bottom: 10px;
+				font-weight: bold;
+			}
+
+			th,
+			td {
+				border: 1px solid rgb(160 160 160);
+				padding: 8px 10px;
+			}
+
+			col.venue {
+				width: 20%;
+			}
+
+			col.day {
+				animation: day 604800s step-end infinite;
+				animation-delay: calc(0s
+					- var(--week-seconds-elapsed)
+					+ var(--day) * 86400s  /* align 0 with the selected day */
+					+ 4 * 3600s            /* make days start at 4am */
+					- 604800s              /* ensure it's always negative (animation started) */
+				);
+			}
+
+			tbody tr {
+				animation: 604800s step-end infinite;
+				animation-delay: calc(0s - var(--week-seconds-elapsed));
+			}
+		}
+
+		@keyframes day {
+			0% { background: rgb(0 0 0 / 0.1); }
+			14.2857% { background: unset; }
+		}
+
+		{% for place in places -%}
+		{% set i = loop.index0 -%}
+		@keyframes venue{{ i }} {
+			{% for period in place.percentage_periods -%}
+			{{ period.open  }}% { background: var(--background-open); }
+			{{ period.close }}% { background: var(--background-close); }
+			{% endfor %}
+		}
+		{% endfor %}
+		</style>
+
+		<script>
+		function setWeekSecondsElapsed(date) {
+			// Total seconds elapsed since Sunday 00:00:00
+			const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+			document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
+		}
+
+		setWeekSecondsElapsed(new Date());
+		</script>
+	</head>
+
+	<body>
+		<table class="opening-hours">
+			<caption>
+				Venue opening hours
+			</caption>
+			<colgroup>
+				<col class="venue" />
+				<col class="day" style="--day: 1" />
+				<col class="day" style="--day: 2" />
+				<col class="day" style="--day: 3" />
+				<col class="day" style="--day: 4" />
+				<col class="day" style="--day: 5" />
+				<col class="day" style="--day: 6" />
+				<col class="day" style="--day: 0" />
+			</colgroup>
+			<thead>
+				<tr id="time-machine-row" hidden>
+					<th scope="row">time machine</th>
+					<td colspan="7">
+						<input type="datetime-local" id="time-machine">
+					</td>
+				</tr>
+				<tr>
+					<th scope="col" id="time-machine-trigger">venue / day</th>
+					<th scope="col">Monday</th>
+					<th scope="col">Tuesday</th>
+					<th scope="col">Wednesday</th>
+					<th scope="col">Thursday</th>
+					<th scope="col">Friday</th>
+					<th scope="col">Saturday</th>
+					<th scope="col">Sunday</th>
+				</tr>
+			</thead>
+			{% for place in places -%}
+			{% set i = loop.index0 -%}
+			<tr style="animation-name: venue{{ i }}">
+				<th scope="row">{{ place.name }}</th>
+				<td>{{ place.human_readable_hours.Monday }}</td>
+				<td>{{ place.human_readable_hours.Tuesday }}</td>
+				<td>{{ place.human_readable_hours.Wednesday }}</td>
+				<td>{{ place.human_readable_hours.Thursday }}</td>
+				<td>{{ place.human_readable_hours.Friday }}</td>
+				<td>{{ place.human_readable_hours.Saturday }}</td>
+				<td>{{ place.human_readable_hours.Sunday }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		<script>
+		/* triple click shows time-machine */
+		document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
+			if (e.detail === 3) {
+				document.getElementById('time-machine-row').hidden = false;
+			}
+		});
+
+		/* update animation time on time-machine input */
+		document.getElementById('time-machine').addEventListener('input', (e) => {
+			const selectedDate = new Date(e.target.value);
+			setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate);
+		});
+		</script>
+	</body>
+
+<!-- TODO: vis opening hours within cells -->
+<!-- TODO: add vertical line for current time -->
+<!-- TODO: convert local to UK time zone -->
+
+<!-- vim:set ft=html.jinja -->
+</html>
