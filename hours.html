@@ -6,7 +6,7 @@ permalink: /hours/
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 
 		<title>Venue opening hours</title>
 
@@ -34,9 +34,6 @@ permalink: /hours/
 		}
 
 		table.opening-hours {
-			width: 100%;
-			table-layout: fixed;
-
 			border-spacing: 0;
 			border: 2px solid rgb(190 190 190);
 
@@ -59,11 +56,15 @@ permalink: /hours/
 			th,
 			td {
 				border: 1px solid rgb(190 190 190);
-				padding: 8px 10px;
+				padding: 6px 8px;
+				text-align: center;
 			}
 
 			th.venue {
-				width: 20%;
+				min-width: 8em;
+			}
+			th.day, td.day {
+				min-width: 12em;
 			}
 
 			tr .day:nth-child(2) { --day: 1; }
