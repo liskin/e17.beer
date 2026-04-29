@@ -55,7 +55,7 @@ def get_week_percentage(day_nmb, time_str):
 def fetch_place_data(place_id, gname_mapping=None):
     """
     Fetches details from Google Maps API, maps the official gmaps_name
-    back to your preferred place_name (as defined in excel_file), and converts opening periods into a list of week-percentage intervals (0.0 to 100.0).
+    back to your preferred place_name (as defined in spreadsheet), and converts opening periods into a list of week-percentage intervals (0.0 to 100.0).
     """
     fields = ['name', 'opening_hours']
     details = gmaps.place(place_id=place_id, fields=fields)
@@ -67,7 +67,7 @@ def fetch_place_data(place_id, gname_mapping=None):
 
     result = details.get('result', {})
 
-    # Map the Google's name (key) to Excel Name (value)
+    # Map the Google's name (key) to spreadsheet Name (value)
     # If no mapping exists, use the gname as a fallback
     gname = result.get('name')
     if gname_mapping:

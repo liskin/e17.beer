@@ -30,7 +30,7 @@ def get_place_name_and_id(brewery_name):
         candidate_names = [c.get('name') for c in data['results']]
         raise ValueError(
             f"Ambiguous result for '{brewery_name}': Found {nmb_candidates} candidates "
-            f"({'\n'.join(candidate_names)}). Please be more specific in the Excel file."
+            f"({'\n'.join(candidate_names)}). Please refine the search_name above to be more specific."
         )
 
     return {
@@ -61,7 +61,7 @@ def run_discovery():
 
     id_map = {}
     url_map = {}
-    name_map = {} # This will map "Google Name" -> "Data Place Name (from the excel_file)"
+    name_map = {} # This will map "Google Name" -> "Data Place Name (from the spreadsheet)"
     for brewery_name in brewery_names:
 
         try:
@@ -92,9 +92,9 @@ def run_discovery():
             print(f"🔥 {brewery_name}: Unexpected error: {e}")
 
     final_data = {
-        "place_ids": id_map,       # Excel Name -> Place ID
-        "map_urls": url_map,       # Excel Name -> URL
-        "gname_mapping": name_map   # Google Name -> Excel Name
+        "place_ids": id_map,       # spreadsheet Name -> Place ID
+        "map_urls": url_map,       # spreadsheet Name -> URL # TODO (EvaJ): URLs to the other json
+        "gname_mapping": name_map   # Google Name -> spreadsheet Name
     }
 
     # Save to JSON
