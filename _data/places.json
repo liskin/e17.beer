@@ -1,15 +1,88 @@
 [
     {
-        "name": "Signature Brew Blackhorse Road",
-        "weekday_text": {
-            "Monday": "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Tuesday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Wednesday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Thursday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Sunday": "12:00\u2009\u2013\u200911:30\u202fPM"
-        },
+        "place_name": "Signature",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u200911:30\u202fPM",
+            "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+        ],
+        "is_open_now": true,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2330"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 2,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 1,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 2,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 0,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -46,16 +119,69 @@
         ]
     },
     {
-        "name": "Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Thursday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
-        },
+        "place_name": "Pretty Decent",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20098:00\u202fPM",
+            "Closed",
+            "Closed",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -80,16 +206,69 @@
         ]
     },
     {
-        "name": "Hackney Church Brew Co. Blackhorse Lane",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Thursday": "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Sunday": "12:00\u2009\u2013\u200911:00\u202fPM"
-        },
+        "place_name": "Hackney Church Blackhorse",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u200911:00\u202fPM",
+            "Closed",
+            "Closed",
+            "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 0,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -118,16 +297,59 @@
         ]
     },
     {
-        "name": "Exale Taproom",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "4:00\u2009\u2013\u200910:00\u202fPM",
-            "Friday": "4:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
-            "Saturday": "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
-            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
-        },
+        "place_name": "Exale",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20098:00\u202fPM",
+            "Closed",
+            "Closed",
+            "Closed",
+            "4:00\u2009\u2013\u200910:00\u202fPM",
+            "4:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2200"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "0200"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 0,
+                    "time": "0200"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -152,16 +374,59 @@
         ]
     },
     {
-        "name": "Renegade Urban Winery - Bar, Kitchen & Winery",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "5:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "12:00\u2009\u2013\u20096:00\u202fPM"
-        },
+        "place_name": "Renegade",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20096:00\u202fPM",
+            "Closed",
+            "Closed",
+            "Closed",
+            "5:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "1800"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -182,16 +447,59 @@
         ]
     },
     {
-        "name": "40ft Brewery Blackhorse",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "5:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "3:00\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
-        },
+        "place_name": "40ft",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20098:00\u202fPM",
+            "Closed",
+            "Closed",
+            "Closed",
+            "5:00\u2009\u2013\u200911:00\u202fPM",
+            "3:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1500"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -212,16 +520,89 @@
         ]
     },
     {
-        "name": "Big Penny Social",
-        "weekday_text": {
-            "Monday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Tuesday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Wednesday": "12:00\u2009\u2013\u200911:00\u202fPM",
-            "Thursday": "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Friday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Saturday": "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
-        },
+        "place_name": "Big Penny",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20098:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+        ],
+        "is_open_now": true,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 1,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 1,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 2,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 2,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "0000"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 0,
+                    "time": "0100"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -258,16 +639,59 @@
         ]
     },
     {
-        "name": "Burnt Faith Brandy House",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "6:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "5:00\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "1:00\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "1:00\u2009\u2013\u20097:00\u202fPM"
-        },
+        "place_name": "Burnt Faith",
+        "time_text_sun_to_mon": [
+            "1:00\u2009\u2013\u20097:00\u202fPM",
+            "Closed",
+            "Closed",
+            "Closed",
+            "6:00\u2009\u2013\u200911:00\u202fPM",
+            "5:00\u2009\u2013\u200911:00\u202fPM",
+            "1:00\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "1900"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1300"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1800"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1300"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.7381,
@@ -288,16 +712,89 @@
         ]
     },
     {
-        "name": "The Tavern on the Hill",
-        "weekday_text": {
-            "Monday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Tuesday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Wednesday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Thursday": "4:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
-            "Saturday": "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
-            "Sunday": "12:00\u2009\u2013\u200910:30\u202fPM"
-        },
+        "place_name": "Tavern on the Hill",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u200910:30\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "4:00\u2009\u2013\u200911:00\u202fPM",
+            "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
+            "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2230"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 1,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 1,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 2,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 2,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1600"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "0030"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 0,
+                    "time": "0030"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -334,16 +831,89 @@
         ]
     },
     {
-        "name": "Ferry Boat Inn Tottenham",
-        "weekday_text": {
-            "Monday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Tuesday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Wednesday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Thursday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
-        },
+        "place_name": "Ferry Boat Inn",
+        "time_text_sun_to_mon": [
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
+            "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": true,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 1,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 1,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 2,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 2,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1100"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1100"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 6.5476,
@@ -376,16 +946,49 @@
         ]
     },
     {
-        "name": "Pressure Drop Brewery and Taproom",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "Closed",
-            "Friday": "5:00\u2009\u2013\u20099:00\u202fPM",
-            "Saturday": "12:00\u2009\u2013\u20098:00\u202fPM",
-            "Sunday": "12:00\u2009\u2013\u20098:00\u202fPM"
-        },
+        "place_name": "Pressure Drop",
+        "time_text_sun_to_mon": [
+            "12:00\u2009\u2013\u20098:00\u202fPM",
+            "Closed",
+            "Closed",
+            "Closed",
+            "Closed",
+            "5:00\u2009\u2013\u20099:00\u202fPM",
+            "12:00\u2009\u2013\u20098:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "1200"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2100"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1700"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2000"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "1200"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -402,16 +1005,69 @@
         ]
     },
     {
-        "name": "Blondies Brewery",
-        "weekday_text": {
-            "Monday": "Closed",
-            "Tuesday": "Closed",
-            "Wednesday": "3:00\u2009\u2013\u200911:00\u202fPM",
-            "Thursday": "3:00\u2009\u2013\u200911:00\u202fPM",
-            "Friday": "2:00\u2009\u2013\u200911:00\u202fPM",
-            "Saturday": "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-            "Sunday": "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM"
-        },
+        "place_name": "Blondies Brewery",
+        "time_text_sun_to_mon": [
+            "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM",
+            "Closed",
+            "Closed",
+            "3:00\u2009\u2013\u200911:00\u202fPM",
+            "3:00\u2009\u2013\u200911:00\u202fPM",
+            "2:00\u2009\u2013\u200911:00\u202fPM",
+            "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+        ],
+        "is_open_now": false,
+        "periods": [
+            {
+                "close": {
+                    "day": 0,
+                    "time": "2200"
+                },
+                "open": {
+                    "day": 0,
+                    "time": "0900"
+                }
+            },
+            {
+                "close": {
+                    "day": 3,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 3,
+                    "time": "1500"
+                }
+            },
+            {
+                "close": {
+                    "day": 4,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 4,
+                    "time": "1500"
+                }
+            },
+            {
+                "close": {
+                    "day": 5,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 5,
+                    "time": "1400"
+                }
+            },
+            {
+                "close": {
+                    "day": 6,
+                    "time": "2300"
+                },
+                "open": {
+                    "day": 6,
+                    "time": "0900"
+                }
+            }
+        ],
         "percentage_periods": [
             {
                 "open": 5.3571,

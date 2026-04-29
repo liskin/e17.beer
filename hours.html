@@ -173,14 +173,14 @@ permalink: /hours/
 			{% for place in site.data.places -%}
 			{% assign i = forloop.index0 -%}
 			<tr style="--venue: venue{{ i }}">
-				<th class="venue" scope="row">{{ place.name }}</th>
-				<td class="day">{{ place.weekday_text.Monday }}</td>
-				<td class="day">{{ place.weekday_text.Tuesday }}</td>
-				<td class="day">{{ place.weekday_text.Wednesday }}</td>
-				<td class="day">{{ place.weekday_text.Thursday }}</td>
-				<td class="day">{{ place.weekday_text.Friday }}</td>
-				<td class="day">{{ place.weekday_text.Saturday }}</td>
-				<td class="day">{{ place.weekday_text.Sunday }}</td>
+				<th class="venue" scope="row">{{ place.place_name }}</th>
+				<td class="day">{{ place.time_text_sun_to_mon[1] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[2] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[3] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[4] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[5] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[6] }}</td>
+				<td class="day">{{ place.time_text_sun_to_mon[0] }}</td>
 			</tr>
 			{% endfor %}
 		</table>
