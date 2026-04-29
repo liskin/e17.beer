@@ -2,7 +2,7 @@
     "place_ids": {
         "Signature": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
         "Pretty Decent": "ChIJK_3JDekddkgR_9lv8ApNmVo",
-        "Hackney Church Blackhorse": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
+        "Hackney Church": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
         "Exale": "ChIJn5s47P0ddkgRs97vifafiI0",
         "Renegade": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
         "40ft": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
@@ -16,7 +16,7 @@
     "map_urls": {
         "Signature": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJKVqfjZgddkgRPsLCEegdp_Y",
         "Pretty Decent": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJK_3JDekddkgR_9lv8ApNmVo",
-        "Hackney Church Blackhorse": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJmcEKbdwddkgRTntDc6Ttn3E",
+        "Hackney Church": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJmcEKbdwddkgRTntDc6Ttn3E",
         "Exale": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJn5s47P0ddkgRs97vifafiI0",
         "Renegade": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJ57WCm8cddkgRxgrdo8eIs7c",
         "40ft": "https://www.google.com/maps/search/?api=1&query=google&query_place_id=ChIJGWBqTAAddkgRGIDV9sSwSPQ",
@@ -30,7 +30,7 @@
     "gname_mapping": {
         "Signature Brew Blackhorse Road": "Signature",
         "Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom": "Pretty Decent",
-        "Hackney Church Brew Co. Blackhorse Lane": "Hackney Church Blackhorse",
+        "Hackney Church Brew Co. Blackhorse Lane": "Hackney Church",
         "Exale Taproom": "Exale",
         "Renegade Urban Winery - Bar, Kitchen & Winery": "Renegade",
         "40ft Brewery Blackhorse": "40ft",

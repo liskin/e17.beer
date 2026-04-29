@@ -11,7 +11,8 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 def get_place_name_and_id(brewery_name):
     """Searches Google for brewery_name + E17. Error if results are ambiguous."""
-    search_query = f"{brewery_name} E17"
+    search_name = brewery_name if brewery_name != 'Hackney Church' else brewery_name + ' Blackhorse'
+    search_query = f"{search_name} E17"
     URL = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={search_query}&key={API_KEY}"
 
     payload={}
@@ -38,13 +39,14 @@ def get_place_name_and_id(brewery_name):
     }
 
 def run_discovery():
-    excel_file = 'BlackhorseBeerMile_HappyHours.xlsx'
+    sheet_id = '1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0'
+    google_sheet_url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv'
     output_file = 'E17_brewery_ids_urls_gname-mapping.json'
 
     try:
-        df = pd.read_excel(excel_file, skiprows=1)  # skiprows=1 ignores the note in the first row
+        df = pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
     except Exception as e:
-        print(f"Could not read Excel: {e}")
+        print(f"Could not read Google Sheet: {e}")
         return
 
     # Take unique names from the first column
