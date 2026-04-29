@@ -135,6 +135,12 @@ permalink: /hours/
 			document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
 		}
 
+		function scrollDayIntoView(date) {
+			const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
+			const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
+			document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: "smooth", inline: "end" });
+		}
+
 		setWeekSecondsElapsed(new Date());
 		</script>
 	</head>
@@ -175,6 +181,9 @@ permalink: /hours/
 		</table>
 
 		<script>
+		/* scroll current day into view */
+		scrollDayIntoView(new Date());
+
 		/* triple click shows time-machine */
 		document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
 			if (e.detail === 3) {
@@ -186,6 +195,7 @@ permalink: /hours/
 		document.getElementById('time-machine').addEventListener('input', (e) => {
 			const selectedDate = new Date(e.target.value);
 			setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate);
+			scrollDayIntoView(isNaN(selectedDate) ? new Date() : selectedDate);
 		});
 		</script>
 	</body>
