@@ -1,7 +1,7 @@
 [
     {
         "place_name": "Signature",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u200911:30\u202fPM",
             "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
             "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
@@ -120,7 +120,7 @@
     },
     {
         "place_name": "Pretty Decent",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20098:00\u202fPM",
             "Closed",
             "Closed",
@@ -129,7 +129,7 @@
             "4:00\u2009\u2013\u200911:00\u202fPM",
             "12:00\u2009\u2013\u200911:00\u202fPM"
         ],
-        "is_open_now": false,
+        "is_open_now": true,
         "periods": [
             {
                 "close": {
@@ -206,8 +206,8 @@
         ]
     },
     {
-        "place_name": "Hackney Church Blackhorse",
-        "time_text_sun_to_mon": [
+        "place_name": "Hackney Church",
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u200911:00\u202fPM",
             "Closed",
             "Closed",
@@ -216,7 +216,7 @@
             "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
             "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
         ],
-        "is_open_now": false,
+        "is_open_now": true,
         "periods": [
             {
                 "close": {
@@ -298,7 +298,7 @@
     },
     {
         "place_name": "Exale",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20098:00\u202fPM",
             "Closed",
             "Closed",
@@ -375,7 +375,7 @@
     },
     {
         "place_name": "Renegade",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20096:00\u202fPM",
             "Closed",
             "Closed",
@@ -448,7 +448,7 @@
     },
     {
         "place_name": "40ft",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20098:00\u202fPM",
             "Closed",
             "Closed",
@@ -521,7 +521,7 @@
     },
     {
         "place_name": "Big Penny",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20098:00\u202fPM",
             "12:00\u2009\u2013\u200911:00\u202fPM",
             "12:00\u2009\u2013\u200911:00\u202fPM",
@@ -640,7 +640,7 @@
     },
     {
         "place_name": "Burnt Faith",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "1:00\u2009\u2013\u20097:00\u202fPM",
             "Closed",
             "Closed",
@@ -713,7 +713,7 @@
     },
     {
         "place_name": "Tavern on the Hill",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u200910:30\u202fPM",
             "4:00\u2009\u2013\u200911:00\u202fPM",
             "4:00\u2009\u2013\u200911:00\u202fPM",
@@ -722,7 +722,7 @@
             "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
             "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM"
         ],
-        "is_open_now": false,
+        "is_open_now": true,
         "periods": [
             {
                 "close": {
@@ -832,7 +832,7 @@
     },
     {
         "place_name": "Ferry Boat Inn",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
             "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
             "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
@@ -947,7 +947,7 @@
     },
     {
         "place_name": "Pressure Drop",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "12:00\u2009\u2013\u20098:00\u202fPM",
             "Closed",
             "Closed",
@@ -1006,7 +1006,7 @@
     },
     {
         "place_name": "Blondies Brewery",
-        "time_text_sun_to_mon": [
+        "time_text_sun_to_sat": [
             "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM",
             "Closed",
             "Closed",
@@ -1015,7 +1015,7 @@
             "2:00\u2009\u2013\u200911:00\u202fPM",
             "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
         ],
-        "is_open_now": false,
+        "is_open_now": true,
         "periods": [
             {
                 "close": {
