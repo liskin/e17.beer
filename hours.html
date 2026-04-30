@@ -53,12 +53,20 @@ permalink: /hours/
 				min-width: 12em;
 			}
 
-			th.venue a {
-				color: unset;
-				text-decoration: unset;
+			/* venue hyperlinks */
+			th.venue {
+				padding: 0;
 
-				&::after {
-					content: " 🔗";
+				a {
+					display: block;
+					padding: 6px 8px;
+
+					color: unset;
+					text-decoration: unset;
+
+					&:hover {
+						text-decoration: underline;
+					}
 				}
 			}
 
