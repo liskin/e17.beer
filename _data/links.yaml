@@ -14,7 +14,7 @@ buttons:
         icon: mdi:calendar-outline
   - category: 🍻 Beer 🍻
     items:
-      - title: Beer Mile Opening Hours
+      - title: Blackhorse Beer Mile opening hours
         url: /hours/
         icon: fluent-mdl2:business-hours-sign
       - title: Happy Hours near BHR
