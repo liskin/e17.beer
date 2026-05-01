@@ -49,7 +49,7 @@ permalink: /hours/
 				}
 
 				th.venue {
-					min-width: 8em;
+					min-width: 9em;
 				}
 				th.day, td.day {
 					min-width: 12em;
@@ -155,6 +155,26 @@ permalink: /hours/
 						}
 					}
 				}
+
+				tfoot {
+					/* TODO: visually separate from tbody */
+					th {
+						font-weight: initial;
+
+						button {
+							display: inline;
+							padding: 0;
+
+							border: none;
+							background-color: initial;
+
+							font-style: oblique;
+							text-decoration: underline;
+
+							cursor: pointer;
+						}
+					}
+				}
 			}
 
 			@keyframes day {
@@ -229,6 +249,11 @@ permalink: /hours/
 				</tr>
 				{% endfor %}
 			</tbody>
+			<tfoot>
+				<tr>
+					<th scope="col">sort <button id="sort-name">by name</button></th>
+				</tr>
+			</tfoot>
 		</table>
 
 		<footer>
@@ -270,6 +295,17 @@ permalink: /hours/
 				warningTimeZoneMismatch.hidden = !dateIsNow
 					|| date.toLocaleString('sv') == date.toLocaleString('sv', { timeZone: 'Europe/London' });
 			}
+
+			/* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
+			function sortVenuesBy(compareFn) {
+				const tbody = document.querySelector('table#opening-hours > tbody');
+				[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+			}
+
+			function sortVenuesByName() {
+				const collator = new Intl.Collator("en");
+				const getText = (tr) => tr.querySelector('th.venue').innerText;
+				sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 			}
 
 			/* tell CSS what time it is, scroll current day into view */
@@ -293,6 +329,10 @@ permalink: /hours/
 				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
 					setWeekSecondsElapsed(null);
 				}
+			});
+
+			document.getElementById('sort-name').addEventListener('click', (e) => {
+				sortVenuesByName();
 			});
 		</script>
 	</body>
