@@ -147,11 +147,15 @@ permalink: /hours/
 
 				tr#time-machine-row {
 					td {
-						text-align: left;
+						div {
+							display: flex;
+							flex-direction: column;
+						}
 
 						input#time-machine {
 							position: sticky;
 							left: 10px;
+							width: min-content;
 						}
 					}
 				}
@@ -218,7 +222,10 @@ permalink: /hours/
 				<tr id="time-machine-row" hidden>
 					<th scope="row">time machine</th>
 					<td colspan="7">
-						<input type="datetime-local" id="time-machine">
+						<div>
+							<input type="datetime-local" id="time-machine">
+							<input type="range" id="time-machine-slider" min="0" max="604800">
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -275,22 +282,30 @@ permalink: /hours/
 					date = new Date();
 				}
 
-				/* Total seconds elapsed since Sunday 00:00:00 */
+				/* total seconds elapsed since Sunday 00:00:00 */
 				const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 				document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
 
+				/* update slider unless we're handling slider input */
+				if (!opts?.slider) {
+					document.getElementById('time-machine-slider').value = (totalSecondsElapsed - 24 * 3600) % 604800;
+				}
+
+				/* pause CSS animation for time-machine input */
 				if (opts?.paused) {
 					document.getElementById('opening-hours').classList.add('paused');
 				} else {
 					document.getElementById('opening-hours').classList.remove('paused');
 				}
 
+				/* scroll to current day */
 				if (opts?.scroll) {
 					const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
 					const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
 					document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
 				}
 
+				/* check for time zone mismatch */
 				const warningTimeZoneMismatch = document.getElementById('warning-time-zone-mismatch');
 				warningTimeZoneMismatch.hidden = !dateIsNow
 					|| date.toLocaleString('sv') == date.toLocaleString('sv', { timeZone: 'Europe/London' });
@@ -302,7 +317,7 @@ permalink: /hours/
 			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
 			document.addEventListener('visibilitychange', () => {
 				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
-					setWeekSecondsElapsed(null);
+					setWeekSecondsElapsed(null); /* don't scroll */
 				}
 			});
 
@@ -319,6 +334,29 @@ permalink: /hours/
 			document.getElementById('time-machine').addEventListener('input', (e) => {
 				const selectedDate = new Date(e.target.value);
 				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
+			});
+
+			/* see https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435 */
+			function convertToDateTimeLocalString(date) {
+				const year = date.getFullYear();
+				const month = (date.getMonth() + 1).toString().padStart(2, '0');
+				const day = date.getDate().toString().padStart(2, '0');
+				const hours = date.getHours().toString().padStart(2, '0');
+				const minutes = date.getMinutes().toString().padStart(2, '0');
+
+				return `${year}-${month}-${day}T${hours}:${minutes}`;
+			}
+
+			/* update time-machine and animation time on time-machine-slider input */
+			document.getElementById('time-machine-slider').addEventListener('input', (e) => {
+				const rangeSecondsElapsed = (e.target.valueAsNumber + 24 * 3600) % 604800;
+
+				const now = new Date();
+				const nowSecondsElapsed = now.getDay() * 86400 + now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+				const date = new Date(now.valueOf() + (rangeSecondsElapsed - nowSecondsElapsed) * 1000);
+				document.getElementById('time-machine').value = convertToDateTimeLocalString(date);
+				setWeekSecondsElapsed(date, { slider: true, paused: true });
 			});
 
 			/* -------------------------------------------------------------------------------- */
