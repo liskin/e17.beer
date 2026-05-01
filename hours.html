@@ -259,6 +259,13 @@ permalink: /hours/
 			const selectedDate = new Date(e.target.value);
 			setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
 		});
+
+		/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
+		document.addEventListener('visibilitychange', () => {
+			if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
+				setWeekSecondsElapsed(new Date());
+			}
+		});
 		</script>
 
 		<footer>
