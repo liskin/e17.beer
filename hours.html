@@ -296,20 +296,17 @@ permalink: /hours/
 					|| date.toLocaleString('sv') == date.toLocaleString('sv', { timeZone: 'Europe/London' });
 			}
 
-			/* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
-			function sortVenuesBy(compareFn) {
-				const tbody = document.querySelector('table#opening-hours > tbody');
-				[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
-			}
-
-			function sortVenuesByName() {
-				const collator = new Intl.Collator("en");
-				const getText = (tr) => tr.querySelector('th.venue').innerText;
-				sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
-			}
-
 			/* tell CSS what time it is, scroll current day into view */
 			setWeekSecondsElapsed(null, { scroll: true });
+
+			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
+			document.addEventListener('visibilitychange', () => {
+				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
+					setWeekSecondsElapsed(null);
+				}
+			});
+
+			/* -------------------------------------------------------------------------------- */
 
 			/* triple click shows time-machine */
 			document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
@@ -324,12 +321,19 @@ permalink: /hours/
 				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
 			});
 
-			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
-			document.addEventListener('visibilitychange', () => {
-				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
-					setWeekSecondsElapsed(null);
-				}
-			});
+			/* -------------------------------------------------------------------------------- */
+
+			/* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
+			function sortVenuesBy(compareFn) {
+				const tbody = document.querySelector('table#opening-hours > tbody');
+				[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+			}
+
+			function sortVenuesByName() {
+				const collator = new Intl.Collator("en");
+				const getText = (tr) => tr.querySelector('th.venue').innerText;
+				sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
+			}
 
 			document.getElementById('sort-name').addEventListener('click', (e) => {
 				sortVenuesByName();
