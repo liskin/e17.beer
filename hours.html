@@ -248,7 +248,12 @@ permalink: /hours/
 					</th>
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
-					<td class="day">{{ place.current_schedule.time_text_sun_to_sat[day] }}</td>
+					<td class="day">
+						{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
+						<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+						{% endif %}
+						{{ place.current_schedule.time_text_sun_to_sat[day] }}
+					</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
