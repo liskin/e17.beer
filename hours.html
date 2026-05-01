@@ -15,176 +15,176 @@ permalink: /hours/
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css">
 
 		<style>
-		:root {
-			--week-seconds-elapsed: -604800s; /* will be updated by JS */
+			:root {
+				--week-seconds-elapsed: -604800s; /* will be updated by JS */
 
-			--open-animation-delay: calc(0s - var(--week-seconds-elapsed));
+				--open-animation-delay: calc(0s - var(--week-seconds-elapsed));
 
-			--today: 0;
-			--background-today: rgb(240 240 240);
-			--background-day: rgb(255 255 255);
+				--today: 0;
+				--background-today: rgb(240 240 240);
+				--background-day: rgb(255 255 255);
 
-			--open: 0;
-			--background-open: rgb(220 255 220);
-			--background-closed: rgb(255 255 255);
-		}
-
-		body {
-			padding: 8px 10px;
-
-			width: fit-content;
-			min-width: 100%;
-		}
-
-		table#opening-hours {
-			margin: 0 auto;
-
-			border-spacing: 0;
-			border: 2px solid rgb(190 190 190);
-
-			th, td {
-				border: 1px solid rgb(190 190 190);
-				padding: 6px 8px;
-				text-align: center;
+				--open: 0;
+				--background-open: rgb(220 255 220);
+				--background-closed: rgb(255 255 255);
 			}
 
-			th.venue {
-				min-width: 8em;
-			}
-			th.day, td.day {
-				min-width: 12em;
-			}
+			body {
+				padding: 8px 10px;
 
-			/* venue hyperlinks */
-			th.venue {
-				padding: 0;
-
-				a {
-					display: block;
-					padding: 6px 8px;
-
-					color: unset;
-					text-decoration: unset;
-
-					&:hover {
-						text-decoration: underline;
-					}
-				}
+				width: fit-content;
+				min-width: 100%;
 			}
 
-			/* sticky column headers */
-			thead {
-				position: sticky;
-				top: 0;
-				z-index: 5;
+			table#opening-hours {
+				margin: 0 auto;
+
+				border-spacing: 0;
+				border: 2px solid rgb(190 190 190);
 
 				th, td {
-					background-color: white;
+					border: 1px solid rgb(190 190 190);
+					padding: 6px 8px;
+					text-align: center;
 				}
-			}
 
-			/* sticky row headers */
-			th.venue {
-				position: sticky;
-				left: 0;
-				z-index: 4;
-			}
-
-			tr .day:nth-child(2) { --day: 1; }
-			tr .day:nth-child(3) { --day: 2; }
-			tr .day:nth-child(4) { --day: 3; }
-			tr .day:nth-child(5) { --day: 4; }
-			tr .day:nth-child(6) { --day: 5; }
-			tr .day:nth-child(7) { --day: 6; }
-			tr .day:nth-child(8) { --day: 0; }
-			tr .day {
-				--day-animation-delay: calc(0s
-					- var(--week-seconds-elapsed)
-					+ var(--day) * 86400s  /* align 0 with the selected day */
-					+ 4 * 3600s            /* make days start at 4am */
-					- 604800s              /* ensure it's always negative (animation started) */
-				);
-			}
-
-			/* column header - highlight today */
-			th.day {
-				animation: day 604800s var(--day-animation-delay) step-end infinite;
-				background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
-
-				table#opening-hours.paused & {
-					animation-play-state: paused;
+				th.venue {
+					min-width: 8em;
 				}
-			}
+				th.day, td.day {
+					min-width: 12em;
+				}
 
-			tbody tr {
-				/* row header - highlight today */
-				th {
-					animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;
-					background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
+				/* venue hyperlinks */
+				th.venue {
+					padding: 0;
+
+					a {
+						display: block;
+						padding: 6px 8px;
+
+						color: unset;
+						text-decoration: unset;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+
+				/* sticky column headers */
+				thead {
+					position: sticky;
+					top: 0;
+					z-index: 5;
+
+					th, td {
+						background-color: white;
+					}
+				}
+
+				/* sticky row headers */
+				th.venue {
+					position: sticky;
+					left: 0;
+					z-index: 4;
+				}
+
+				tr .day:nth-child(2) { --day: 1; }
+				tr .day:nth-child(3) { --day: 2; }
+				tr .day:nth-child(4) { --day: 3; }
+				tr .day:nth-child(5) { --day: 4; }
+				tr .day:nth-child(6) { --day: 5; }
+				tr .day:nth-child(7) { --day: 6; }
+				tr .day:nth-child(8) { --day: 0; }
+				tr .day {
+					--day-animation-delay: calc(0s
+						- var(--week-seconds-elapsed)
+						+ var(--day) * 86400s  /* align 0 with the selected day */
+						+ 4 * 3600s            /* make days start at 4am */
+						- 604800s              /* ensure it's always negative (animation started) */
+					);
+				}
+
+				/* column header - highlight today */
+				th.day {
+					animation: day 604800s var(--day-animation-delay) step-end infinite;
+					background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
 
 					table#opening-hours.paused & {
 						animation-play-state: paused;
 					}
 				}
 
-				/* cells - highlight open/today */
-				td {
-					animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite,
-						day 604800s var(--day-animation-delay) step-end infinite;
-					background-color: color-mix(in srgb,
-						var(--background-closed),
-						color-mix(in srgb,
-							var(--background-today),
-							var(--background-open) calc(var(--open) * 100%)
-						) calc(var(--today) * 100%)
-					);
+				tbody tr {
+					/* row header - highlight today */
+					th {
+						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;
+						background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
 
-					table#opening-hours.paused & {
-						animation-play-state: paused, paused;
+						table#opening-hours.paused & {
+							animation-play-state: paused;
+						}
+					}
+
+					/* cells - highlight open/today */
+					td {
+						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite,
+							day 604800s var(--day-animation-delay) step-end infinite;
+						background-color: color-mix(in srgb,
+							var(--background-closed),
+							color-mix(in srgb,
+								var(--background-today),
+								var(--background-open) calc(var(--open) * 100%)
+							) calc(var(--today) * 100%)
+						);
+
+						table#opening-hours.paused & {
+							animation-play-state: paused, paused;
+						}
+					}
+				}
+
+				tr#time-machine-row {
+					td {
+						text-align: left;
+
+						input#time-machine {
+							position: sticky;
+							left: 10px;
+						}
 					}
 				}
 			}
 
-			tr#time-machine-row {
-				td {
-					text-align: left;
-
-					input#time-machine {
-						position: sticky;
-						left: 10px;
-					}
-				}
+			@keyframes day {
+				0%       { --today: 1; }
+				14.2857% { --today: 0; }
 			}
-		}
 
-		@keyframes day {
-			0%       { --today: 1; }
-			14.2857% { --today: 0; }
-		}
-
-		{% for place in site.data.places -%}
-		{% assign i = forloop.index0 -%}
-		@keyframes venue{{ i }} {
-			{% for period in place.percentage_periods -%}
-			{{ period.open  }}% { --open: 1; }
-			{{ period.close }}% { --open: 0; }
+			{% for place in site.data.places -%}
+			{% assign i = forloop.index0 -%}
+			@keyframes venue{{ i }} {
+				{% for period in place.percentage_periods -%}
+				{{ period.open  }}% { --open: 1; }
+				{{ period.close }}% { --open: 0; }
+				{% endfor %}
+			}
 			{% endfor %}
-		}
-		{% endfor %}
 
-		footer {
-			position: sticky;
-			left: 10vw;
-			width: 80vw;
-			margin: 20px 0;
-			text-align: center;
-			border-top: 1px solid rgb(200 200 200);
+			footer {
+				position: sticky;
+				left: 10vw;
+				width: 80vw;
+				margin: 20px 0;
+				text-align: center;
+				border-top: 1px solid rgb(200 200 200);
 
-			a {
-				color: rgb(0, 0, 238);
-				text-decoration-color: rgb(0, 0, 238);
+				a {
+					color: rgb(0, 0, 238);
+					text-decoration-color: rgb(0, 0, 238);
+				}
 			}
-		}
 		</style>
 	</head>
 
@@ -208,64 +208,66 @@ permalink: /hours/
 					<th scope="col" class="day">Sunday</th>
 				</tr>
 			</thead>
-			{% for place in site.data.places -%}
-			{% assign i = forloop.index0 -%}
-			<tr style="--venue: venue{{ i }}">
-				<th class="venue" scope="row">
-					<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
-				</th>
-				<td class="day">{{ place.time_text_sun_to_sat[1] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[2] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[3] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[4] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[5] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[6] }}</td>
-				<td class="day">{{ place.time_text_sun_to_sat[0] }}</td>
-			</tr>
-			{% endfor %}
+			<tbody>
+				{% for place in site.data.places -%}
+				{% assign i = forloop.index0 -%}
+				<tr style="--venue: venue{{ i }}">
+					<th class="venue" scope="row">
+						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
+					</th>
+					<td class="day">{{ place.time_text_sun_to_sat[1] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[2] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[3] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[4] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[5] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[6] }}</td>
+					<td class="day">{{ place.time_text_sun_to_sat[0] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
 		</table>
 
 		<script>
-		function setWeekSecondsElapsed(date, opts) {
-			/* Total seconds elapsed since Sunday 00:00:00 */
-			const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
-			document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
+			function setWeekSecondsElapsed(date, opts) {
+				/* Total seconds elapsed since Sunday 00:00:00 */
+				const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+				document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
 
-			if (opts?.paused) {
-				document.querySelector('table#opening-hours').classList.add('paused');
-			} else {
-				document.querySelector('table#opening-hours').classList.remove('paused');
+				if (opts?.paused) {
+					document.querySelector('table#opening-hours').classList.add('paused');
+				} else {
+					document.querySelector('table#opening-hours').classList.remove('paused');
+				}
+
+				if (opts?.scroll) {
+					const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
+					const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
+					document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
+				}
 			}
 
-			if (opts?.scroll) {
-				const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
-				const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
-				document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
-			}
-		}
+			/* tell CSS what time it is, scroll current day into view */
+			setWeekSecondsElapsed(new Date(), { scroll: true });
 
-		/* tell CSS what time it is, scroll current day into view */
-		setWeekSecondsElapsed(new Date(), { scroll: true });
+			/* triple click shows time-machine */
+			document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
+				if (e.detail === 3) {
+					document.getElementById('time-machine-row').hidden = false;
+				}
+			});
 
-		/* triple click shows time-machine */
-		document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
-			if (e.detail === 3) {
-				document.getElementById('time-machine-row').hidden = false;
-			}
-		});
+			/* update animation time on time-machine input */
+			document.getElementById('time-machine').addEventListener('input', (e) => {
+				const selectedDate = new Date(e.target.value);
+				setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
+			});
 
-		/* update animation time on time-machine input */
-		document.getElementById('time-machine').addEventListener('input', (e) => {
-			const selectedDate = new Date(e.target.value);
-			setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
-		});
-
-		/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
-		document.addEventListener('visibilitychange', () => {
-			if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
-				setWeekSecondsElapsed(new Date());
-			}
-		});
+			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
+			document.addEventListener('visibilitychange', () => {
+				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
+					setWeekSecondsElapsed(new Date());
+				}
+			});
 		</script>
 
 		<footer>
