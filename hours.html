@@ -1,0 +1,388 @@
+---
+permalink: /hours/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+
+		<title>Blackhorse Beer Mile - Opening Hours</title>
+
+		<!-- TODO: inline maybe? -->
+		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"> -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css">
+
+		<style>
+			:root {
+				--week-seconds-elapsed: -604800s; /* will be updated by JS */
+
+				--open-animation-delay: calc(0s - var(--week-seconds-elapsed));
+
+				--today: 0;
+				--background-today: rgb(240 240 240);
+				--background-day: rgb(255 255 255);
+
+				--open: 0;
+				--background-open: rgb(220 255 220);
+				--background-closed: rgb(255 255 255);
+			}
+
+			body {
+				padding: 8px 10px;
+
+				width: fit-content;
+				min-width: 100%;
+			}
+
+			table#opening-hours {
+				margin: 0 auto;
+
+				border-spacing: 0;
+				border: 2px solid rgb(190 190 190);
+
+				th, td {
+					border: 1px solid rgb(190 190 190);
+					padding: 6px 8px;
+					text-align: center;
+				}
+
+				th.venue {
+					min-width: 9em;
+				}
+				th.day, td.day {
+					min-width: 12em;
+				}
+
+				/* venue hyperlinks */
+				th.venue {
+					padding: 0;
+
+					a {
+						display: block;
+						padding: 6px 8px;
+
+						color: unset;
+						text-decoration: unset;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+
+				/* sticky column headers */
+				thead {
+					position: sticky;
+					top: 0;
+					z-index: 5;
+
+					th, td {
+						background-color: white;
+					}
+				}
+
+				/* sticky row headers */
+				th.venue {
+					position: sticky;
+					left: 0;
+					z-index: 4;
+				}
+
+				tr .day:nth-child(2) { --day: 1; }
+				tr .day:nth-child(3) { --day: 2; }
+				tr .day:nth-child(4) { --day: 3; }
+				tr .day:nth-child(5) { --day: 4; }
+				tr .day:nth-child(6) { --day: 5; }
+				tr .day:nth-child(7) { --day: 6; }
+				tr .day:nth-child(8) { --day: 0; }
+				tr .day {
+					--day-animation-delay: calc(0s
+						- var(--week-seconds-elapsed)
+						+ var(--day) * 86400s  /* align 0 with the selected day */
+						+ 4 * 3600s            /* make days start at 4am */
+						- 604800s              /* ensure it's always negative (animation started) */
+					);
+				}
+
+				/* column header - highlight today */
+				th.day {
+					animation: day 604800s var(--day-animation-delay) step-end infinite;
+					background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
+
+					table#opening-hours.paused & {
+						animation-play-state: paused;
+					}
+				}
+
+				tbody tr {
+					/* row header - highlight today */
+					th {
+						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;
+						background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
+
+						table#opening-hours.paused & {
+							animation-play-state: paused;
+						}
+					}
+
+					/* cells - highlight open/today */
+					td {
+						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite,
+							day 604800s var(--day-animation-delay) step-end infinite;
+						background-color: color-mix(in srgb,
+							var(--background-closed),
+							color-mix(in srgb,
+								var(--background-today),
+								var(--background-open) calc(var(--open) * 100%)
+							) calc(var(--today) * 100%)
+						);
+
+						table#opening-hours.paused & {
+							animation-play-state: paused, paused;
+						}
+					}
+				}
+
+				tr#time-machine-row {
+					td {
+						div {
+							display: flex;
+							flex-direction: column;
+						}
+
+						input#time-machine {
+							position: sticky;
+							left: 10px;
+							width: min-content;
+						}
+					}
+				}
+
+				tfoot {
+					/* TODO: visually separate from tbody */
+					th {
+						font-weight: initial;
+
+						button {
+							display: inline;
+							padding: 0;
+
+							border: none;
+							background-color: initial;
+
+							font-style: oblique;
+							text-decoration: underline;
+
+							cursor: pointer;
+						}
+					}
+				}
+			}
+
+			@keyframes day {
+				0%       { --today: 1; }
+				14.2857% { --today: 0; }
+			}
+
+			{% for place in site.data.places -%}
+			{% assign i = forloop.index0 -%}
+			@keyframes venue{{ i }} {
+				{% for period in place.current_schedule.percentage_periods -%}
+				{{ period.open  }}% { --open: 1; }
+				{{ period.close }}% { --open: 0; }
+				{% endfor %}
+			}
+			{% endfor %}
+
+			footer {
+				position: sticky;
+				left: 10vw;
+				width: 80vw;
+				margin: 20px 0;
+				text-align: center;
+				border-top: 1px solid rgb(200 200 200);
+
+				a {
+					color: rgb(0, 0, 238);
+					text-decoration-color: rgb(0, 0, 238);
+				}
+
+				p#warning-time-zone-mismatch {
+					color: rgb(200, 0, 0);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<table id="opening-hours" class="paused">
+			<thead>
+				<tr id="time-machine-row" hidden>
+					<th scope="row">time machine</th>
+					<td colspan="7">
+						<div>
+							<input type="datetime-local" id="time-machine">
+							<input type="range" id="time-machine-slider" min="0" max="604800">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col" class="venue" id="time-machine-trigger">venue / day</th>
+					<th scope="col" class="day">Monday</th>
+					<th scope="col" class="day">Tuesday</th>
+					<th scope="col" class="day">Wednesday</th>
+					<th scope="col" class="day">Thursday</th>
+					<th scope="col" class="day">Friday</th>
+					<th scope="col" class="day">Saturday</th>
+					<th scope="col" class="day">Sunday</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for place in site.data.places -%}
+				{% assign i = forloop.index0 -%}
+				<tr style="--venue: venue{{ i }}">
+					<th class="venue" scope="row">
+						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
+					</th>
+					{% for _day in (0..6) -%}
+					{% assign day = _day | plus: 1 | modulo: 7 -%}
+					<td class="day">
+						{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
+						<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+						{% endif %}
+						{{ place.current_schedule.time_text_sun_to_sat[day] }}
+					</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th scope="col">sort <button id="sort-name">by name</button></th>
+				</tr>
+			</tfoot>
+		</table>
+
+		<footer>
+			<p hidden id="warning-time-zone-mismatch">
+			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
+			</p>
+			<p>
+			Tip: triple-click "venue / day" to show the Time Machine
+			</p>
+			<p>
+			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
+			</p>
+		</footer>
+
+		<script>
+			function setWeekSecondsElapsed(date, opts) {
+				const dateIsNow = !date;
+				if (dateIsNow) {
+					date = new Date();
+				}
+
+				/* total seconds elapsed since Sunday 00:00:00 */
+				const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+				document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
+
+				/* update slider unless we're handling slider input */
+				if (!opts?.slider) {
+					document.getElementById('time-machine-slider').value = (totalSecondsElapsed - 24 * 3600) % 604800;
+				}
+
+				/* pause CSS animation for time-machine input */
+				if (opts?.paused) {
+					document.getElementById('opening-hours').classList.add('paused');
+				} else {
+					document.getElementById('opening-hours').classList.remove('paused');
+				}
+
+				/* scroll to current day */
+				if (opts?.scroll) {
+					const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
+					const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
+					document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
+				}
+
+				/* check for time zone mismatch */
+				const warningTimeZoneMismatch = document.getElementById('warning-time-zone-mismatch');
+				warningTimeZoneMismatch.hidden = !dateIsNow
+					|| date.toLocaleString('sv') == date.toLocaleString('sv', { timeZone: 'Europe/London' });
+			}
+
+			/* tell CSS what time it is, scroll current day into view */
+			setWeekSecondsElapsed(null, { scroll: true });
+
+			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
+			document.addEventListener('visibilitychange', () => {
+				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
+					setWeekSecondsElapsed(null); /* don't scroll */
+				}
+			});
+
+			/* -------------------------------------------------------------------------------- */
+
+			/* triple click shows time-machine */
+			document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
+				if (e.detail === 3) {
+					document.getElementById('time-machine-row').hidden = false;
+				}
+			});
+
+			/* update animation time on time-machine input */
+			document.getElementById('time-machine').addEventListener('input', (e) => {
+				const selectedDate = new Date(e.target.value);
+				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
+			});
+
+			/* see https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435 */
+			function convertToDateTimeLocalString(date) {
+				const year = date.getFullYear();
+				const month = (date.getMonth() + 1).toString().padStart(2, '0');
+				const day = date.getDate().toString().padStart(2, '0');
+				const hours = date.getHours().toString().padStart(2, '0');
+				const minutes = date.getMinutes().toString().padStart(2, '0');
+
+				return `${year}-${month}-${day}T${hours}:${minutes}`;
+			}
+
+			/* update time-machine and animation time on time-machine-slider input */
+			document.getElementById('time-machine-slider').addEventListener('input', (e) => {
+				const rangeSecondsElapsed = (e.target.valueAsNumber + 24 * 3600) % 604800;
+
+				const now = new Date();
+				const nowSecondsElapsed = now.getDay() * 86400 + now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+				const date = new Date(now.valueOf() + (rangeSecondsElapsed - nowSecondsElapsed) * 1000);
+				document.getElementById('time-machine').value = convertToDateTimeLocalString(date);
+				setWeekSecondsElapsed(date, { slider: true, paused: true });
+			});
+
+			/* -------------------------------------------------------------------------------- */
+
+			/* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
+			function sortVenuesBy(compareFn) {
+				const tbody = document.querySelector('table#opening-hours > tbody');
+				[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+			}
+
+			function sortVenuesByName() {
+				const collator = new Intl.Collator("en");
+				const getText = (tr) => tr.querySelector('th.venue').innerText;
+				sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
+			}
+
+			document.getElementById('sort-name').addEventListener('click', (e) => {
+				sortVenuesByName();
+			});
+		</script>
+	</body>
+
+<!-- TODO: vis opening hours within cells -->
+<!-- TODO: add vertical line for current time -->
+
+<!-- vim:set ft=liquid: -->
+</html>
