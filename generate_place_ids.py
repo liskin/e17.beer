@@ -1,42 +1,80 @@
 import pandas as pd
-import googlemaps
 import os
-import requests
 import json
 from dotenv import load_dotenv
+from google.maps import places_v1
 
 load_dotenv()
 API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
-gmaps = googlemaps.Client(key=API_KEY)
+client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
 
 def get_place_name_and_id(brewery_name):
-    """Searches Google for brewery_name + E17. Error if results are ambiguous."""
+    """Searches Google Places API (New) using the official client library. Returns an error if 	."""
     search_name = brewery_name if brewery_name != 'Hackney Church' else brewery_name + ' Blackhorse'
     search_query = f"{search_name} E17"
-    URL = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={search_query}&key={API_KEY}"
 
-    payload={}
-    headers = {}
-    response = requests.request("GET", URL, headers=headers, data=payload)
-    data = response.json()
+    print(f"search_query: {search_query}")
 
-    nmb_candidates = len(data['results'])
+    # Define request parameters as a clean dictionary
+    request_data = {
+        "text_query": search_query,
+        "location_bias": {
+            "circle": {
+                "center": {"latitude": 51.5886, "longitude": -0.0118},
+                "radius": 5000.0,
+            }
+        }
+    }
 
-    if nmb_candidates == 0:
+    # the dictionary directly to the 'request' argument
+    response = client.search_text(
+        request=request_data,
+        metadata=[("x-goog-fieldmask", "places.id,places.displayName")]
+    )
+
+    places = list(response.places) # Convert iterator to list
+
+    if not places:
         print(f"No results for '{search_query}'.")
         return None
 
-    if nmb_candidates > 1:
-        candidate_names = [c.get('name') for c in data['results']]
+    # Match filtering
+    strict_matches = [
+        p for p in places
+        if brewery_name.lower() in p.display_name.text.lower()
+    ]
+
+    # If the search results were messy, but we found exactly one true match, use it.
+    if len(strict_matches) == 1:
+        return {
+            "name": strict_matches[0].display_name.text,
+            "place_id": strict_matches[0].id,
+        }
+
+    # If we have more than one STRICT match, ie result is ambiguous
+    if len(strict_matches) > 1:
+        candidate_names = [p.display_name.text for p in strict_matches]
         raise ValueError(
-            f"Ambiguous result for '{brewery_name}': Found {nmb_candidates} candidates "
-            f"({'\n'.join(candidate_names)}). Please refine the search_name above to be more specific."
+            f"Ambiguous result for '{search_query}': Found {len(strict_matches)} potential matches: "
+            f"({', '.join(candidate_names)}). Please refine the search_name."
         )
 
-    return {
-        "name": data['results'][0]['name'],
-        "place_id": data['results'][0]['place_id'],
-    }
+    # If we have no STRICT match, but the API found something else
+    if len(places) > 0:
+        candidate_names = [p.display_name.text for p in places]
+        raise ValueError(
+            f"Ambiguous result for '{search_query}':⚠️ No strict match, but google identified {len(strict_matches)} potential matches: "
+            f"({', '.join(candidate_names)}). Please refine the search_name."
+        )
+
+    # If there was no match at all
+    if len(places) == 0:
+        raise ValueError(
+            f"No results for '{search_query}. Please refine the search_name."
+        )
+
+    return None
+
 
 def run_discovery():
     sheet_id = '1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0'
@@ -51,10 +89,10 @@ def run_discovery():
 
     # Take unique names from the first column
     brewery_names_raw = df.iloc[:, 0].dropna().unique()
-    EXCLUSIONS = ['near, but not beer mile:']
+    exclusions = ['near, but not beer mile:']
     brewery_names = [
         name for name in brewery_names_raw
-        if str(name).strip() not in EXCLUSIONS and pd.notna(name)
+        if str(name).strip() not in exclusions and pd.notna(name)
     ]
 
     print(f"Processing {len(brewery_names)} breweries...")
@@ -63,7 +101,6 @@ def run_discovery():
     url_map = {}
     name_map = {} # This will map "Google Name" -> "Data Place Name (from the spreadsheet)"
     for brewery_name in brewery_names:
-
         try:
             result = get_place_name_and_id(brewery_name)
 
@@ -76,8 +113,7 @@ def run_discovery():
                 if pid:
                     id_map[brewery_name] = pid
                     print(f"✅ {brewery_name}: name= {name}, Place_ID= {pid}")
-                    url_map[brewery_name] = \
-                        f"https://www.google.com/maps/search/?api=1&query=google&query_place_id={pid}"
+                    url_map[brewery_name] = f"https://www.google.com/maps/search/?api=1&query={name}&query_place_id={pid}"
                 else:
                     print(f"❌ {brewery_name}: Google found the place, but it has no Place ID.")
 
@@ -93,7 +129,7 @@ def run_discovery():
 
     final_data = {
         "place_ids": id_map,       # spreadsheet Name -> Place ID
-        "map_urls": url_map,       # spreadsheet Name -> URL # TODO (EvaJ): URLs to the other json
+        "map_urls": url_map,       # spreadsheet Name -> URL
         "gname_mapping": name_map   # Google Name -> spreadsheet Name
     }
 

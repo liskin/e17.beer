@@ -1,7 +1,8 @@
 import os
 import json
 from dotenv import load_dotenv
-import googlemaps
+from google.maps import places_v1
+import warnings
 
 # LOAD API Key
 load_dotenv()
@@ -9,7 +10,8 @@ API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 if not API_KEY:
     raise ValueError("No API Key found! Check your .env file.")
 
-gmaps = googlemaps.Client(key=API_KEY)
+# Initialize the Client (Places API New)
+client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
 
 def load_places_info_from_json(filename):
     """Loads info dictionary (ids, urls, and gname-mapping)."""
@@ -23,7 +25,7 @@ def load_places_info_from_json(filename):
         print(f"Error: Could not read JSON: {e}")
         return {}
 
-def get_week_percentage(day_nmb, time_str):
+def get_week_percentage(day_nmb: int, hours: int, minutes: int) -> float:
     """Calculates the percentage of the week elapsed (week: Sun 0000 to Sat 2359)."""
     #TODO: update to work for 24 hours opened venues
     # (Google returns open for the day of request 0000 truncated, close day in a week 2359 truncated)
@@ -31,17 +33,15 @@ def get_week_percentage(day_nmb, time_str):
     # (Google will split period in two days: truncated in this_day and truncated in this_day-1)
 
     # Input values validation
-    if not isinstance(time_str, str) or len(time_str) != 4 or not time_str.isdigit():
-        raise ValueError(f"Invalid time format received: '{time_str}'. Expected HHMM string.")
+    if not all(isinstance(i, int) for i in [day_nmb, hours, minutes]):
+        raise TypeError("day_nmb, hours, and minutes must be integers.")
 
     if not (0 <= day_nmb <= 6):
-        raise ValueError(f"Invalid day index: {day_nmb}. Google indices must be 0–6.")
-
-    hours = int(time_str[:2])
-    minutes = int(time_str[2:])
-
-    if not (0 <= hours <= 23) or not (0 <= minutes <= 59):
-        raise ValueError(f"Time out of range: '{time_str}'.")
+        raise ValueError(f"day_nmb {day_nmb} out of range (0–6).")
+    if not (0 <= hours <= 23):
+        raise ValueError(f"hours {hours} out of range (0–23).")
+    if not (0 <= minutes <= 59):
+        raise ValueError(f"minutes {minutes} out of range (0–59).")
 
     # Percentage calculation
     total_week_minutes = 7 * 24 * 60
@@ -52,75 +52,96 @@ def get_week_percentage(day_nmb, time_str):
 
     return round(percentage, 4)
 
-def fetch_place_data(place_id, gname_mapping=None):
+def fetch_place_data(place_id: str, info_dict: dict) -> dict:
     """
-    Fetches details from Google Maps API, maps the official gmaps_name
-    back to your preferred place_name (as defined in spreadsheet), and converts opening periods into a list of week-percentage intervals (0.0 to 100.0).
+    Fetches regular and current opening hours from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week.
     """
-    fields = ['name', 'opening_hours']
-    details = gmaps.place(place_id=place_id, fields=fields)
+    gname_mapping = info_dict.get('gname_mapping', {})
+    map_urls = info_dict.get('map_urls', {})
 
-    # Validate API response status; Look for Google's error, if Google is silent use the alternative error message
-    if details.get('status') != 'OK':
-        error_msg = details.get('error_message', f'Missing some of the fields: {", ".join(fields)}.')
-        raise ValueError(f"API Error: {details.get('status')} - {error_msg}")
+    field_mask = "id,displayName,regularOpeningHours,currentOpeningHours"
 
-    result = details.get('result', {})
+    place = client.get_place(
+        name=f"places/{place_id}",
+        metadata=[("x-goog-fieldmask", field_mask)]
+    )
 
-    # Map the Google's name (key) to spreadsheet Name (value)
-    # If no mapping exists, use the gname as a fallback
-    gname = result.get('name')
-    if gname_mapping:
-        place_name = gname_mapping.get(gname, gname)
-    else:
-        place_name = gname
+    # Verify the ID
+    if place.id != place_id:
+        raise ValueError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-    opening_hours = result.get('opening_hours', {})
-    raw_periods = opening_hours.get('periods', [])
+    # Map the Google's name (displayName.text) to spreadsheet Name
+    gname = place.display_name.text
+    place_name = gname_mapping.get(gname, gname)
 
-    percentage_periods = []
+    # Helper to process periods into percentages
+    def periods_to_percentages(opening_hours_obj, place_name: str) -> list:
+        pct_periods = []
 
-    for p in raw_periods:
-        # Check for presence of both open and close keys
-        # TODO: later update for the case of 24-hour venues, where Google omits 'close' for 24-hour venues,
-        #  otherwise both open and close should be present
-        if 'open' not in p or 'close' not in p:
-            raise KeyError(f"⚠️ Incomplete period data for {result.get('name')}: 'open' or 'close' data is missing.")
+        # Check for missing top-level data
+        if not opening_hours_obj or not opening_hours_obj.periods:
+            warnings.warn(f"⚠️ {place_name}: Missing all opening periods.", UserWarning)
+            return pct_periods
 
-        # Convert HHMM time and day index to week percentage
-        open_pct = get_week_percentage(p['open']['day'], p['open']['time'])
-        close_pct = get_week_percentage(p['close']['day'], p['close']['time'])
+        for p in opening_hours_obj.periods:
+            # Check for missing period boundaries
+            # TODO: later update for the case of 24-hour venues, where Google omits 'close',
+            #  otherwise both open and close should be present
+            if not p.open or not p.close:
+                msg = "open time" if not p.open else "close time (possibly 24h venue)"
+                warnings.warn(f"⚠️ {place_name}: Incomplete period data (missing {msg}).", UserWarning)
+                continue
 
-        # Wrap-around logic (e.g., Opens Saturday 22:00, Closes Sunday 02:00)
-        # If open_pct is 98.0 and close_pct is 1.2, we split it.
-        if open_pct > close_pct:
-            # if span from Saturday to Sunday, split into two periods
-            percentage_periods.append({"open": open_pct, "close": 100.0})
-            percentage_periods.append({"open": 0.0, "close": close_pct})
-        else:
-            percentage_periods.append({"open": open_pct, "close": close_pct})
+            # Standard percentage calculation
+            open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
+            close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
 
-    # Convert weekday_text to list of times only (without the name of day, ordered from Sun to Sat)
-    days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    weekday_text = opening_hours.get('weekday_text', [])
-    week_dict = {}
-    for entry in weekday_text:
-        if ': ' in entry:
-            day_name, times_text = entry.split(': ', 1)
-            week_dict[day_name.strip()] = times_text.strip()
+            # Saturday to Sunday wraparound
+            # if period span from Saturday to Sunday, split into two periods
+            if open_pct > close_pct:
+                pct_periods.append({"open": open_pct, "close": 100.0})
+                pct_periods.append({"open": 0.0, "close": close_pct})
+            else:
+                pct_periods.append({"open": open_pct, "close": close_pct})
 
-    try:
-        weekday_times_list = [week_dict[day] for day in days_order]
-    except KeyError as e:
-        raise ValueError(f"Data Integrity Error: Google provided no opening times for {e}. "
-                             "This venue may have incomplete business information.")
+        return pct_periods
+
+    # Extract opening hours text (order: Sunday -> Saturday)
+    def process_text(opening_hours_obj, place_name: str) -> list:
+        if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
+            warnings.warn(f"{place_name}: No weekday descriptions available.", UserWarning)
+            return ["N/A"] * 7
+
+        days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        desc_list = list(opening_hours_obj.weekday_descriptions)
+        week_dict = {}
+
+        for entry in desc_list:
+            if ': ' in entry:
+                day, hours = entry.split(': ', 1)
+                week_dict[day.strip()] = hours.strip()
+
+        # Create the ordered list
+        ordered_hours_text = [week_dict.get(day, None) for day in days_order]
+
+        # Check if any day came back as None
+        if None in ordered_hours_text:
+            missing_days = [days_order[i] for i, val in enumerate(ordered_hours_text) if val is None]
+            warnings.warn(f"{place_name}: Missing data for {', '.join(missing_days)}.", UserWarning)
+
+        return ordered_hours_text
 
     return {
         "place_name": place_name,
-        "time_text_sun_to_sat": weekday_times_list,
-        "is_open_now": opening_hours.get('open_now'), # For testing color-coding
-        "periods": raw_periods,    # Raw periods data
-        "percentage_periods": percentage_periods,    # Periods data as percentage for color-coding
+        "place_id": place_id,
+        "url": map_urls.get(place_name, f"https://www.google.com/maps/place/?q=place_id:{place_id}"),
+        "current_schedule": {
+            "time_text_sun_to_sat": process_text(place.current_opening_hours, place_name),
+            "percentage_periods": periods_to_percentages(place.current_opening_hours, place_name) # Periods data as percentage for color-coding
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": process_text(place.regular_opening_hours, place_name),
+        }
     }
 
 def save_to_json(data_list):
@@ -145,7 +166,6 @@ if __name__ == "__main__":
         print("No data found to process.")
     else:
         place_ids = info_dict.get('place_ids', {})
-        gname_mapping = info_dict.get('gname_mapping', {})
 
         all_places_outcome = []
 
@@ -153,12 +173,10 @@ if __name__ == "__main__":
 
         for place_name, bid in place_ids.items():
             try:
-                # We pass name_mapping so fetch_place_data can translate the name
-                place_outcome = fetch_place_data(bid, gname_mapping)
+                place_outcome = fetch_place_data(bid, info_dict)
                 all_places_outcome.append(place_outcome)
                 print(f"Successfully fetched: {place_outcome['place_name']}")
             except Exception as e:
                 print(f"Error fetching {place_name} ({bid}): {e}")
 
         save_to_json(all_places_outcome)
-
