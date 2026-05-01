@@ -184,6 +184,10 @@ permalink: /hours/
 					color: rgb(0, 0, 238);
 					text-decoration-color: rgb(0, 0, 238);
 				}
+
+				p#warning-time-zone-mismatch {
+					color: rgb(200, 0, 0);
+				}
 			}
 		</style>
 	</head>
@@ -227,8 +231,25 @@ permalink: /hours/
 			</tbody>
 		</table>
 
+		<footer>
+			<p hidden id="warning-time-zone-mismatch">
+			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
+			</p>
+			<p>
+			Tip: triple-click "venue / day" to show the Time Machine
+			</p>
+			<p>
+			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
+			</p>
+		</footer>
+
 		<script>
 			function setWeekSecondsElapsed(date, opts) {
+				const dateIsNow = !date;
+				if (dateIsNow) {
+					date = new Date();
+				}
+
 				/* Total seconds elapsed since Sunday 00:00:00 */
 				const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 				document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
@@ -244,10 +265,15 @@ permalink: /hours/
 					const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
 					document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
 				}
+
+				const warningTimeZoneMismatch = document.getElementById('warning-time-zone-mismatch');
+				warningTimeZoneMismatch.hidden = !dateIsNow
+					|| date.toLocaleString('sv') == date.toLocaleString('sv', { timeZone: 'Europe/London' });
+			}
 			}
 
 			/* tell CSS what time it is, scroll current day into view */
-			setWeekSecondsElapsed(new Date(), { scroll: true });
+			setWeekSecondsElapsed(null, { scroll: true });
 
 			/* triple click shows time-machine */
 			document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
@@ -259,30 +285,20 @@ permalink: /hours/
 			/* update animation time on time-machine input */
 			document.getElementById('time-machine').addEventListener('input', (e) => {
 				const selectedDate = new Date(e.target.value);
-				setWeekSecondsElapsed(isNaN(selectedDate) ? new Date() : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
+				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
 			});
 
 			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
 			document.addEventListener('visibilitychange', () => {
 				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
-					setWeekSecondsElapsed(new Date());
+					setWeekSecondsElapsed(null);
 				}
 			});
 		</script>
-
-		<footer>
-			<p>
-			Tip: triple-click "venue / day" to show the Time Machine
-			</p>
-			<p>
-			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
-			</p>
-		</footer>
 	</body>
 
 <!-- TODO: vis opening hours within cells -->
 <!-- TODO: add vertical line for current time -->
-<!-- TODO: convert local to UK time zone -->
 
 <!-- vim:set ft=liquid: -->
 </html>
