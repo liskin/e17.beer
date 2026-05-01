@@ -255,9 +255,9 @@ permalink: /hours/
 				document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
 
 				if (opts?.paused) {
-					document.querySelector('table#opening-hours').classList.add('paused');
+					document.getElementById('opening-hours').classList.add('paused');
 				} else {
-					document.querySelector('table#opening-hours').classList.remove('paused');
+					document.getElementById('opening-hours').classList.remove('paused');
 				}
 
 				if (opts?.scroll) {
