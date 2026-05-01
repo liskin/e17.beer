@@ -189,7 +189,7 @@ permalink: /hours/
 			{% for place in site.data.places -%}
 			{% assign i = forloop.index0 -%}
 			@keyframes venue{{ i }} {
-				{% for period in place.percentage_periods -%}
+				{% for period in place.current_schedule.percentage_periods -%}
 				{{ period.open  }}% { --open: 1; }
 				{{ period.close }}% { --open: 0; }
 				{% endfor %}
@@ -246,13 +246,10 @@ permalink: /hours/
 					<th class="venue" scope="row">
 						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
 					</th>
-					<td class="day">{{ place.time_text_sun_to_sat[1] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[2] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[3] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[4] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[5] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[6] }}</td>
-					<td class="day">{{ place.time_text_sun_to_sat[0] }}</td>
+					{% for _day in (0..6) -%}
+					{% assign day = _day | plus: 1 | modulo: 7 -%}
+					<td class="day">{{ place.current_schedule.time_text_sun_to_sat[day] }}</td>
+					{% endfor %}
 				</tr>
 				{% endfor %}
 			</tbody>
