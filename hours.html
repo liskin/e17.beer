@@ -227,7 +227,7 @@ permalink: /hours/
 
 		<script>
 		function setWeekSecondsElapsed(date, opts) {
-			// Total seconds elapsed since Sunday 00:00:00
+			/* Total seconds elapsed since Sunday 00:00:00 */
 			const totalSecondsElapsed = date.getDay() * 86400 + date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 			document.documentElement.style.setProperty('--week-seconds-elapsed', `${totalSecondsElapsed}s`);
 
@@ -240,7 +240,7 @@ permalink: /hours/
 			if (opts?.scroll) {
 				const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
 				const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
-				document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: "smooth", inline: "end" });
+				document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
 			}
 		}
 
