@@ -1,0 +1,27 @@
+help:
+    @just --list --unsorted
+
+# ----------------------------------------------------------------------
+
+update-places:
+    ./update_places.py
+
+generate-place-ids:
+    ./generate_place_ids.py
+
+# ----------------------------------------------------------------------
+
+test: test-update-places test-generate-place-ids
+
+test-update-places:
+    uv run \
+        --with-requirements update_places.py \
+        --with pytest \
+        pytest test_update_places.py
+
+test-generate-place-ids:
+    uv run \
+        --with-requirements generate_place_ids.py \
+        --with pytest \
+        --with pytest-mock \
+        pytest test_generate_place_ids.py
