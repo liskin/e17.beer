@@ -2,16 +2,23 @@ import pytest
 from unittest.mock import patch
 from generate_place_ids import get_place_name_and_id
 
-@patch('requests.request')
-def test_get_place_name_and_id_ambiguous(mock_get):
-    # Mocking a response with 2 results
-    mock_get.return_value.json.return_value = {
-        'results': [
-            {'name': 'Brewery A', 'place_id': '123'},
-            {'name': 'Brewery B', 'place_id': '456'}
-        ]
-    }
+def test_get_place_name_and_id_ambiguous(mocker):
+    mock_search = mocker.patch('update_places.client.search_text')
 
-    # We expect a ValueError because it's ambiguous
+    # Create mock objects that mimic the Google Library's attributes
+    place_a = mocker.MagicMock()
+    place_a.display_name.text = "Brewery A"
+    place_a.id = "123"
+
+    place_b = mocker.MagicMock()
+    place_b.display_name.text = "Brewery B"
+    place_b.id = "456"
+
+    # Define the return value of the API call
+    mock_response = mocker.MagicMock()
+    mock_response.places = [place_a, place_b]
+    mock_search.return_value = mock_response
+
+    # We expect a ValueError because result is ambiguous
     with pytest.raises(ValueError, match=r"(?i)ambiguous result"):
-        get_place_name_and_id("Signature")
+        get_place_name_and_id("Brewery")
