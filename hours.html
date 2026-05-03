@@ -290,7 +290,7 @@ permalink: /hours/
 
 				/* update slider unless we're handling slider input */
 				if (!opts?.slider) {
-					document.getElementById('time-machine-slider').value = (totalSecondsElapsed - 24 * 3600) % 604800;
+					document.getElementById('time-machine-slider').value = (totalSecondsElapsed - 24 * 3600 + 604800) % 604800;
 				}
 
 				/* pause CSS animation for time-machine input */
@@ -303,7 +303,7 @@ permalink: /hours/
 				/* scroll to current day */
 				if (opts?.scroll) {
 					const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
-					const col = 2 + (day - 1) % 7; /* venue is first column, Monday is second, Sunday is last */
+					const col = 2 + (day - 1 + 7) % 7; /* venue is first column, Monday is second, Sunday is last */
 					document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
 				}
 
