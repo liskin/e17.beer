@@ -1,3 +1,4 @@
+.env
 /.bundle/
 /_site/
 __pycache__/
