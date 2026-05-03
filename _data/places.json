@@ -216,6 +216,47 @@
         }
     },
     {
+        "place_name": "Borough Wines",
+        "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
+        "url": "https://www.google.com/maps/search/?api=1&query=Borough Wines E17 Taproom&query_place_id=ChIJ2bbKMAAddkgRbtutiE814Jc",
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00\u2009\u2013\u20098:00\u202fPM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00\u2009\u2013\u200911:00\u202fPM",
+                "2:00\u2009\u2013\u200911:00\u202fPM"
+            ],
+            "percentage_periods": [
+                {
+                    "open": 7.7381,
+                    "close": 11.9048
+                },
+                {
+                    "open": 81.5476,
+                    "close": 85.119
+                },
+                {
+                    "open": 94.0476,
+                    "close": 99.4048
+                }
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00\u2009\u2013\u20098:00\u202fPM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00\u2009\u2013\u200911:00\u202fPM",
+                "2:00\u2009\u2013\u200911:00\u202fPM"
+            ]
+        }
+    },
+    {
         "place_name": "Renegade",
         "place_id": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
         "url": "https://www.google.com/maps/search/?api=1&query=Renegade Urban Winery - Bar, Kitchen & Winery&query_place_id=ChIJ57WCm8cddkgRxgrdo8eIs7c",
@@ -306,6 +347,79 @@
         }
     },
     {
+        "place_name": "East London Brewing",
+        "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
+        "url": "https://www.google.com/maps/search/?api=1&query=East London Brewing Co Ltd&query_place_id=ChIJCcHPmKUddkgRrMkuf6VHMPM",
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "?",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?"
+            ],
+            "percentage_periods": []
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "?",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?"
+            ]
+        }
+    },
+    {
+        "place_name": "Burnt Faith",
+        "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
+        "url": "https://www.google.com/maps/search/?api=1&query=Burnt Faith Brandy House&query_place_id=ChIJt44reHMddkgRK2rJwANEAyI",
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00\u2009\u2013\u20097:00\u202fPM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "6:00\u2009\u2013\u200911:00\u202fPM",
+                "5:00\u2009\u2013\u200911:00\u202fPM",
+                "1:00\u2009\u2013\u200911:00\u202fPM"
+            ],
+            "percentage_periods": [
+                {
+                    "open": 7.7381,
+                    "close": 11.3095
+                },
+                {
+                    "open": 67.8571,
+                    "close": 70.8333
+                },
+                {
+                    "open": 81.5476,
+                    "close": 85.119
+                },
+                {
+                    "open": 93.4524,
+                    "close": 99.4048
+                }
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00\u2009\u2013\u20097:00\u202fPM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "6:00\u2009\u2013\u200911:00\u202fPM",
+                "5:00\u2009\u2013\u200911:00\u202fPM",
+                "1:00\u2009\u2013\u200911:00\u202fPM"
+            ]
+        }
+    },
+    {
         "place_name": "Big Penny",
         "place_id": "ChIJOXISL-oddkgR8T4iCezLtY4",
         "url": "https://www.google.com/maps/search/?api=1&query=Big Penny Social&query_place_id=ChIJOXISL-oddkgR8T4iCezLtY4",
@@ -363,51 +477,6 @@
                 "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
                 "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
                 "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
-            ]
-        }
-    },
-    {
-        "place_name": "Burnt Faith",
-        "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
-        "url": "https://www.google.com/maps/search/?api=1&query=Burnt Faith Brandy House&query_place_id=ChIJt44reHMddkgRK2rJwANEAyI",
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20097:00\u202fPM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "6:00\u2009\u2013\u200911:00\u202fPM",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "1:00\u2009\u2013\u200911:00\u202fPM"
-            ],
-            "percentage_periods": [
-                {
-                    "open": 7.7381,
-                    "close": 11.3095
-                },
-                {
-                    "open": 67.8571,
-                    "close": 70.8333
-                },
-                {
-                    "open": 81.5476,
-                    "close": 85.119
-                },
-                {
-                    "open": 93.4524,
-                    "close": 99.4048
-                }
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20097:00\u202fPM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "6:00\u2009\u2013\u200911:00\u202fPM",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "1:00\u2009\u2013\u200911:00\u202fPM"
             ]
         }
     },
