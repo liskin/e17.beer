@@ -270,7 +270,7 @@ permalink: /hours/
 			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
 			</p>
 			<p>
-			Tip: triple-click "venue / day" to show the Time Machine
+			Tip: double-click "venue / day" to show the Time Machine
 			</p>
 			<p>
 			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
@@ -326,10 +326,8 @@ permalink: /hours/
 			/* -------------------------------------------------------------------------------- */
 
 			/* triple click shows time-machine */
-			document.getElementById('time-machine-trigger').addEventListener('click', (e) => {
-				if (e.detail === 3) {
-					document.getElementById('time-machine-row').hidden = false;
-				}
+			document.getElementById('time-machine-trigger').addEventListener('dblclick', (e) => {
+				document.getElementById('time-machine-row').hidden = false;
 			});
 
 			/* update animation time on time-machine input */
