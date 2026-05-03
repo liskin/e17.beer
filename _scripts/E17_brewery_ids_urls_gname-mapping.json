@@ -1,0 +1,44 @@
+{
+    "place_ids": {
+        "Signature": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
+        "Pretty Decent": "ChIJK_3JDekddkgR_9lv8ApNmVo",
+        "Hackney Church": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
+        "Exale": "ChIJn5s47P0ddkgRs97vifafiI0",
+        "Renegade": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
+        "40ft": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
+        "Big Penny": "ChIJOXISL-oddkgR8T4iCezLtY4",
+        "Burnt Faith": "ChIJt44reHMddkgRK2rJwANEAyI",
+        "Tavern on the Hill": "ChIJNZQZJjcddkgRJlbGoKPRzg8",
+        "Ferry Boat Inn": "ChIJMx4DJDIcdkgRxOVl_zEjmCE",
+        "Pressure Drop": "ChIJQeFXoy8cdkgRrIXf96VGQyI",
+        "Blondies Brewery": "ChIJj4Jz2N4ddkgRo7KEHp0rGRM"
+    },
+    "map_urls": {
+        "Signature": "https://www.google.com/maps/search/?api=1&query=Signature Brew Blackhorse Road&query_place_id=ChIJKVqfjZgddkgRPsLCEegdp_Y",
+        "Pretty Decent": "https://www.google.com/maps/search/?api=1&query=Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom&query_place_id=ChIJK_3JDekddkgR_9lv8ApNmVo",
+        "Hackney Church": "https://www.google.com/maps/search/?api=1&query=Hackney Church Brew Co. Blackhorse Lane&query_place_id=ChIJmcEKbdwddkgRTntDc6Ttn3E",
+        "Exale": "https://www.google.com/maps/search/?api=1&query=Exale Taproom&query_place_id=ChIJn5s47P0ddkgRs97vifafiI0",
+        "Renegade": "https://www.google.com/maps/search/?api=1&query=Renegade Urban Winery - Bar, Kitchen & Winery&query_place_id=ChIJ57WCm8cddkgRxgrdo8eIs7c",
+        "40ft": "https://www.google.com/maps/search/?api=1&query=40ft Brewery Blackhorse&query_place_id=ChIJGWBqTAAddkgRGIDV9sSwSPQ",
+        "Big Penny": "https://www.google.com/maps/search/?api=1&query=Big Penny Social&query_place_id=ChIJOXISL-oddkgR8T4iCezLtY4",
+        "Burnt Faith": "https://www.google.com/maps/search/?api=1&query=Burnt Faith Brandy House&query_place_id=ChIJt44reHMddkgRK2rJwANEAyI",
+        "Tavern on the Hill": "https://www.google.com/maps/search/?api=1&query=The Tavern on the Hill&query_place_id=ChIJNZQZJjcddkgRJlbGoKPRzg8",
+        "Ferry Boat Inn": "https://www.google.com/maps/search/?api=1&query=Ferry Boat Inn Tottenham&query_place_id=ChIJMx4DJDIcdkgRxOVl_zEjmCE",
+        "Pressure Drop": "https://www.google.com/maps/search/?api=1&query=Pressure Drop Brewery and Taproom&query_place_id=ChIJQeFXoy8cdkgRrIXf96VGQyI",
+        "Blondies Brewery": "https://www.google.com/maps/search/?api=1&query=Blondies Brewery&query_place_id=ChIJj4Jz2N4ddkgRo7KEHp0rGRM"
+    },
+    "gname_mapping": {
+        "Signature Brew Blackhorse Road": "Signature",
+        "Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom": "Pretty Decent",
+        "Hackney Church Brew Co. Blackhorse Lane": "Hackney Church",
+        "Exale Taproom": "Exale",
+        "Renegade Urban Winery - Bar, Kitchen & Winery": "Renegade",
+        "40ft Brewery Blackhorse": "40ft",
+        "Big Penny Social": "Big Penny",
+        "Burnt Faith Brandy House": "Burnt Faith",
+        "The Tavern on the Hill": "Tavern on the Hill",
+        "Ferry Boat Inn Tottenham": "Ferry Boat Inn",
+        "Pressure Drop Brewery and Taproom": "Pressure Drop",
+        "Blondies Brewery": "Blondies Brewery"
+    }
+}
