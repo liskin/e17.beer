@@ -151,6 +151,31 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
 
         return ordered_hours_text
 
+    # Hack: East London Brewing not showing correct opening hours yet
+    if place_name == "East London Brewing":
+        current_time_text = ["?"] * 7
+        regular_time_text = ["?"] * 7
+        pct_periods = []
+    else:
+        current_time_text = process_text(place.current_opening_hours, place_name)
+        regular_time_text = process_text(place.regular_opening_hours, place_name)
+        pct_periods = periods_to_percentages(place.current_opening_hours, place_name)
+
+    return {
+        "place_name": place_name,
+        "place_id": place_id,
+        "url": map_urls.get(
+            place_name, f"https://www.google.com/maps/place/?q=place_id:{place_id}"
+        ),
+        "current_schedule": {
+            "time_text_sun_to_sat": current_time_text,
+            "percentage_periods": pct_periods,
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": regular_time_text,
+        },
+    }
+
     return {
         "place_name": place_name,
         "place_id": place_id,
