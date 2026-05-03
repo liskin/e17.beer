@@ -165,9 +165,9 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
 
 
 def save_to_json(data_list):
-    with open("places_data.json", "w") as f:
+    with open("../_data/places.json", "w") as f:
         json.dump(data_list, f, indent=4)
-    print("\n✅ Saved to places_data.json")
+    print("\n✅ Saved to ../_data/places.json")
 
 
 # RUN THE PROCESS
