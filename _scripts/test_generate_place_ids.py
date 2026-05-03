@@ -1,9 +1,11 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from generate_place_ids import get_place_name_and_id
 
+
 def test_get_place_name_and_id_ambiguous(mocker):
-    mock_search = mocker.patch('update_places.client.search_text')
+    mock_search = mocker.patch("update_places.client.search_text")
 
     # Create mock objects that mimic the Google Library's attributes
     place_a = mocker.MagicMock()
