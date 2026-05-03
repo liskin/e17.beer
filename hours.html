@@ -56,7 +56,7 @@ permalink: /hours/
 				}
 
 				/* venue hyperlinks */
-				th.venue {
+				th.venue:has(a) {
 					padding: 0;
 
 					a {
@@ -260,7 +260,7 @@ permalink: /hours/
 			</tbody>
 			<tfoot>
 				<tr>
-					<th scope="col">sort <button id="sort-name">by name</button></th>
+					<th scope="col" class="venue">sort <button id="sort-name">by name</button></th>
 				</tr>
 			</tfoot>
 		</table>
