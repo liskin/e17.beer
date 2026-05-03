@@ -23,7 +23,13 @@ client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
 
 def get_place_name_and_id(brewery_name):
     """Searches Google Places API (New) using the official client library. Returns an error if 	."""
-    search_name = brewery_name if brewery_name != "Hackney Church" else brewery_name + " Blackhorse"
+    # Special handling for ambiguous search queries
+    if brewery_name == "Hackney Church":
+        search_name = brewery_name + " Blackhorse"
+    elif brewery_name == "Borough Wines":
+        search_name = brewery_name + " Taproom"
+    else:
+        search_name = brewery_name
     search_query = f"{search_name} E17"
 
     print(f"search_query: {search_query}")
