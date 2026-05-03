@@ -38,12 +38,10 @@ def load_places_info_from_json(filename):
         return {}
 
 
-def get_week_percentage(day_nmb: int, hours: int, minutes: int) -> float:
+def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
     """Calculates the percentage of the week elapsed (week: Sun 0000 to Sat 2359)."""
     # TODO: update to work for 24 hours opened venues
     # (Google returns open for the day of request 0000 truncated, close day in a week 2359 truncated)
-    # TODO: fix for open before midnight yesterday and not closed yet at the time of request
-    # (Google will split period in two days: truncated in this_day and truncated in this_day-1)
 
     # Input values validation
     if not all(isinstance(i, int) for i in [day_nmb, hours, minutes]):
@@ -60,6 +58,11 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int) -> float:
     total_week_minutes = 7 * 24 * 60
     minutes_passed_in_day = (hours * 60) + minutes
     minutes_passed_in_week = (day_nmb * 1440) + minutes_passed_in_day
+
+    # Workaround for open before midnight yesterday and not closed yet at the time of request
+    # (Google will split period in two days: truncated in this_day and truncated in this_day-1)
+    if truncated and (hours, minutes) == (23, 59):
+        minutes_passed_in_week += 1
 
     percentage = (minutes_passed_in_week / total_week_minutes) * 100
 
@@ -106,14 +109,16 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
                 continue
 
             # Standard percentage calculation
-            open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
-            close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
+            open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
+            close_pct = get_week_percentage(
+                p.close.day, p.close.hour, p.close.minute, p.close.truncated
+            )
 
             # Saturday to Sunday wraparound
             # if period span from Saturday to Sunday, split into two periods
             if open_pct > close_pct:
                 pct_periods.append({"open": open_pct, "close": 100.0})
-                pct_periods.append({"open": 0.0, "close": close_pct})
+                pct_periods.insert(0, {"open": 0.0, "close": close_pct})
             else:
                 pct_periods.append({"open": open_pct, "close": close_pct})
 
