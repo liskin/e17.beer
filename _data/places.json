@@ -2,7 +2,16 @@
     {
         "place_name": "Signature",
         "place_id": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
-        "url": "https://www.google.com/maps/search/?api=1&query=Signature Brew Blackhorse Road&query_place_id=ChIJKVqfjZgddkgRPsLCEegdp_Y",
+        "url": "https://maps.google.com/?cid=17773207337008546366&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            "\u00a33.50 pint cask",
+            "free pint when \u00a310+ spent on take-away cans",
+            "Taco Tuesday\n\u00a38 for 2 tacos, \u00a311 for 3 tacos, plus free soft drink or core beer for \u00a33",
+            "Wing Wednesday\n\u00a37 for 6 wings, \u00a312 for 10 wings, plus free soft drink or core beer for \u00a33",
+            "Thirsty Thursday\n\u00a34 core pints\n\u00a35 cocktails",
+            "Friday Lunch Menu\n\u00a310 any flatbread and soft drink",
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u200911:30\u202fPM",
@@ -63,7 +72,16 @@
     {
         "place_name": "Pretty Decent",
         "place_id": "ChIJK_3JDekddkgR_9lv8ApNmVo",
-        "url": "https://www.google.com/maps/search/?api=1&query=Pretty Decent Beer Co - Blackhorse Road Brewery and Taproom&query_place_id=ChIJK_3JDekddkgR_9lv8ApNmVo",
+        "url": "https://maps.google.com/?cid=6528333844229118463&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            "Games Night\n\u00a35 wine",
+            "First Pour Thursday\n\u00a34.50 new releases, core pints\n\u00a310 pizza (excl specials)\n\u00a320 six cans takeaway",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u20098:00\u202fPM",
@@ -112,7 +130,16 @@
     {
         "place_name": "Hackney Church",
         "place_id": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
-        "url": "https://www.google.com/maps/search/?api=1&query=Hackney Church Brew Co. Blackhorse Lane&query_place_id=ChIJmcEKbdwddkgRTntDc6Ttn3E",
+        "url": "https://maps.google.com/?cid=8187523938147072846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            null,
+            "\u00a33.50 core pints",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u200911:00\u202fPM",
@@ -165,11 +192,20 @@
     {
         "place_name": "Exale",
         "place_id": "ChIJn5s47P0ddkgRs97vifafiI0",
-        "url": "https://www.google.com/maps/search/?api=1&query=Exale Taproom&query_place_id=ChIJn5s47P0ddkgRs97vifafiI0",
+        "url": "https://maps.google.com/?cid=10198577237405458099&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            "\u00a34 pints",
+            null,
+            null,
+            null,
+            "\u00a34 pints\n25% off wine bottles\n\u00a315 burger + fries + beer",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
                 "12:00\u2009\u2013\u20098:00\u202fPM",
+                "Closed",
                 "Closed",
                 "Closed",
                 "4:00\u2009\u2013\u200910:00\u202fPM",
@@ -183,11 +219,7 @@
                 },
                 {
                     "open": 7.1429,
-                    "close": 15.4762
-                },
-                {
-                    "open": 21.4286,
-                    "close": 26.1905
+                    "close": 11.9048
                 },
                 {
                     "open": 66.6667,
@@ -218,7 +250,16 @@
     {
         "place_name": "Borough Wines",
         "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
-        "url": "https://www.google.com/maps/search/?api=1&query=Borough Wines E17 Taproom&query_place_id=ChIJ2bbKMAAddkgRbtutiE814Jc",
+        "url": "https://maps.google.com/?cid=10943805710222089070&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            "TODO",
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "1:00\u2009\u2013\u20098:00\u202fPM",
@@ -259,7 +300,16 @@
     {
         "place_name": "Renegade",
         "place_id": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
-        "url": "https://www.google.com/maps/search/?api=1&query=Renegade Urban Winery - Bar, Kitchen & Winery&query_place_id=ChIJ57WCm8cddkgRxgrdo8eIs7c",
+        "url": "https://maps.google.com/?cid=13237074120801061574&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            null,
+            "17:00\u2013close\n\u00a37 selected wines\n\u00a35 pints\n\u00a37 selected cocktails",
+            "12:00\u201319:00\n\u00a37 selected wines\n\u00a35 pints\n\u00a37 selected cocktails",
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u20096:00\u202fPM",
@@ -304,7 +354,16 @@
     {
         "place_name": "40ft",
         "place_id": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
-        "url": "https://www.google.com/maps/search/?api=1&query=40ft Brewery Blackhorse&query_place_id=ChIJGWBqTAAddkgRGIDV9sSwSPQ",
+        "url": "https://maps.google.com/?cid=17602513503578849304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            null,
+            "\u00a34 selected pints\n\u00a35 Aperol Spritz",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u20098:00\u202fPM",
@@ -349,7 +408,16 @@
     {
         "place_name": "East London Brewing",
         "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
-        "url": "https://www.google.com/maps/search/?api=1&query=East London Brewing Co Ltd&query_place_id=ChIJCcHPmKUddkgRrMkuf6VHMPM",
+        "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            "TODO",
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "?",
@@ -377,10 +445,19 @@
     {
         "place_name": "Burnt Faith",
         "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
-        "url": "https://www.google.com/maps/search/?api=1&query=Burnt Faith Brandy House&query_place_id=ChIJt44reHMddkgRK2rJwANEAyI",
+        "url": "https://maps.google.com/?cid=2450877405129697835&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            null,
+            "Thirsty Thursday\n\u00a37 house cocktails",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20097:00\u202fPM",
+                "1:00\u2009\u2013\u200911:00\u202fPM",
                 "Closed",
                 "Closed",
                 "Closed",
@@ -391,7 +468,7 @@
             "percentage_periods": [
                 {
                     "open": 7.7381,
-                    "close": 11.3095
+                    "close": 13.6905
                 },
                 {
                     "open": 67.8571,
@@ -409,7 +486,7 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20097:00\u202fPM",
+                "1:00\u2009\u2013\u200911:00\u202fPM",
                 "Closed",
                 "Closed",
                 "Closed",
@@ -422,10 +499,19 @@
     {
         "place_name": "Big Penny",
         "place_id": "ChIJOXISL-oddkgR8T4iCezLtY4",
-        "url": "https://www.google.com/maps/search/?api=1&query=Big Penny Social&query_place_id=ChIJOXISL-oddkgR8T4iCezLtY4",
+        "url": "https://maps.google.com/?cid=10283349538796355313&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
+            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
+            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
+            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)\n\n17:00\u2013close\nhalf-price games at Flukes",
+            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
+                "12:00\u2009\u2013\u20098:00\u202fPM",
                 "12:00\u2009\u2013\u200911:00\u202fPM",
                 "12:00\u2009\u2013\u200911:00\u202fPM",
                 "12:00\u2009\u2013\u200911:00\u202fPM",
@@ -440,7 +526,7 @@
                 },
                 {
                     "open": 7.1429,
-                    "close": 14.881
+                    "close": 11.9048
                 },
                 {
                     "open": 21.4286,
@@ -483,11 +569,20 @@
     {
         "place_name": "Tavern on the Hill",
         "place_id": "ChIJNZQZJjcddkgRJlbGoKPRzg8",
-        "url": "https://www.google.com/maps/search/?api=1&query=The Tavern on the Hill&query_place_id=ChIJNZQZJjcddkgRJlbGoKPRzg8",
+        "url": "https://maps.google.com/?cid=1139078256478541350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            "\u00a35 pints of East London Brewing beers",
+            "\u00a35 pints of East London Brewing beers",
+            null,
+            "\u00a316.50 burger + fries + can of East London Brewing\n\n16:00\u201320:00\n\u00a36 margaritas",
+            "16:00\u201320:00\n\u00a36 margaritas",
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u200910:30\u202fPM",
-                "12:00\u2009\u2013\u200910:30\u202fPM",
+                "4:00\u2009\u2013\u200911:00\u202fPM",
                 "4:00\u2009\u2013\u200911:00\u202fPM",
                 "4:00\u2009\u2013\u200911:00\u202fPM",
                 "4:00\u2009\u2013\u200911:00\u202fPM",
@@ -504,8 +599,8 @@
                     "close": 13.3929
                 },
                 {
-                    "open": 21.4286,
-                    "close": 27.6786
+                    "open": 23.8095,
+                    "close": 27.9762
                 },
                 {
                     "open": 38.0952,
@@ -544,7 +639,16 @@
     {
         "place_name": "Ferry Boat Inn",
         "place_id": "ChIJMx4DJDIcdkgRxOVl_zEjmCE",
-        "url": "https://www.google.com/maps/search/?api=1&query=Ferry Boat Inn Tottenham&query_place_id=ChIJMx4DJDIcdkgRxOVl_zEjmCE",
+        "url": "https://maps.google.com/?cid=2420723497356879300&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            "\u00a33.50 pints of cask",
+            null,
+            null,
+            null,
+            "2-for-1 cocktails",
+            "2-for-1 cocktails"
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
@@ -601,7 +705,16 @@
     {
         "place_name": "Pressure Drop",
         "place_id": "ChIJQeFXoy8cdkgRrIXf96VGQyI",
-        "url": "https://www.google.com/maps/search/?api=1&query=Pressure Drop Brewery and Taproom&query_place_id=ChIJQeFXoy8cdkgRrIXf96VGQyI",
+        "url": "https://maps.google.com/?cid=2468894699371333036&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            "\u00a34 cans",
+            null,
+            null,
+            null,
+            null,
+            "\u00a34 pints (core)",
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00\u2009\u2013\u20098:00\u202fPM",
@@ -642,7 +755,16 @@
     {
         "place_name": "Blondies Brewery",
         "place_id": "ChIJj4Jz2N4ddkgRo7KEHp0rGRM",
-        "url": "https://www.google.com/maps/search/?api=1&query=Blondies Brewery&query_place_id=ChIJj4Jz2N4ddkgRo7KEHp0rGRM",
+        "url": "https://maps.google.com/?cid=1376179114960269987&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "happy_hours": [
+            null,
+            null,
+            null,
+            "\u00a34 pints (except guest beers)",
+            "2-for-1 cocktails",
+            null,
+            null
+        ],
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM",

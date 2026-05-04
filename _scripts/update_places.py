@@ -26,7 +26,7 @@ client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
 
 
 def load_places_info_from_json(filename):
-    """Loads info dictionary (ids, urls, and gname-mapping)."""
+    """Loads the ID-keyed dictionary."""
     try:
         with open(filename, "r") as f:
             return json.load(f)
@@ -41,7 +41,6 @@ def load_places_info_from_json(filename):
 def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
     """Calculates the percentage of the week elapsed (week: Sun 0000 to Sat 2359)."""
     # TODO: update to work for 24 hours opened venues
-    # (Google returns open for the day of request 0000 truncated, close day in a week 2359 truncated)
 
     # Input values validation
     if not all(isinstance(i, int) for i in [day_nmb, hours, minutes]):
@@ -60,7 +59,7 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
     minutes_passed_in_week = (day_nmb * 1440) + minutes_passed_in_day
 
     # Workaround for open before midnight yesterday and not closed yet at the time of request
-    # (Google will split period in two days: truncated in this_day and truncated in this_day-1)
+    # (Google will split period in two days: truncated in this_day with the close= 23h 59m and truncated in this_day-1 with open= 0h 0m)
     if truncated and (hours, minutes) == (23, 59):
         minutes_passed_in_week += 1
 
@@ -69,27 +68,23 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
     return round(percentage, 4)
 
 
-def fetch_place_data(place_id: str, info_dict: dict) -> dict:
+def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     """
-    Fetches regular and current opening hours from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week.
+    Fetches regular and current opening hours from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours with metadata (happy hours, URLs).
     """
-    gname_mapping = info_dict.get("gname_mapping", {})
-    map_urls = info_dict.get("map_urls", {})
+    place_name = place_metadata.get("place_name", None)
+    url = place_metadata.get("url", None)
+    happy_hours = place_metadata.get("happy_hours", None)
 
-    field_mask = "id,displayName,regularOpeningHours,currentOpeningHours"
-
+    field_mask = "id,regularOpeningHours,currentOpeningHours"
     place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])
 
     # Verify the ID
     if place.id != place_id:
         raise ValueError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-    # Map the Google's name (displayName.text) to spreadsheet Name
-    gname = place.display_name.text
-    place_name = gname_mapping.get(gname, gname)
-
     # Helper to process periods into percentages
-    def periods_to_percentages(opening_hours_obj, place_name: str) -> list:
+    def periods_to_percentages(opening_hours_obj) -> list:
         pct_periods = []
 
         # Check for missing top-level data
@@ -125,7 +120,7 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
         return pct_periods
 
     # Extract opening hours text (order: Sunday -> Saturday)
-    def process_text(opening_hours_obj, place_name: str) -> list:
+    def process_text(opening_hours_obj) -> list:
         if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
             warnings.warn(f"{place_name}: No weekday descriptions available.", UserWarning)
             return ["N/A"] * 7
@@ -157,16 +152,15 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
         regular_time_text = ["?"] * 7
         pct_periods = []
     else:
-        current_time_text = process_text(place.current_opening_hours, place_name)
-        regular_time_text = process_text(place.regular_opening_hours, place_name)
-        pct_periods = periods_to_percentages(place.current_opening_hours, place_name)
+        current_time_text = process_text(place.current_opening_hours)
+        regular_time_text = process_text(place.regular_opening_hours)
+        pct_periods = periods_to_percentages(place.current_opening_hours)
 
     return {
         "place_name": place_name,
         "place_id": place_id,
-        "url": map_urls.get(
-            place_name, f"https://www.google.com/maps/place/?q=place_id:{place_id}"
-        ),
+        "url": url,
+        "happy_hours": happy_hours,
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
             "percentage_periods": pct_periods,
@@ -176,57 +170,38 @@ def fetch_place_data(place_id: str, info_dict: dict) -> dict:
         },
     }
 
-    return {
-        "place_name": place_name,
-        "place_id": place_id,
-        "url": map_urls.get(
-            place_name, f"https://www.google.com/maps/place/?q=place_id:{place_id}"
-        ),
-        "current_schedule": {
-            "time_text_sun_to_sat": process_text(place.current_opening_hours, place_name),
-            "percentage_periods": periods_to_percentages(
-                place.current_opening_hours, place_name
-            ),  # Periods data as percentage for color-coding
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": process_text(place.regular_opening_hours, place_name),
-        },
-    }
-
-
 def save_to_json(data_list):
-    with open("../_data/places.json", "w") as f:
+    # Ensure directory exists or adjust path as needed
+    output_path = "../_data/places.json"
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "w") as f:
         json.dump(data_list, f, indent=4)
-    print("\n✅ Saved to ../_data/places.json")
+    print(f"\n✅ Saved {len(data_list)} places to {output_path}")
 
 
 # RUN THE PROCESS
 if __name__ == "__main__":
     # DEFINE YOUR INPUTS HERE (The Place IDs)
-    # Input file structured as a nested dictionary:
-    # {
-    #   "place_ids": { "Place Name": "Google Place ID", ... },
-    #   "map_urls":  { "Place Name": "Google Maps URL", ... },
-    #   "gname_mapping":  { "Google Maps Name": "Place Name", ... }
+    # Input file structured as ID-keyed nested dictionary:
+    # { "PLACE_ID": { "place_name": "...", "url": "...", "happy_hours": [...] },
+    #   ...
     # }
-    file_name = "E17_brewery_ids_urls_gname-mapping.json"
+    file_name = "E17_BHMplus_data.json"
     info_dict = load_places_info_from_json(file_name)
 
     if not info_dict:
-        print("No data found to process.")
+        print("❌ No data found to process.")
     else:
-        place_ids = info_dict.get("place_ids", {})
-
         all_places_outcome = []
+        print(f"Processing {len(info_dict)} entries from {file_name}...")
 
-        print(f"Fetching data for {len(place_ids)} places...")
-
-        for place_name, bid in place_ids.items():
+        for pid, metadata in info_dict.items():
             try:
-                place_outcome = fetch_place_data(bid, info_dict)
+                place_outcome = fetch_place_data(pid, metadata)
                 all_places_outcome.append(place_outcome)
-                print(f"Successfully fetched: {place_outcome['place_name']}")
+                print(f"✅ Successfully processed: {metadata['place_name']}")
             except Exception as e:
-                print(f"Error fetching {place_name} ({bid}): {e}")
+                print(f"❌ Error processing {pid}: {e}")
 
         save_to_json(all_places_outcome)
