@@ -88,16 +88,16 @@ def test_wraparound_split(mock_get_place, mock_place):
     intervals = result["current_schedule"]["percentage_periods"]
 
     assert len(intervals) == 2
-    # 1st interval should end with end of week
-    assert intervals[0]["close"] == 100.0
-    # 1st interval starts 2 hours before end of week:
-    # 100 − (2 / (7 * 24 ) * 100) ~ 98.8095
-    assert intervals[0]["close"] > 98.8
-    # 2nd interval should start at the beginning of week
-    assert intervals[1]["open"] == 0.0
-    # 2nd interval starts 2 hour after the beginning of week:
+    # 1st interval should start at the beginning of week
+    assert intervals[0]["open"] == 0.0
+    # 1st interval starts 2 hour after the beginning of week:
     # 2 / (7 * 24 ) * 100 ~ 1.1905
-    assert intervals[1]["close"] < 1.2
+    assert intervals[0]["close"] < 1.2
+    # last interval should end with end of week
+    assert intervals[-1]["close"] == 100.0
+    # last interval starts 2 hours before end of week:
+    # 100 − (2 / (7 * 24 ) * 100) ~ 98.8095
+    assert intervals[-1]["close"] > 98.8
 
 
 # --- DATA TRANSFORMATION TESTS ---
