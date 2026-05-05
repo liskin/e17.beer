@@ -2,6 +2,7 @@ import json
 import os
 import warnings
 
+import click
 from dotenv import load_dotenv
 from google.maps import places_v1
 
@@ -13,19 +14,6 @@ if not API_KEY:
 
 # Initialize the Client (Places API New)
 client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
-
-
-def load_places_info_from_json(filename):
-    """Loads the ID-keyed dictionary."""
-    try:
-        with open(filename, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(f"Error: {filename} not found. Run your discovery script first.")
-        return {}
-    except Exception as e:
-        print(f"Error: Could not read JSON: {e}")
-        return {}
 
 
 def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
@@ -175,38 +163,48 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     }
 
 
-def save_to_json(data_list):
-    # Ensure directory exists or adjust path as needed
-    output_path = "../_data/places.json"
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+@click.command()
+@click.option(
+    "-o",
+    "--output",
+    type=click.File("w"),
+    default="../_data/places.json",
+    help="Output file",
+    show_default=True,
+)
+@click.argument(
+    "input",
+    type=click.File(),
+    default="E17_BHMplus_data.json",
+)
+def main(input, output):
+    """
+    Load/update information about venues
 
-    with open(output_path, "w") as f:
-        json.dump(data_list, f, indent=4)
-    print(f"\n✅ Saved {len(data_list)} places to {output_path}")
+    Input file structured as ID-keyed nested dictionary:
 
-
-# RUN THE PROCESS
-if __name__ == "__main__":
-    # DEFINE YOUR INPUTS HERE (The Place IDs)
-    # Input file structured as ID-keyed nested dictionary:
-    # { "PLACE_ID": { "place_name": "...", "url": "...", "happy_hours": [...] },
-    #   ...
-    # }
-    file_name = "E17_BHMplus_data.json"
-    info_dict = load_places_info_from_json(file_name)
+        { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
+    """
+    info_dict = json.load(input)
 
     if not info_dict:
         print("❌ No data found in input JSON.")
-    else:
-        all_places_outcome = []
-        print(f"Processing {len(info_dict)} places from {file_name}...")
+        exit(1)
 
-        for pid, metadata in info_dict.items():
-            try:
-                place_outcome = fetch_place_data(pid, metadata)
-                all_places_outcome.append(place_outcome)
-                print(f"✅ Processed: {metadata['place_name']}")
-            except Exception as e:
-                print(f"❌ Error processing {metadata.get('place_name', 'Unknown place')}: {e}")
+    print(f"Processing {len(info_dict)} places from {input.name}...")
 
-        save_to_json(all_places_outcome)
+    all_places_outcome = []
+    for pid, metadata in info_dict.items():
+        try:
+            place_outcome = fetch_place_data(pid, metadata)
+            all_places_outcome.append(place_outcome)
+            print(f"✅ Processed: {metadata['place_name']}")
+        except Exception as e:
+            print(f"❌ Error processing {metadata.get('place_name', 'Unknown place')}: {e}")
+
+    json.dump(all_places_outcome, output, indent=4)
+    print(f"\n✅ Saved {len(all_places_outcome)} places to {output.name}")
+
+
+if __name__ == "__main__":
+    main()

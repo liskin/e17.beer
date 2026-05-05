@@ -1,6 +1,7 @@
 import json
 import os
 
+import click
 import pandas as pd
 from dotenv import load_dotenv
 from google.maps import places_v1
@@ -70,10 +71,18 @@ def get_place_data_from_api(place_name):
         )
 
 
-def run_discovery():
+@click.command()
+@click.option(
+    "-o",
+    "--output",
+    type=click.File("w"),
+    default="E17_BHMplus_data.json",
+    help="Output file",
+    show_default=True,
+)
+def main(output):
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-    output_file = "E17_BHMplus_data.json"
 
     try:
         df = pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
@@ -119,11 +128,10 @@ def run_discovery():
             print(f"🔥 '{place_name}': Unexpected error: {e}")
 
     # Save to JSON
-    with open(output_file, "w") as f:
-        json.dump(final_data, f, indent=4)
+    json.dump(final_data, output, indent=4)
 
-    print(f"\nDone! Data linked to IDs saved to {output_file}.")
+    print(f"\nDone! Data linked to IDs saved to {output.name}.")
 
 
 if __name__ == "__main__":
-    run_discovery()
+    main()
