@@ -243,7 +243,7 @@ permalink: /hours/
 				{% for place in site.data.places -%}
 				{% assign i = forloop.index0 -%}
 				<tr style="--venue: venue{{ i }}">
-					<th class="venue" scope="row">
+					<th class="venue" scope="row" data-loc-lat="{{ place.location.lat }}" data-loc-lng="{{ place.location.lng }}">
 						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
 					</th>
 					{% for _day in (0..6) -%}
@@ -260,7 +260,11 @@ permalink: /hours/
 			</tbody>
 			<tfoot>
 				<tr>
-					<th scope="col" class="venue">sort <button id="sort-name">by name</button></th>
+					<th scope="col" class="venue">
+						⇅
+						<button id="sort-name">by name</button>
+						<button id="sort-distance">by distance</button>
+					</th>
 				</tr>
 			</tfoot>
 		</table>
@@ -375,13 +379,51 @@ permalink: /hours/
 				sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 			}
 
-			document.getElementById('sort-name').addEventListener('click', (e) => {
-				sortVenuesByName();
-			});
+			/* async wrapper for getCurrentPosition */
+			function getCurrentPosition(options) {
+				return new Promise((resolve, reject) => {
+					if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(resolve, reject, options);
+					} else {
+						reject(new Error("Geolocation is not supported by your browser"));
+					}
+				});
+			}
+
+			/* haversine formula */
+			function getDistance(lat1, lon1, lat2, lon2) {
+				const R = 6371; /* radius of the Earth in km */
+				const dLat = (lat2 - lat1) * Math.PI / 180;
+				const dLon = (lon2 - lon1) * Math.PI / 180;
+
+				const a = 
+					Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+					Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+				const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+				return R * c; /* distance in km */
+			}
+
+			async function sortVenuesByDistance() {
+				const position = await getCurrentPosition();
+
+				/* calculate and store distances */
+				[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
+					venue.dataset.distance = getDistance(
+						venue.dataset.locLat, venue.dataset.locLng,
+						position.coords.latitude, position.coords.longitude
+					);
+				});
+
+				const getVenueDistance = (tr) => tr.querySelector('th.venue').dataset.distance;
+				sortVenuesBy((a, b) => getVenueDistance(a) - getVenueDistance(b));
+			}
+
+			document.getElementById('sort-name').addEventListener('click', (e) => { sortVenuesByName(); });
+			document.getElementById('sort-distance').addEventListener('click', (e) => { sortVenuesByDistance(); });
 		</script>
 	</body>
 
-<!-- TODO: order by proximity to current location -->
 <!-- TODO: order by opening hour, closing hour -->
 <!-- TODO: vis opening hours within cells -->
 <!-- TODO: add vertical line for current time -->
