@@ -405,7 +405,11 @@ permalink: /hours/
 			}
 
 			async function sortVenuesByDistance() {
-				const position = await getCurrentPosition();
+				const position = await getCurrentPosition({
+					enableHighAccuracy: true,
+					timeout: 10000,
+					maximumAge: 60 * 1000,
+				});
 
 				/* calculate and store distances */
 				[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
