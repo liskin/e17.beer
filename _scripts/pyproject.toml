@@ -1,0 +1,18 @@
+[project]
+name = "e17-beer-scripts"
+dynamic = ["version"]
+requires-python = ">=3.11"
+dependencies = [
+    "google-maps-places>=0.8",
+    "pandas>=3",
+    "python-dotenv>=1.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9",
+    "pytest-mock>=3.15",
+]
+
+[tool.setuptools]
+packages = []  # disable automatic discovery
