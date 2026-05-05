@@ -10,6 +10,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mypy>=1.20",
+    "pandas-stubs>=3",
     "pytest>=9",
     "pytest-mock>=3.15",
 ]
@@ -19,3 +21,6 @@ packages = []  # disable automatic discovery
 
 [tool.ruff]
 line-length = 120
+
+[tool.mypy]
+python_executable = ".venv/bin/python3"
