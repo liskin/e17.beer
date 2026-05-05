@@ -1,10 +1,14 @@
 import json
+import logging
 import os
 import warnings
+from contextlib import contextmanager
 
 import click
 from dotenv import load_dotenv
 from google.maps import places_v1
+from tqdm import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
 
 # LOAD API Key
 load_dotenv()
@@ -163,6 +167,33 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     }
 
 
+class EmojiFormatter(logging.Formatter):
+    LEVEL_EMOJIS = {
+        logging.DEBUG: "💡",
+        logging.INFO: "✅",
+        logging.WARNING: "⚠️",
+        logging.ERROR: "❌",
+        logging.CRITICAL: "🔥",
+    }
+
+    def format(self, record):
+        record.levelemoji = self.LEVEL_EMOJIS.get(record.levelno, record.levelname)
+        return super().format(record)
+
+
+@contextmanager
+def setup_logging():
+    console_handler = logging.StreamHandler()
+    fmt = "%(levelemoji)s %(levelname)5.5s | %(message)s"
+    console_handler.setFormatter(EmojiFormatter(fmt))
+
+    logging.basicConfig(level=logging.INFO, handlers=[console_handler])
+    logging.captureWarnings(True)
+
+    with logging_redirect_tqdm():
+        yield
+
+
 @click.command()
 @click.option(
     "-o",
@@ -177,7 +208,8 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     type=click.File(),
     default="E17_BHMplus_data.json",
 )
-def main(input, output):
+@click.pass_context
+def main(ctx, input, output):
     """
     Load/update information about venues
 
@@ -185,25 +217,23 @@ def main(input, output):
 
         { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
     """
-    info_dict = json.load(input)
+    ctx.with_resource(setup_logging())
 
-    if not info_dict:
-        print("❌ No data found in input JSON.")
+    input_dict = json.load(input)
+    if not input_dict:
+        logging.error("No data found in input JSON.")
         exit(1)
 
-    print(f"Processing {len(info_dict)} places from {input.name}...")
+    with tqdm(input_dict.items(), desc=input.name) as t:
 
-    all_places_outcome = []
-    for pid, metadata in info_dict.items():
-        try:
-            place_outcome = fetch_place_data(pid, metadata)
-            all_places_outcome.append(place_outcome)
-            print(f"✅ Processed: {metadata['place_name']}")
-        except Exception as e:
-            print(f"❌ Error processing {metadata.get('place_name', 'Unknown place')}: {e}")
+        def process(pid, metadata):
+            t.set_postfix(name=metadata["place_name"])
+            return fetch_place_data(pid, metadata)
 
-    json.dump(all_places_outcome, output, indent=4)
-    print(f"\n✅ Saved {len(all_places_outcome)} places to {output.name}")
+        output_list = [process(pid, metadata) for pid, metadata in t]
+
+    json.dump(output_list, output, indent=4)
+    logging.info("Saved %d places to %s", len(output_list), output.name)
 
 
 if __name__ == "__main__":

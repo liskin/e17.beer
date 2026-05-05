@@ -6,6 +6,7 @@ dependencies = [
     "google-maps-places>=0.8",
     "pandas>=3",
     "python-dotenv>=1.2",
+    "tqdm>=4",
 ]
 
 [dependency-groups]
@@ -15,6 +16,7 @@ dev = [
     "pandas-stubs>=3",
     "pytest>=9",
     "pytest-mock>=3.15",
+    "types-tqdm>=4",
 ]
 
 [tool.setuptools]
