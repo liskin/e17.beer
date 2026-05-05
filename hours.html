@@ -419,8 +419,21 @@ permalink: /hours/
 				sortVenuesBy((a, b) => getVenueDistance(a) - getVenueDistance(b));
 			}
 
+			/* sort by distance by default if permission already granted */
+			async function sortVenuesByDistanceIfPermitted() {
+				try {
+					const p = await navigator.permissions.query({ name: "geolocation" });
+					if (p.state === "granted") {
+						await sortVenuesByDistance();
+					}
+				} catch (error) {
+					console.error(error);
+				}
+			}
+
 			document.getElementById('sort-name').addEventListener('click', (e) => { sortVenuesByName(); });
 			document.getElementById('sort-distance').addEventListener('click', (e) => { sortVenuesByDistance(); });
+			sortVenuesByDistanceIfPermitted();
 		</script>
 	</body>
 
