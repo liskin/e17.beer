@@ -213,6 +213,36 @@ permalink: /hours/
 					color: rgb(200, 0, 0);
 				}
 			}
+
+			div#location-indicator {
+				position: fixed;
+				bottom: 20px;
+				left: 20px;
+				z-index: 1000;
+
+				padding: 6px 8px;
+				border-radius: 10px;
+				background: rgba(255, 255, 255, 0.9);
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+				transition: all 0.5s; /* backwards compatibility */
+				transition: all 0.5s allow-discrete;
+
+				@starting-style { opacity: 0; display: block; }
+				&.hidden { opacity: 0; display: none; }
+
+				.pin {
+					display: inline-block;
+					font-size: 30px;
+					animation: pulse-pin 1.5s infinite ease-in-out;
+				}
+			}
+
+			@keyframes pulse-pin {
+				0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,0,0,0)); }
+				50% { transform: scale(1.2); filter: drop-shadow(0 0 5px rgba(255,0,0,0.5)); }
+				100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,0,0,0)); }
+			}
 		</style>
 	</head>
 
@@ -280,6 +310,11 @@ permalink: /hours/
 			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
 			</p>
 		</footer>
+
+		<div id="location-indicator" class="hidden">
+			<span class="pin">📍</span>
+			<span class="pin-text">Finding you...</span>
+		</div>
 
 		<script>
 			"use strict";
@@ -390,6 +425,16 @@ permalink: /hours/
 				});
 			}
 
+			async function getCurrentPositionWithIndicator(options) {
+				const indicator = document.querySelector('div#location-indicator');
+				try {
+					indicator.classList.remove('hidden');
+					return await getCurrentPosition(options);
+				} finally {
+					indicator.classList.add('hidden');
+				}
+			}
+
 			/* haversine formula */
 			function getDistance(lat1, lon1, lat2, lon2) {
 				const R = 6371; /* radius of the Earth in km */
@@ -405,7 +450,7 @@ permalink: /hours/
 			}
 
 			async function sortVenuesByDistance() {
-				const position = await getCurrentPosition({
+				const position = await getCurrentPositionWithIndicator({
 					enableHighAccuracy: true,
 					timeout: 10000,
 					maximumAge: 60 * 1000,
