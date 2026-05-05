@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+
 from generate_place_ids import get_place_data_from_api
 
 

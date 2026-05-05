@@ -9,6 +9,10 @@ venv:
 test *args:
     uv run python -m pytest {{ args }}
 
+fmt:
+    ruff format
+    ruff check --select I --fix
+
 # ----------------------------------------------------------------------
 
 [group('run')]
