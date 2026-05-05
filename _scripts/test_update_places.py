@@ -2,14 +2,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from google.api_core import exceptions
+
 from update_places import fetch_place_data, get_week_percentage
 
 
 @pytest.fixture
 def mock_place():
-    def _create_mock_place(
-        name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None
-    ):
+    def _create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
         # Create the main object
         place = MagicMock()
         place.display_name.text = name
@@ -170,9 +169,7 @@ def test_incomplete_weekday_text_warning(mock_get_place, mock_place):
 
     broken_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
 
-    mock_get_place.return_value = mock_place(
-        name="Broken Data Pub", descriptions=broken_descriptions
-    )
+    mock_get_place.return_value = mock_place(name="Broken Data Pub", descriptions=broken_descriptions)
 
     with pytest.warns(UserWarning, match=r"Missing data for Sunday*"):
         result = fetch_place_data("dummy_id", {"name": "Broken Data Pub"})
@@ -197,9 +194,7 @@ def test_incomplete_period_handling(mock_get_place, mock_place):
     incomplete_period.open.minute = 0
     incomplete_period.close = None
 
-    mock_get_place.return_value = mock_place(
-        name="Incomplete Data Bar", periods=[incomplete_period]
-    )
+    mock_get_place.return_value = mock_place(name="Incomplete Data Bar", periods=[incomplete_period])
 
     # Expect no error
     result = fetch_place_data("dummy_id", {"name": "Incomplete Data Bar"})

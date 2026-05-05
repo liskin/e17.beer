@@ -73,10 +73,7 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     if place.id != place_id:
         raise ValueError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-    gps_location = {
-        "lat": place.location.latitude,
-        "lng": place.location.longitude
-    } if place.location else None
+    gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
 
     def extract_raw_periods(opening_hours_obj) -> dict:
         """Returns raw times structured by day number { "0": {"open": [...], "close": [...]}, ... }"""
@@ -107,16 +104,12 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
             #  otherwise both open and close should be present
             if not p.open or not p.close:
                 msg = "open time" if not p.open else "close time (possibly 24h venue)"
-                warnings.warn(
-                    f"⚠️ {place_name}: Incomplete period data (missing {msg}).", UserWarning
-                )
+                warnings.warn(f"⚠️ {place_name}: Incomplete period data (missing {msg}).", UserWarning)
                 continue
 
             # Standard percentage calculation
             open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
-            close_pct = get_week_percentage(
-                p.close.day, p.close.hour, p.close.minute, p.close.truncated
-            )
+            close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
 
             # Week wraparound logic (period span from Sat to Sun split into two)
             if open_pct > close_pct:
@@ -126,7 +119,7 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
                 pct_periods.append({"open": open_pct, "close": close_pct})
 
         # Ensure list is chronologically sorted by the 'open' percentage
-        return sorted(pct_periods, key=lambda x: x['open'])
+        return sorted(pct_periods, key=lambda x: x["open"])
 
     def process_text(opening_hours_obj) -> list:
         """Extracts text descriptions ordered Sunday to Saturday."""
@@ -148,9 +141,7 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
 
         # Check if any day came back as None
         if None in ordered_hours_text:
-            missing_days = [
-                days_order[i] for i, val in enumerate(ordered_hours_text) if val is None
-            ]
+            missing_days = [days_order[i] for i, val in enumerate(ordered_hours_text) if val is None]
             warnings.warn(f"{place_name}: Missing data for {', '.join(missing_days)}.", UserWarning)
 
         return ordered_hours_text
@@ -176,12 +167,13 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
             "percentage_periods": pct_periods,
-            "periods": raw_periods
+            "periods": raw_periods,
         },
         "regular_schedule": {
             "time_text_sun_to_sat": regular_time_text,
         },
     }
+
 
 def save_to_json(data_list):
     # Ensure directory exists or adjust path as needed

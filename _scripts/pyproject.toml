@@ -16,3 +16,6 @@ dev = [
 
 [tool.setuptools]
 packages = []  # disable automatic discovery
+
+[tool.ruff]
+line-length = 120
