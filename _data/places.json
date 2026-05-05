@@ -3,6 +3,10 @@
         "place_name": "Signature",
         "place_id": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
         "url": "https://maps.google.com/?cid=17773207337008546366&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5916078,
+            "lng": -0.0428948
+        },
         "happy_hours": [
             "\u00a33.50 pint cask",
             "free pint when \u00a310+ spent on take-away cans",
@@ -55,7 +59,107 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            30
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            59
+                        ]
+                    ]
+                },
+                "2": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            0
+                        ]
+                    ]
+                },
+                "3": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -73,6 +177,10 @@
         "place_name": "Pretty Decent",
         "place_id": "ChIJK_3JDekddkgR_9lv8ApNmVo",
         "url": "https://maps.google.com/?cid=6528333844229118463&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.591877399999994,
+            "lng": -0.041494199999999995
+        },
         "happy_hours": [
             null,
             null,
@@ -113,7 +221,87 @@
                     "open": 92.8571,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -131,6 +319,10 @@
         "place_name": "Hackney Church",
         "place_id": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
         "url": "https://maps.google.com/?cid=8187523938147072846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.59060290000001,
+            "lng": -0.0406196
+        },
         "happy_hours": [
             null,
             null,
@@ -175,7 +367,87 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -193,6 +465,10 @@
         "place_name": "Exale",
         "place_id": "ChIJn5s47P0ddkgRs97vifafiI0",
         "url": "https://maps.google.com/?cid=10198577237405458099&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5932337,
+            "lng": -0.0414756
+        },
         "happy_hours": [
             "\u00a34 pints",
             null,
@@ -233,7 +509,77 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            22,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            2,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            2,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -251,6 +597,10 @@
         "place_name": "Borough Wines",
         "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
         "url": "https://maps.google.com/?cid=10943805710222089070&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5932588,
+            "lng": -0.0418763
+        },
         "happy_hours": [
             null,
             "TODO",
@@ -283,7 +633,67 @@
                     "open": 94.0476,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            13,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [],
+                    "close": []
+                },
+                "5": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            14,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -301,6 +711,10 @@
         "place_name": "Renegade",
         "place_id": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
         "url": "https://maps.google.com/?cid=13237074120801061574&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.595413199999996,
+            "lng": -0.043168
+        },
         "happy_hours": [
             null,
             null,
@@ -337,7 +751,77 @@
                     "open": 92.8571,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            18,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -355,6 +839,10 @@
         "place_name": "40ft",
         "place_id": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
         "url": "https://maps.google.com/?cid=17602513503578849304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5957661,
+            "lng": -0.041589299999999996
+        },
         "happy_hours": [
             null,
             null,
@@ -391,7 +879,77 @@
                     "open": 92.8571,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            15,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -409,6 +967,10 @@
         "place_name": "East London Brewing",
         "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
         "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.595348699999995,
+            "lng": -0.042222699999999995
+        },
         "happy_hours": [
             null,
             "TODO",
@@ -428,7 +990,37 @@
                 "?",
                 "?"
             ],
-            "percentage_periods": []
+            "percentage_periods": [],
+            "periods": {
+                "0": {
+                    "open": [],
+                    "close": []
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [],
+                    "close": []
+                },
+                "5": {
+                    "open": [],
+                    "close": []
+                },
+                "6": {
+                    "open": [],
+                    "close": []
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -446,6 +1038,10 @@
         "place_name": "Burnt Faith",
         "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
         "url": "https://maps.google.com/?cid=2450877405129697835&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.590790999999996,
+            "lng": -0.0382645
+        },
         "happy_hours": [
             null,
             null,
@@ -482,7 +1078,77 @@
                     "open": 93.4524,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            13,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [
+                        [
+                            18,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            13,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -500,6 +1166,10 @@
         "place_name": "Big Penny",
         "place_id": "ChIJOXISL-oddkgR8T4iCezLtY4",
         "url": "https://maps.google.com/?cid=10283349538796355313&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5908551,
+            "lng": -0.041318099999999996
+        },
         "happy_hours": [
             null,
             "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
@@ -552,7 +1222,107 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "2": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "3": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -570,6 +1340,10 @@
         "place_name": "Tavern on the Hill",
         "place_id": "ChIJNZQZJjcddkgRJlbGoKPRzg8",
         "url": "https://maps.google.com/?cid=1139078256478541350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.596764,
+            "lng": -0.034974
+        },
         "happy_hours": [
             null,
             "\u00a35 pints of East London Brewing beers",
@@ -622,7 +1396,107 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            22,
+                            30
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "2": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "3": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            16,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            30
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            0,
+                            30
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -640,6 +1514,10 @@
         "place_name": "Ferry Boat Inn",
         "place_id": "ChIJMx4DJDIcdkgRxOVl_zEjmCE",
         "url": "https://maps.google.com/?cid=2420723497356879300&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5868611,
+            "lng": -0.0524694
+        },
         "happy_hours": [
             null,
             "\u00a33.50 pints of cask",
@@ -688,7 +1566,107 @@
                     "open": 92.2619,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "2": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "3": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            11,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -706,6 +1684,10 @@
         "place_name": "Pressure Drop",
         "place_id": "ChIJQeFXoy8cdkgRrIXf96VGQyI",
         "url": "https://maps.google.com/?cid=2468894699371333036&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.590553,
+            "lng": -0.05769709999999999
+        },
         "happy_hours": [
             "\u00a34 cans",
             null,
@@ -738,7 +1720,67 @@
                     "open": 92.8571,
                     "close": 97.619
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [],
+                    "close": []
+                },
+                "4": {
+                    "open": [],
+                    "close": []
+                },
+                "5": {
+                    "open": [
+                        [
+                            17,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            21,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            12,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            20,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -756,6 +1798,10 @@
         "place_name": "Blondies Brewery",
         "place_id": "ChIJj4Jz2N4ddkgRo7KEHp0rGRM",
         "url": "https://maps.google.com/?cid=1376179114960269987&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "location": {
+            "lat": 51.5696764,
+            "lng": -0.0242162
+        },
         "happy_hours": [
             null,
             null,
@@ -796,7 +1842,87 @@
                     "open": 91.0714,
                     "close": 99.4048
                 }
-            ]
+            ],
+            "periods": {
+                "0": {
+                    "open": [
+                        [
+                            9,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            22,
+                            0
+                        ]
+                    ]
+                },
+                "1": {
+                    "open": [],
+                    "close": []
+                },
+                "2": {
+                    "open": [],
+                    "close": []
+                },
+                "3": {
+                    "open": [
+                        [
+                            15,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "4": {
+                    "open": [
+                        [
+                            15,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "5": {
+                    "open": [
+                        [
+                            14,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                },
+                "6": {
+                    "open": [
+                        [
+                            9,
+                            0
+                        ]
+                    ],
+                    "close": [
+                        [
+                            23,
+                            0
+                        ]
+                    ]
+                }
+            }
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [

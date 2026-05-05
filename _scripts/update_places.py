@@ -70,21 +70,40 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
 
 def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     """
-    Fetches regular and current opening hours from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours with metadata (happy hours, URLs).
+    Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
     place_name = place_metadata.get("place_name", None)
     url = place_metadata.get("url", None)
     happy_hours = place_metadata.get("happy_hours", None)
 
-    field_mask = "id,regularOpeningHours,currentOpeningHours"
+    field_mask = "id,regularOpeningHours,currentOpeningHours,location"
     place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])
 
     # Verify the ID
     if place.id != place_id:
         raise ValueError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-    # Helper to process periods into percentages
+    gps_location = {
+        "lat": place.location.latitude,
+        "lng": place.location.longitude
+    } if place.location else None
+
+    def extract_raw_periods(opening_hours_obj) -> dict:
+        """Returns raw times structured by day number { "0": {"open": [...], "close": [...]}, ... }"""
+        if not opening_hours_obj or not opening_hours_obj.periods:
+            return None
+
+        raw_data = {str(i): {"open": [], "close": []} for i in range(7)}
+        for p in opening_hours_obj.periods:
+            if not p.open or not p.close:
+                continue
+            day_key = str(p.open.day)
+            raw_data[day_key]["open"].append([p.open.hour, p.open.minute])
+            raw_data[day_key]["close"].append([p.close.hour, p.close.minute])
+        return raw_data
+
     def periods_to_percentages(opening_hours_obj) -> list:
+        """Transforms periods into percentage-of-week intervals."""
         pct_periods = []
 
         # Check for missing top-level data
@@ -109,18 +128,18 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
                 p.close.day, p.close.hour, p.close.minute, p.close.truncated
             )
 
-            # Saturday to Sunday wraparound
-            # if period span from Saturday to Sunday, split into two periods
+            # Week wraparound logic (period span from Sat to Sun split into two)
             if open_pct > close_pct:
                 pct_periods.append({"open": open_pct, "close": 100.0})
                 pct_periods.insert(0, {"open": 0.0, "close": close_pct})
             else:
                 pct_periods.append({"open": open_pct, "close": close_pct})
 
-        return pct_periods
+        # Ensure list is chronologically sorted by the 'open' percentage
+        return sorted(pct_periods, key=lambda x: x['open'])
 
-    # Extract opening hours text (order: Sunday -> Saturday)
     def process_text(opening_hours_obj) -> list:
+        """Extracts text descriptions ordered Sunday to Saturday."""
         if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
             warnings.warn(f"{place_name}: No weekday descriptions available.", UserWarning)
             return ["N/A"] * 7
@@ -146,24 +165,28 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
 
         return ordered_hours_text
 
-    # Hack: East London Brewing not showing correct opening hours yet
+    # Hack: Handle East London Brewing not showing correct opening hours yet
     if place_name == "East London Brewing":
         current_time_text = ["?"] * 7
         regular_time_text = ["?"] * 7
         pct_periods = []
+        raw_periods = {str(i): {"open": [], "close": []} for i in range(7)}
     else:
         current_time_text = process_text(place.current_opening_hours)
         regular_time_text = process_text(place.regular_opening_hours)
         pct_periods = periods_to_percentages(place.current_opening_hours)
+        raw_periods = extract_raw_periods(place.current_opening_hours)
 
     return {
         "place_name": place_name,
         "place_id": place_id,
         "url": url,
+        "location": gps_location,
         "happy_hours": happy_hours,
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
             "percentage_periods": pct_periods,
+            "periods": raw_periods
         },
         "regular_schedule": {
             "time_text_sun_to_sat": regular_time_text,
@@ -191,17 +214,17 @@ if __name__ == "__main__":
     info_dict = load_places_info_from_json(file_name)
 
     if not info_dict:
-        print("❌ No data found to process.")
+        print("❌ No data found in input JSON.")
     else:
         all_places_outcome = []
-        print(f"Processing {len(info_dict)} entries from {file_name}...")
+        print(f"Processing {len(info_dict)} places from {file_name}...")
 
         for pid, metadata in info_dict.items():
             try:
                 place_outcome = fetch_place_data(pid, metadata)
                 all_places_outcome.append(place_outcome)
-                print(f"✅ Successfully processed: {metadata['place_name']}")
+                print(f"✅ Processed: {metadata['place_name']}")
             except Exception as e:
-                print(f"❌ Error processing {pid}: {e}")
+                print(f"❌ Error processing {metadata.get('place_name', 'Unknown place')}: {e}")
 
         save_to_json(all_places_outcome)
