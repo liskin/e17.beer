@@ -272,6 +272,7 @@ wheels = [
 name = "e17-beer-scripts"
 source = { virtual = "." }
 dependencies = [
+    { name = "click" },
     { name = "google-maps-places" },
     { name = "pandas" },
     { name = "python-dotenv" },
@@ -280,7 +281,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "click" },
     { name = "mypy" },
     { name = "pandas-stubs" },
     { name = "pytest" },
@@ -290,6 +290,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "click", specifier = ">=8" },
     { name = "google-maps-places", specifier = ">=0.8" },
     { name = "pandas", specifier = ">=3" },
     { name = "python-dotenv", specifier = ">=1.2" },
@@ -298,7 +299,6 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "click", specifier = ">=8" },
     { name = "mypy", specifier = ">=1.20" },
     { name = "pandas-stubs", specifier = ">=3" },
     { name = "pytest", specifier = ">=9" },

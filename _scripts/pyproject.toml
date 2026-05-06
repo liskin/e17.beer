@@ -3,6 +3,7 @@ name = "e17-beer-scripts"
 dynamic = ["version"]
 requires-python = ">=3.11"
 dependencies = [
+    "click>=8",
     "google-maps-places>=0.8",
     "pandas>=3",
     "python-dotenv>=1.2",
@@ -11,7 +12,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "click>=8",
     "mypy>=1.20",
     "pandas-stubs>=3",
     "pytest>=9",
