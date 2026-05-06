@@ -1,23 +1,16 @@
 import json
 import logging
-import os
 import pprint
 import textwrap
 
 import click
 import pandas as pd
-from dotenv import load_dotenv
-from google.maps import places_v1
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, setup_logging
-
-load_dotenv()
-API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
-client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
+from utils import click_option_verbosity, get_places_client, setup_logging
 
 
-def get_place_data_from_api(place_name) -> dict:
+def get_place_data_from_api(client, place_name: str) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """
@@ -100,6 +93,7 @@ def get_place_data_from_api(place_name) -> dict:
 @click_option_verbosity()
 def main(verbosity, output):
     setup_logging(verbosity)
+    places_client = get_places_client()
 
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
@@ -125,7 +119,7 @@ def main(verbosity, output):
             place_name = row.iloc[0]
             t.set_postfix(name=place_name)
 
-            api_result = get_place_data_from_api(place_name)
+            api_result = get_place_data_from_api(places_client, place_name)
             return api_result["place_id"], {
                 "place_name": place_name,
                 "url": api_result["url"],

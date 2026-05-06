@@ -4,8 +4,6 @@ from generate_place_ids import get_place_data_from_api
 
 
 def test_get_place_data_from_api_ambiguous(mocker):
-    mock_search = mocker.patch("generate_place_ids.client.search_text")
-
     # Create mock objects that mimic the Google Library's attributes
     place_a = mocker.MagicMock()
     place_a.display_name.text = "Brewery A"
@@ -18,8 +16,10 @@ def test_get_place_data_from_api_ambiguous(mocker):
     # Define the return value of the API call
     mock_response = mocker.MagicMock()
     mock_response.places = [place_a, place_b]
-    mock_search.return_value = mock_response
+
+    mock_client = mocker.MagicMock()
+    mock_client.search_text.return_value = mock_response
 
     # We expect an error because result is ambiguous
     with pytest.raises(RuntimeError, match=r"(?i)ambiguous result"):
-        get_place_data_from_api("Brewery")
+        get_place_data_from_api(mock_client, "Brewery")

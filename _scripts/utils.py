@@ -1,7 +1,10 @@
 import copy
 import logging
+import os
 
 import click
+from dotenv import load_dotenv
+from google.maps import places_v1
 
 
 class EmojiFormatterMixin:
@@ -69,3 +72,13 @@ def click_option_verbosity():
         default=0,
     )
     return lambda f: verbose(quiet(f))
+
+
+def get_places_client():
+    load_dotenv()
+
+    api_key = os.getenv("GOOGLE_MAPS_API_KEY")
+    if not api_key:
+        raise ValueError("No API Key found! Check your .env file.")
+
+    return places_v1.PlacesClient(client_options={"api_key": api_key})
