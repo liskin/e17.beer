@@ -1,11 +1,11 @@
 import json
-import logging
 import os
 
 import click
 import pandas as pd
 from dotenv import load_dotenv
 from google.maps import places_v1
+from tqdm import tqdm
 
 from utils import setup_logging
 
@@ -101,32 +101,22 @@ def main(ctx, output):
     # Clean DataFrame (filter out rows where the first column is NaN or in row_exclusions)
     clean_df = df[df.iloc[:, 0].notna() & ~df.iloc[:, 0].str.strip().isin(row_exclusions)].copy()
 
-    logging.info("Processing %d places...", len(clean_df))
+    with tqdm(list(clean_df.iterrows()), desc=f"Google Sheet CSV → {output.name}") as t:
 
-    final_data = {}
+        def process_row(row):
+            place_name = row.iloc[0]
+            t.set_postfix(name=place_name)
 
-    # Iterate over the clean DataFrame
-    for _, row in clean_df.iterrows():
-        place_name = row.iloc[0]
+            api_result = get_place_data_from_api(place_name)
+            return api_result["place_id"], {
+                "place_name": place_name,
+                "url": api_result["url"],
+                "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+            }
 
-        result = get_place_data_from_api(place_name)
+        output_dict = dict(process_row(row) for _, row in t)
 
-        # Extract Happy Hours: ordered Sun -> Sat
-        happy_hours = [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered]
-
-        # Map data to the Place ID key
-        final_data[result["place_id"]] = {
-            "place_name": place_name,
-            "url": result["url"],
-            "happy_hours": happy_hours,
-        }
-
-        logging.info("Linked '%s' to ID.", place_name)
-
-    # Save to JSON
-    json.dump(final_data, output, indent=4)
-
-    logging.info("Saved %d places to %s", len(final_data), output.name)
+    json.dump(output_dict, output, indent=4)
 
 
 if __name__ == "__main__":

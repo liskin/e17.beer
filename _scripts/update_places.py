@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import warnings
 
@@ -196,7 +195,7 @@ def main(ctx, input, output):
     if not input_dict:
         raise RuntimeError("No data found in input JSON.")
 
-    with tqdm(input_dict.items(), desc=input.name) as t:
+    with tqdm(input_dict.items(), desc=f"{input.name} → {output.name}") as t:
 
         def process(pid, metadata):
             t.set_postfix(name=metadata["place_name"])
@@ -205,7 +204,6 @@ def main(ctx, input, output):
         output_list = [process(pid, metadata) for pid, metadata in t]
 
     json.dump(output_list, output, indent=4)
-    logging.info("Saved %d places to %s", len(output_list), output.name)
 
 
 if __name__ == "__main__":
