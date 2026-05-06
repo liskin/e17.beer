@@ -8,7 +8,7 @@ import click
 import pandas as pd
 from dotenv import load_dotenv
 from google.maps import places_v1
-from tqdm import tqdm
+from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, setup_logging
 
@@ -98,9 +98,8 @@ def get_place_data_from_api(place_name) -> dict:
     show_default=True,
 )
 @click_option_verbosity()
-@click.pass_context
-def main(ctx, verbosity, output):
-    ctx.with_resource(setup_logging(verbosity))
+def main(verbosity, output):
+    setup_logging(verbosity)
 
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
@@ -116,7 +115,7 @@ def main(ctx, verbosity, output):
     # Clean DataFrame (filter out rows where the first column is NaN or in row_exclusions)
     clean_df = df[df.iloc[:, 0].notna() & ~df.iloc[:, 0].str.strip().isin(row_exclusions)].copy()
 
-    with tqdm(
+    with tqdm_logging_redirect(
         list(clean_df.iterrows()),
         desc=f"Google Sheet CSV → {output.name}",
         disable=True if verbosity < 0 else None,

@@ -1,9 +1,7 @@
 import copy
 import logging
-from contextlib import contextmanager
 
 import click
-from tqdm.contrib.logging import logging_redirect_tqdm
 
 
 class EmojiFormatterMixin:
@@ -40,7 +38,6 @@ class Formatter(EmojiFormatterMixin, MultilineFormatterMixin, logging.Formatter)
     pass
 
 
-@contextmanager
 def setup_logging(verbosity):
     match verbosity:
         case v if v > 0:
@@ -56,9 +53,6 @@ def setup_logging(verbosity):
 
     logging.basicConfig(level=level, handlers=[console_handler])
     logging.captureWarnings(True)
-
-    with logging_redirect_tqdm():
-        yield
 
 
 def click_option_verbosity():

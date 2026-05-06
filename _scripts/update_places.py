@@ -5,7 +5,7 @@ import warnings
 import click
 from dotenv import load_dotenv
 from google.maps import places_v1
-from tqdm import tqdm
+from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, setup_logging
 
@@ -181,8 +181,7 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     default="E17_BHMplus_data.json",
 )
 @click_option_verbosity()
-@click.pass_context
-def main(ctx, verbosity, input, output):
+def main(verbosity, input, output):
     """
     Load/update information about venues
 
@@ -190,13 +189,13 @@ def main(ctx, verbosity, input, output):
 
         { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
     """
-    ctx.with_resource(setup_logging(verbosity))
+    setup_logging(verbosity)
 
     input_dict = json.load(input)
     if not input_dict:
         raise RuntimeError("No data found in input JSON.")
 
-    with tqdm(
+    with tqdm_logging_redirect(
         input_dict.items(),
         desc=f"{input.name} → {output.name}",
         disable=True if verbosity < 0 else None,
