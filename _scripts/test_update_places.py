@@ -6,31 +6,33 @@ from google.api_core import exceptions
 from update_places import fetch_place_data, get_week_percentage
 
 
-@pytest.fixture
-def mock_place():
-    def _create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
-        # Create the main object
-        place = MagicMock()
-        place.display_name.text = name
-        place.id = place_id
+def create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
+    # Create the main object
+    place = MagicMock()
+    place.display_name.text = name
+    place.id = place_id
 
-        # Setup periods (default to empty list if None)
-        if periods is None:
-            periods = []
+    # Setup periods (default to empty list if None)
+    if periods is None:
+        periods = []
 
-        # Setup descriptions (default to 7 empty days if None)
-        if descriptions is None:
-            descriptions = [""] * 7
+    # Setup descriptions (default to 7 empty days if None)
+    if descriptions is None:
+        descriptions = [""] * 7
 
-        place.regular_opening_hours.periods = periods
-        place.regular_opening_hours.weekday_descriptions = descriptions
+    place.regular_opening_hours.periods = periods
+    place.regular_opening_hours.weekday_descriptions = descriptions
 
-        place.current_opening_hours.periods = periods
-        place.current_opening_hours.weekday_descriptions = descriptions
+    place.current_opening_hours.periods = periods
+    place.current_opening_hours.weekday_descriptions = descriptions
 
-        return place
+    return place
 
-    return _create_mock_place
+
+def create_mock_client(**kwargs):
+    mock_client = MagicMock()
+    mock_client.get_place.return_value = create_mock_place(**kwargs)
+    return mock_client
 
 
 # --- PERCENTAGE CALCULATION TESTS ---
@@ -75,21 +77,20 @@ def test_midnight_transition():
     assert mon_midnight == 14.2857  # 1/7th of the way: (1440/10080)*100 ~ 1/7
 
 
-def test_wraparound_split(mock_place):
+def test_wraparound_split():
     period = MagicMock()
     period.open.day, period.open.hour, period.open.minute = 6, 22, 0
     period.close.day, period.close.hour, period.close.minute = 0, 2, 0
 
-    mock_client = MagicMock()
-    mock_client.get_place.return_value = mock_place(periods=[period])
-
+    mock_client = create_mock_client(periods=[period])
     result = fetch_place_data(mock_client, "dummy_id", {"name": "Late Night Venue"})
-    intervals = result["current_schedule"]["percentage_periods"]
 
+    intervals = result["current_schedule"]["percentage_periods"]
     assert len(intervals) == 2
+
     # 1st interval should start at the beginning of week
     assert intervals[0]["open"] == 0.0
-    # 1st interval starts 2 hour after the beginning of week:
+    # 1st interval ends 2 hour after the beginning of week:
     # 2 / (7 * 24 ) * 100 ~ 1.1905
     assert intervals[0]["close"] < 1.2
     # last interval should end with end of week
@@ -102,7 +103,7 @@ def test_wraparound_split(mock_place):
 # --- DATA TRANSFORMATION TESTS ---
 
 
-def test_weekday_text_ordering_and_format(mock_place):
+def test_weekday_text_ordering_and_format():
     """Verify raw text is split correctly and ordered Sunday to Saturday"""
 
     descriptions = [
@@ -115,9 +116,7 @@ def test_weekday_text_ordering_and_format(mock_place):
         "Sunday: 12:00 – 11:30 PM",
     ]
 
-    mock_client = MagicMock()
-    mock_client.get_place.return_value = mock_place(name="Test Brewery", descriptions=descriptions)
-
+    mock_client = create_mock_client(name="Test Brewery", descriptions=descriptions)
     result = fetch_place_data(mock_client, "dummy_id", {"name": "Test Brewery"})
 
     times = result["current_schedule"]["time_text_sun_to_sat"]
@@ -163,19 +162,18 @@ def test_valid_time_format():
     get_week_percentage(1, 9, 00)
 
 
-def test_incomplete_weekday_text_warning(mock_place):
+def test_incomplete_weekday_text_warning():
     """Verify a warning is issued and 'N/A' is returned if data is missing"""
 
-    broken_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
-
-    mock_client = MagicMock()
-    mock_client.get_place.return_value = mock_place(name="Broken Data Pub", descriptions=broken_descriptions)
+    mock_client = create_mock_client(
+        name="Broken Data Pub",
+        descriptions=["Monday: 9:00 AM – 5:00 PM"],
+    )
 
     with pytest.warns(UserWarning, match=r"Missing data for Sunday*"):
         result = fetch_place_data(mock_client, "dummy_id", {"name": "Broken Data Pub"})
 
     times = result["current_schedule"]["time_text_sun_to_sat"]
-
     assert len(times) == 7
     assert times[0] is None or times[0] == "N/A"  # Sunday is missing
     assert times[1] == "9:00 AM – 5:00 PM"  # Monday is present
@@ -184,7 +182,7 @@ def test_incomplete_weekday_text_warning(mock_place):
 # --- API RETURN TESTS ---
 
 
-def test_incomplete_period_handling(mock_place):
+def test_incomplete_period_handling():
     """Verify that a period missing a 'close' time doesn't crash the script"""
 
     incomplete_period = MagicMock()
@@ -193,17 +191,11 @@ def test_incomplete_period_handling(mock_place):
     incomplete_period.open.minute = 0
     incomplete_period.close = None
 
-    mock_client = MagicMock()
-    mock_client.get_place.return_value = mock_place(name="Incomplete Data Bar", periods=[incomplete_period])
-
-    # Expect no error
+    mock_client = create_mock_client(name="Incomplete Data Bar", periods=[incomplete_period])
     result = fetch_place_data(mock_client, "dummy_id", {"name": "Incomplete Data Bar"})
 
-    # percentage_periods should be empty
-    percentages = result["current_schedule"]["percentage_periods"]
-
-    assert isinstance(percentages, list)
-    assert len(percentages) == 0  # It skipped the bad period instead of crashing
+    # percentage_periods should be empty - it skipped the bad period instead of crashing
+    assert result["current_schedule"]["percentage_periods"] == []
 
 
 def test_fetch_place_api_error_handling():
