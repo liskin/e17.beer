@@ -74,7 +74,7 @@ def click_option_verbosity():
     return lambda f: verbose(quiet(f))
 
 
-def get_places_client():
+def get_places_client() -> places_v1.PlacesClient:
     load_dotenv()
 
     api_key = os.getenv("GOOGLE_MAPS_API_KEY")

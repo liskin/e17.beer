@@ -5,12 +5,13 @@ import textwrap
 
 import click
 import pandas as pd
+from google.maps import places_v1
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, setup_logging
 
 
-def get_place_data_from_api(client, place_name: str) -> dict:
+def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """

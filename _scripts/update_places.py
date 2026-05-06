@@ -1,22 +1,11 @@
 import json
-import os
 import warnings
 
 import click
-from dotenv import load_dotenv
 from google.maps import places_v1
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, setup_logging
-
-# LOAD API Key
-load_dotenv()
-API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
-if not API_KEY:
-    raise ValueError("No API Key found! Check your .env file.")
-
-# Initialize the Client (Places API New)
-client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
+from utils import click_option_verbosity, get_places_client, setup_logging
 
 
 def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
@@ -49,7 +38,7 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
     return round(percentage, 4)
 
 
-def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
+def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metadata: dict) -> dict:
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
@@ -190,6 +179,7 @@ def main(verbosity, input, output):
         { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
     """
     setup_logging(verbosity)
+    client = get_places_client()
 
     input_dict = json.load(input)
     if not input_dict:
@@ -203,7 +193,7 @@ def main(verbosity, input, output):
 
         def process(pid, metadata):
             t.set_postfix(name=metadata["place_name"])
-            return fetch_place_data(pid, metadata)
+            return fetch_place_data(client, pid, metadata)
 
         output_list = [process(pid, metadata) for pid, metadata in t]
 

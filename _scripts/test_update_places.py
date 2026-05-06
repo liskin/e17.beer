@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 from google.api_core import exceptions
@@ -75,15 +75,15 @@ def test_midnight_transition():
     assert mon_midnight == 14.2857  # 1/7th of the way: (1440/10080)*100 ~ 1/7
 
 
-@patch("update_places.client.get_place")
-def test_wraparound_split(mock_get_place, mock_place):
+def test_wraparound_split(mock_place):
     period = MagicMock()
     period.open.day, period.open.hour, period.open.minute = 6, 22, 0
     period.close.day, period.close.hour, period.close.minute = 0, 2, 0
 
-    mock_get_place.return_value = mock_place(periods=[period])
+    mock_client = MagicMock()
+    mock_client.get_place.return_value = mock_place(periods=[period])
 
-    result = fetch_place_data("dummy_id", {"name": "Late Night Venue"})
+    result = fetch_place_data(mock_client, "dummy_id", {"name": "Late Night Venue"})
     intervals = result["current_schedule"]["percentage_periods"]
 
     assert len(intervals) == 2
@@ -102,8 +102,7 @@ def test_wraparound_split(mock_get_place, mock_place):
 # --- DATA TRANSFORMATION TESTS ---
 
 
-@patch("update_places.client.get_place")
-def test_weekday_text_ordering_and_format(mock_get_place, mock_place):
+def test_weekday_text_ordering_and_format(mock_place):
     """Verify raw text is split correctly and ordered Sunday to Saturday"""
 
     descriptions = [
@@ -116,9 +115,10 @@ def test_weekday_text_ordering_and_format(mock_get_place, mock_place):
         "Sunday: 12:00 – 11:30 PM",
     ]
 
-    mock_get_place.return_value = mock_place(name="Test Brewery", descriptions=descriptions)
+    mock_client = MagicMock()
+    mock_client.get_place.return_value = mock_place(name="Test Brewery", descriptions=descriptions)
 
-    result = fetch_place_data("dummy_id", {"name": "Test Brewery"})
+    result = fetch_place_data(mock_client, "dummy_id", {"name": "Test Brewery"})
 
     times = result["current_schedule"]["time_text_sun_to_sat"]
 
@@ -163,16 +163,16 @@ def test_valid_time_format():
     get_week_percentage(1, 9, 00)
 
 
-@patch("update_places.client.get_place")
-def test_incomplete_weekday_text_warning(mock_get_place, mock_place):
+def test_incomplete_weekday_text_warning(mock_place):
     """Verify a warning is issued and 'N/A' is returned if data is missing"""
 
     broken_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
 
-    mock_get_place.return_value = mock_place(name="Broken Data Pub", descriptions=broken_descriptions)
+    mock_client = MagicMock()
+    mock_client.get_place.return_value = mock_place(name="Broken Data Pub", descriptions=broken_descriptions)
 
     with pytest.warns(UserWarning, match=r"Missing data for Sunday*"):
-        result = fetch_place_data("dummy_id", {"name": "Broken Data Pub"})
+        result = fetch_place_data(mock_client, "dummy_id", {"name": "Broken Data Pub"})
 
     times = result["current_schedule"]["time_text_sun_to_sat"]
 
@@ -184,8 +184,7 @@ def test_incomplete_weekday_text_warning(mock_get_place, mock_place):
 # --- API RETURN TESTS ---
 
 
-@patch("update_places.client.get_place")
-def test_incomplete_period_handling(mock_get_place, mock_place):
+def test_incomplete_period_handling(mock_place):
     """Verify that a period missing a 'close' time doesn't crash the script"""
 
     incomplete_period = MagicMock()
@@ -194,10 +193,11 @@ def test_incomplete_period_handling(mock_get_place, mock_place):
     incomplete_period.open.minute = 0
     incomplete_period.close = None
 
-    mock_get_place.return_value = mock_place(name="Incomplete Data Bar", periods=[incomplete_period])
+    mock_client = MagicMock()
+    mock_client.get_place.return_value = mock_place(name="Incomplete Data Bar", periods=[incomplete_period])
 
     # Expect no error
-    result = fetch_place_data("dummy_id", {"name": "Incomplete Data Bar"})
+    result = fetch_place_data(mock_client, "dummy_id", {"name": "Incomplete Data Bar"})
 
     # percentage_periods should be empty
     percentages = result["current_schedule"]["percentage_periods"]
@@ -206,14 +206,14 @@ def test_incomplete_period_handling(mock_get_place, mock_place):
     assert len(percentages) == 0  # It skipped the bad period instead of crashing
 
 
-@patch("update_places.client.get_place")
-def test_fetch_place_api_error_handling(mock_get_place):
+def test_fetch_place_api_error_handling():
     """Verify the Google API exception propagates out of the function"""
 
     google_reason = "Invalid 'place_id' parameter."
-    mock_get_place.side_effect = exceptions.InvalidArgument(google_reason)
+    mock_client = MagicMock()
+    mock_client.get_place.side_effect = exceptions.InvalidArgument(google_reason)
 
     with pytest.raises(exceptions.InvalidArgument) as excinfo:
-        fetch_place_data("bad_id", {"name": "Test Brewery"})
+        fetch_place_data(mock_client, "bad_id", {"name": "Test Brewery"})
 
     assert google_reason in str(excinfo.value)
