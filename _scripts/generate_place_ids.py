@@ -14,7 +14,7 @@ API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 client = places_v1.PlacesClient(client_options={"api_key": API_KEY})
 
 
-def get_place_data_from_api(place_name):
+def get_place_data_from_api(place_name) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """
@@ -48,7 +48,7 @@ def get_place_data_from_api(place_name):
 
     # If there was no match at all
     if not places:
-        raise ValueError(f"No results for '{search_query}'. Please refine the search_name.")
+        raise RuntimeError(f"No results for '{search_query}'. Please refine the search_name.")
 
     # Match filtering
     strict_matches = [p for p in places if place_name.lower() in p.display_name.text.lower()]
@@ -58,17 +58,17 @@ def get_place_data_from_api(place_name):
         return {"place_id": strict_matches[0].id, "url": strict_matches[0].google_maps_uri}
 
     # If we have more than one STRICT match, ie result is ambiguous
-    if len(strict_matches) > 1:
+    elif len(strict_matches) > 1:
         candidates = [p.display_name.text for p in strict_matches]
-        raise ValueError(
+        raise RuntimeError(
             f"Ambiguous result for '{search_query}'. Found {len(strict_matches)} potential matches: "
             f"({', '.join(candidates)}). Please refine the search_name."
         )
 
     # If we have no STRICT match, but the API found something else
-    if len(places) > 0:
+    else:
         candidates = [p.display_name.text for p in places]
-        raise ValueError(
+        raise RuntimeError(
             f"No strict match for '{search_query}'. Google identified {len(strict_matches)} potential match(es): "
             f"({', '.join(candidates)}). Please refine the search_name."
         )
@@ -93,8 +93,7 @@ def main(ctx, output):
     try:
         df = pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
     except Exception as e:
-        logging.error("Could not read Google Sheet: %s", e)
-        return
+        raise RuntimeError("Could not read Google Sheet CSV") from e
 
     row_exclusions = ["near, but not beer mile:"]
     days_ordered = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -110,28 +109,19 @@ def main(ctx, output):
     for _, row in clean_df.iterrows():
         place_name = row.iloc[0]
 
-        try:
-            result = get_place_data_from_api(place_name)
+        result = get_place_data_from_api(place_name)
 
-            if result:
-                # Extract Happy Hours: ordered Sun -> Sat
-                happy_hours = [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered]
+        # Extract Happy Hours: ordered Sun -> Sat
+        happy_hours = [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered]
 
-                # Map data to the Place ID key
-                final_data[result["place_id"]] = {
-                    "place_name": place_name,
-                    "url": result["url"],
-                    "happy_hours": happy_hours,
-                }
+        # Map data to the Place ID key
+        final_data[result["place_id"]] = {
+            "place_name": place_name,
+            "url": result["url"],
+            "happy_hours": happy_hours,
+        }
 
-                logging.info("Linked '%s' to ID.", place_name)
-            else:
-                logging.warning("'%s': No results found.", place_name)
-
-        except ValueError as e:
-            logging.warning("'%s': %s", place_name, e)
-        except Exception as e:
-            logging.critical("'%s': Unexpected error: %s", place_name, e)
+        logging.info("Linked '%s' to ID.", place_name)
 
     # Save to JSON
     json.dump(final_data, output, indent=4)
