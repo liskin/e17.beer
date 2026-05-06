@@ -1,5 +1,8 @@
 import json
+import logging
 import os
+import pprint
+import textwrap
 
 import click
 import pandas as pd
@@ -52,6 +55,17 @@ def get_place_data_from_api(place_name) -> dict:
 
     # Match filtering
     strict_matches = [p for p in places if place_name.lower() in p.display_name.text.lower()]
+
+    logging.debug(
+        "get_place_data_from_api('%s'): places=\n%s",
+        place_name,
+        textwrap.indent(pprint.pformat(places, indent=2), "  "),
+    )
+    logging.debug(
+        "get_place_data_from_api('%s'): strict_matches=\n%s",
+        place_name,
+        textwrap.indent(pprint.pformat(strict_matches, indent=2), "  "),
+    )
 
     # If the search results were messy, but we found exactly one true match, use it.
     if len(strict_matches) == 1:

@@ -1,3 +1,4 @@
+import copy
 import logging
 from contextlib import contextmanager
 
@@ -5,7 +6,7 @@ import click
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 
-class EmojiFormatter(logging.Formatter):
+class EmojiFormatterMixin:
     LEVEL_EMOJIS = {
         logging.DEBUG: "💡",
         logging.INFO: "✅",
@@ -17,6 +18,26 @@ class EmojiFormatter(logging.Formatter):
     def format(self, record):
         record.levelemoji = self.LEVEL_EMOJIS.get(record.levelno, record.levelname)
         return super().format(record)
+
+
+class MultilineFormatterMixin:
+    def format(self, record):
+        s = record.getMessage()
+        if "\n" not in s:
+            return super().format(record)
+        else:
+            lines = s.splitlines()
+            formatted_lines = []
+            for line in lines:
+                rec = copy.copy(record)
+                rec.args = None
+                rec.msg = line
+                formatted_lines.append(super().format(rec))
+            return "\n".join(formatted_lines)
+
+
+class Formatter(EmojiFormatterMixin, MultilineFormatterMixin, logging.Formatter):
+    pass
 
 
 @contextmanager
@@ -31,7 +52,7 @@ def setup_logging(verbosity):
 
     console_handler = logging.StreamHandler()
     fmt = "%(levelemoji)s %(levelname)5.5s | %(message)s"
-    console_handler.setFormatter(EmojiFormatter(fmt))
+    console_handler.setFormatter(Formatter(fmt))
 
     logging.basicConfig(level=level, handlers=[console_handler])
     logging.captureWarnings(True)
