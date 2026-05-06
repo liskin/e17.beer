@@ -2,13 +2,13 @@ import json
 import logging
 import os
 import warnings
-from contextlib import contextmanager
 
 import click
 from dotenv import load_dotenv
 from google.maps import places_v1
 from tqdm import tqdm
-from tqdm.contrib.logging import logging_redirect_tqdm
+
+from utils import setup_logging
 
 # LOAD API Key
 load_dotenv()
@@ -167,33 +167,6 @@ def fetch_place_data(place_id: str, place_metadata: dict) -> dict:
     }
 
 
-class EmojiFormatter(logging.Formatter):
-    LEVEL_EMOJIS = {
-        logging.DEBUG: "💡",
-        logging.INFO: "✅",
-        logging.WARNING: "⚠️",
-        logging.ERROR: "❌",
-        logging.CRITICAL: "🔥",
-    }
-
-    def format(self, record):
-        record.levelemoji = self.LEVEL_EMOJIS.get(record.levelno, record.levelname)
-        return super().format(record)
-
-
-@contextmanager
-def setup_logging():
-    console_handler = logging.StreamHandler()
-    fmt = "%(levelemoji)s %(levelname)5.5s | %(message)s"
-    console_handler.setFormatter(EmojiFormatter(fmt))
-
-    logging.basicConfig(level=logging.INFO, handlers=[console_handler])
-    logging.captureWarnings(True)
-
-    with logging_redirect_tqdm():
-        yield
-
-
 @click.command()
 @click.option(
     "-o",
@@ -221,8 +194,7 @@ def main(ctx, input, output):
 
     input_dict = json.load(input)
     if not input_dict:
-        logging.error("No data found in input JSON.")
-        exit(1)
+        raise RuntimeError("No data found in input JSON.")
 
     with tqdm(input_dict.items(), desc=input.name) as t:
 

@@ -1,10 +1,13 @@
 import json
+import logging
 import os
 
 import click
 import pandas as pd
 from dotenv import load_dotenv
 from google.maps import places_v1
+
+from utils import setup_logging
 
 load_dotenv()
 API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
@@ -80,14 +83,17 @@ def get_place_data_from_api(place_name):
     help="Output file",
     show_default=True,
 )
-def main(output):
+@click.pass_context
+def main(ctx, output):
+    ctx.with_resource(setup_logging())
+
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
 
     try:
         df = pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
     except Exception as e:
-        print(f"Could not read Google Sheet: {e}")
+        logging.error("Could not read Google Sheet: %s", e)
         return
 
     row_exclusions = ["near, but not beer mile:"]
@@ -96,7 +102,7 @@ def main(output):
     # Clean DataFrame (filter out rows where the first column is NaN or in row_exclusions)
     clean_df = df[df.iloc[:, 0].notna() & ~df.iloc[:, 0].str.strip().isin(row_exclusions)].copy()
 
-    print(f"Processing {len(clean_df)} places...")
+    logging.info("Processing %d places...", len(clean_df))
 
     final_data = {}
 
@@ -118,19 +124,19 @@ def main(output):
                     "happy_hours": happy_hours,
                 }
 
-                print(f"✅ Linked '{place_name}' to ID.")
+                logging.info("Linked '%s' to ID.", place_name)
             else:
-                print(f"❌ '{place_name}': No results found.")
+                logging.warning("'%s': No results found.", place_name)
 
         except ValueError as e:
-            print(f"⚠️ '{place_name}': {e}")
+            logging.warning("'%s': %s", place_name, e)
         except Exception as e:
-            print(f"🔥 '{place_name}': Unexpected error: {e}")
+            logging.critical("'%s': Unexpected error: %s", place_name, e)
 
     # Save to JSON
     json.dump(final_data, output, indent=4)
 
-    print(f"\nDone! Data linked to IDs saved to {output.name}.")
+    logging.info("Saved %d places to %s", len(final_data), output.name)
 
 
 if __name__ == "__main__":
