@@ -1,12 +1,10 @@
-from unittest.mock import patch
-
 import pytest
 
 from generate_place_ids import get_place_data_from_api
 
 
 def test_get_place_data_from_api_ambiguous(mocker):
-    mock_search = mocker.patch("update_places.client.search_text")
+    mock_search = mocker.patch("generate_place_ids.client.search_text")
 
     # Create mock objects that mimic the Google Library's attributes
     place_a = mocker.MagicMock()
@@ -22,6 +20,6 @@ def test_get_place_data_from_api_ambiguous(mocker):
     mock_response.places = [place_a, place_b]
     mock_search.return_value = mock_response
 
-    # We expect a ValueError because result is ambiguous
-    with pytest.raises(ValueError, match=r"(?i)ambiguous result"):
+    # We expect an error because result is ambiguous
+    with pytest.raises(RuntimeError, match=r"(?i)ambiguous result"):
         get_place_data_from_api("Brewery")
