@@ -24,7 +24,10 @@ def format_happy_hours_line(line: str) -> str:
     return line
 
 
-def format_happy_hours(happy_hours_text: str) -> str:
+def format_happy_hours(happy_hours_text: str | None) -> str | None:
+    if not happy_hours_text or happy_hours_text == "TODO":
+        return None
+
     return "<br>".join(format_happy_hours_line(line) for line in happy_hours_text.splitlines())
 
 
@@ -66,7 +69,7 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
     url = place_metadata.get("url")
     happy_hours = place_metadata.get("happy_hours")
     if happy_hours:
-        happy_hours = [format_happy_hours(hh) if hh is not None else None for hh in happy_hours]
+        happy_hours = [format_happy_hours(hh) for hh in happy_hours]
 
     field_mask = "id,regularOpeningHours,currentOpeningHours,location"
     place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])
