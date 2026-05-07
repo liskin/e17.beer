@@ -1,4 +1,5 @@
 import json
+import re
 import warnings
 
 import click
@@ -9,42 +10,22 @@ from utils import click_option_verbosity, get_places_client, setup_logging
 
 
 def format_happy_hours_line(line: str) -> str:
-    """
-    Format a single line of happy hours text with HTML spans for offer names and times.
+    """Format a single line of happy hours text with HTML spans for offer names and times."""
 
-    - Lines starting with a capital letter are offer names: wrapped in <span class="offer_name">
-    - Lines matching time patterns (HH:mm–HH:mm or HH:mm–close): wrapped in <span class="offer_time">
-    - Other lines are returned as-is
-    """
-    import re
+    # Lines starting with a capital letter are offer names
+    if line and line[0].isupper():
+        return f'<span class="offer_name">{line}</span>'
 
-    line = line.strip()
-    if not line:
-        return line
-
-    # Check if line matches time pattern (HH:mm–... with en dash)
-    # Match HH:mm at the start followed by en dash
+    # Lines matching time patterns (HH:mm–HH:mm or HH:mm–close)
     if re.match(r"^\d{1,2}:\d{2}–", line):
         return f'<span class="offer_time">{line}</span>'
 
-    # Check if line starts with a capital letter (offer name)
-    if line[0].isupper():
-        return f'<span class="offer_name">{line}</span>'
-
+    # Other lines
     return line
 
 
-def format_happy_hours(happy_hours_text: str | None) -> str | None:
-    """
-    Format happy hours text by processing each line and applying formatting.
-    Returns None if input is None, otherwise returns formatted text.
-    """
-    if happy_hours_text is None:
-        return None
-
-    lines = happy_hours_text.split("\n")
-    formatted_lines = [format_happy_hours_line(line) for line in lines]
-    return "\n".join(formatted_lines)
+def format_happy_hours(happy_hours_text: str) -> str:
+    return "\n".join(format_happy_hours_line(line) for line in happy_hours_text.splitlines())
 
 
 def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
@@ -81,14 +62,11 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
-    place_name = place_metadata.get("place_name", None)
-    url = place_metadata.get("url", None)
-    happy_hours_raw = place_metadata.get("happy_hours", None)
-
-    # Format happy_hours list - apply formatting to each non-None entry
-    happy_hours = None
-    if happy_hours_raw is not None:
-        happy_hours = [format_happy_hours(entry) if entry is not None else None for entry in happy_hours_raw]
+    place_name = place_metadata.get("place_name")
+    url = place_metadata.get("url")
+    happy_hours = place_metadata.get("happy_hours")
+    if happy_hours:
+        happy_hours = [format_happy_hours(hh) if hh is not None else None for hh in happy_hours]
 
     field_mask = "id,regularOpeningHours,currentOpeningHours,location"
     place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])

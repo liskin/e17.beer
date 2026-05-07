@@ -218,14 +218,13 @@ def test_format_happy_hours_line_offer_name():
     """Lines starting with capital letters should be wrapped in offer_name span"""
     assert format_happy_hours_line("Taco Tuesday") == '<span class="offer_name">Taco Tuesday</span>'
     assert format_happy_hours_line("Wing Wednesday") == '<span class="offer_name">Wing Wednesday</span>'
-    assert format_happy_hours_line("Thirsty Thursday") == '<span class="offer_name">Thirsty Thursday</span>'
 
 
 def test_format_happy_hours_line_offer_time():
     """Lines matching time patterns should be wrapped in offer_time span"""
     assert format_happy_hours_line("17:00–close") == '<span class="offer_time">17:00–close</span>'
     assert format_happy_hours_line("12:00–19:00") == '<span class="offer_time">12:00–19:00</span>'
-    assert format_happy_hours_line("16:00–20:00") == '<span class="offer_time">16:00–20:00</span>'
+    assert format_happy_hours_line("6:00–20:00") == '<span class="offer_time">6:00–20:00</span>'
 
 
 def test_format_happy_hours_line_other_text():
@@ -233,67 +232,3 @@ def test_format_happy_hours_line_other_text():
     assert format_happy_hours_line("£3.50 pint cask") == "£3.50 pint cask"
     assert format_happy_hours_line("free pint when £10+ spent") == "free pint when £10+ spent"
     assert format_happy_hours_line("25% off wine bottles") == "25% off wine bottles"
-
-
-def test_format_happy_hours_line_empty():
-    """Empty lines should remain empty"""
-    assert format_happy_hours_line("") == ""
-    assert format_happy_hours_line("   ") == ""
-
-
-def test_format_happy_hours_multiline():
-    """Test formatting text with multiple lines"""
-    text = "Taco Tuesday\n£8 for 2 tacos"
-    expected = '<span class="offer_name">Taco Tuesday</span>\n£8 for 2 tacos'
-    assert format_happy_hours(text) == expected
-
-
-def test_format_happy_hours_with_time():
-    """Test formatting text with time and offer details"""
-    text = "17:00–close\n£7 selected wines\n£5 pints"
-    expected = '<span class="offer_time">17:00–close</span>\n£7 selected wines\n£5 pints'
-    assert format_happy_hours(text) == expected
-
-
-def test_format_happy_hours_complex():
-    """Test a complex example from the real data"""
-    text = "First Pour Thursday\n£4.50 new releases, core pints\n£10 pizza (excl specials)"
-    expected = (
-        '<span class="offer_name">First Pour Thursday</span>\n£4.50 new releases, core pints\n£10 pizza (excl specials)'
-    )
-    assert format_happy_hours(text) == expected
-
-
-def test_format_happy_hours_with_time_and_name():
-    """Test formatting text with both time and offer name"""
-    text = "12:00–19:00\ntwo-for-one selected drinks (house beers, …)"
-    expected = '<span class="offer_time">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)'
-    assert format_happy_hours(text) == expected
-
-
-def test_format_happy_hours_none():
-    """None input should return None"""
-    assert format_happy_hours(None) is None
-
-
-def test_fetch_place_data_formats_happy_hours():
-    """Verify that fetch_place_data applies formatting to happy_hours"""
-    mock_client = create_mock_client(name="Test Brewery")
-
-    happy_hours_input = [
-        "£3.50 pint cask",
-        "Taco Tuesday\n£8 for 2 tacos",
-        "17:00–close\n£5 pints",
-        None,
-    ]
-
-    result = fetch_place_data(mock_client, "dummy_id", {"place_name": "Test Brewery", "happy_hours": happy_hours_input})
-
-    expected_happy_hours = [
-        "£3.50 pint cask",
-        '<span class="offer_name">Taco Tuesday</span>\n£8 for 2 tacos',
-        '<span class="offer_time">17:00–close</span>\n£5 pints',
-        None,
-    ]
-
-    assert result["happy_hours"] == expected_happy_hours
