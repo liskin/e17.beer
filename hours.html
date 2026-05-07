@@ -189,8 +189,10 @@ permalink: /hours/
 							bottom: 1px;
 							right: 1px;
 
-							opacity: 0.6;
-							font-size: 3ex;
+							img {
+								opacity: 0.5;
+								display: block;
+							}
 						}
 					}
 				}
@@ -341,7 +343,7 @@ permalink: /hours/
 							<div class="happy-hours">
 								{{ place.happy_hours[day] }}
 							</div>
-							<div class="happy-hours-icon">💸</div>
+							<div class="happy-hours-icon"><img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25"></div>
 							{% endif %}
 						</div>
 					</td>
