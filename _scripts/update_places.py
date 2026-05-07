@@ -99,20 +99,6 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
 
     gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
 
-    def extract_raw_periods(opening_hours_obj) -> dict:
-        """Returns raw times structured by day number { "0": {"open": [...], "close": [...]}, ... }"""
-        if not opening_hours_obj or not opening_hours_obj.periods:
-            return None
-
-        raw_data = {str(i): {"open": [], "close": []} for i in range(7)}
-        for p in opening_hours_obj.periods:
-            if not p.open or not p.close:
-                continue
-            day_key = str(p.open.day)
-            raw_data[day_key]["open"].append([p.open.hour, p.open.minute])
-            raw_data[day_key]["close"].append([p.close.hour, p.close.minute])
-        return raw_data
-
     def periods_to_percentages(opening_hours_obj) -> list:
         """Transforms periods into percentage-of-week intervals."""
         pct_periods = []
@@ -175,12 +161,10 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         current_time_text = ["?"] * 7
         regular_time_text = ["?"] * 7
         pct_periods = []
-        raw_periods = {str(i): {"open": [], "close": []} for i in range(7)}
     else:
         current_time_text = process_text(place.current_opening_hours)
         regular_time_text = process_text(place.regular_opening_hours)
         pct_periods = periods_to_percentages(place.current_opening_hours)
-        raw_periods = extract_raw_periods(place.current_opening_hours)
 
     return {
         "place_name": place_name,
@@ -191,7 +175,6 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
             "percentage_periods": pct_periods,
-            "periods": raw_periods,
         },
         "regular_schedule": {
             "time_text_sun_to_sat": regular_time_text,
