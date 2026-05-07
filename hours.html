@@ -157,10 +157,7 @@ permalink: /hours/
 				}
 
 				div.happy-hours {
-					margin-top: 10px;
 					text-align: left;
-
-					max-width: 15em;
 
 					/* make sure it's readable with the icon underneath */
 					position: relative;
@@ -176,6 +173,41 @@ permalink: /hours/
 						font-size: 3ex;
 						z-index: -1;
 						text-shadow: none;
+					}
+
+					transition: 0.5s; /* backwards compatibility */
+					transition: 0.5s allow-discrete;
+					transition-property: opacity, display, max-width, max-height, margin-top;
+					transition-timing-function: linear;
+
+					margin-top: 10px;
+					max-width: 15em;
+					max-height: 15lh;
+					opacity: 1;
+					overflow: clip;
+					overflow-clip-margin: 1.5ex;
+
+
+					@supports (interpolate-size: allow-keywords) {
+						transition-timing-function: ease;
+						max-height: max-content;
+						{% comment %} max-height: stretch; {% endcomment %}
+					}
+
+					table:not(.show-happy-hours) & {
+						display: none;
+						margin-top: 0;
+						max-width: 11em;
+						max-height: 0;
+						opacity: 0;
+					}
+
+					/* TODO: only use this if shown later, not if shown by default */
+					@starting-style {
+						margin-top: 0;
+						max-width: 11em;
+						max-height: 0;
+						opacity: 0;
 					}
 
 					span.offer-time, span.offer-name {
@@ -289,7 +321,7 @@ permalink: /hours/
 	</head>
 
 	<body>
-		<table id="opening-hours" class="paused">
+		<table id="opening-hours" class="paused show-happy-hours">
 			<thead>
 				<tr id="time-machine-row" hidden>
 					<th scope="row">time machine</th>
