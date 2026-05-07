@@ -151,7 +151,7 @@ permalink: /hours/
 				/* full height for divs in cells */
 				tbody {
 					td.day {
-						height: 1px; /* will expand but needed for the flex div underneath */
+						height: 1px; /* will expand but needed for the div underneath */
 						> div { height: 100%; }
 					}
 				}
@@ -159,22 +159,46 @@ permalink: /hours/
 				/* happy hours */
 				tbody {
 					div.happy-hours {
-						margin-top: 10px;
-						text-align: left;
-
-						max-width: 15em;
-
 						/* make sure it's readable with the icon underneath */
 						position: relative;
 						z-index: 1;
 						-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
 						paint-order: stroke fill;
 
-						span.offer-time, span.offer-name {
-							color: rgb(80 80 80);
+						/* text style */
+						text-align: left;
+						span.offer-time, span.offer-name { color: rgb(80 80 80); }
+						span.offer-name { font-style: oblique; }
+
+						margin-top: 10px;
+						max-width: 15em;
+						max-height: 15lh;
+						opacity: 1;
+						overflow: clip;
+
+						transition: 0.5s; /* backwards compatibility */
+						transition: 0.5s allow-discrete;
+						transition-property: opacity, display, max-width, max-height, margin-top;
+						transition-timing-function: linear;
+
+						body:has(input#hide-happy-hours:checked) & {
+							display: none;
+							margin-top: 0;
+							max-width: 11em;
+							max-height: 0;
+							opacity: 0;
 						}
-						span.offer-name {
-							font-style: oblique;
+
+						@supports (interpolate-size: allow-keywords) {
+							transition-timing-function: ease;
+							max-height: fit-content;
+						}
+
+						@starting-style {
+							margin-top: 0;
+							max-width: 11em;
+							max-height: 0;
+							opacity: 0;
 						}
 					}
 
@@ -192,9 +216,19 @@ permalink: /hours/
 							img {
 								opacity: 0.5;
 								display: block;
+
+								transition: opacity 0.5s;
+
+								body:has(input#hide-happy-hours:checked) & {
+									opacity: 0.3;
+								}
 							}
 						}
 					}
+				}
+
+				th#time-machine-trigger {
+					user-select: none;
 				}
 
 				tr#time-machine-row {
@@ -296,6 +330,59 @@ permalink: /hours/
 				50% { transform: scale(1.2); filter: drop-shadow(0 0 5px rgba(255,0,0,0.5)); }
 				100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,0,0,0)); }
 			}
+
+			div#toolbar {
+				position: sticky;
+				bottom: 8px;
+				z-index: 10;
+
+				left: 10px;
+				width: calc(100vw - 20px);
+
+				padding-top: calc(5px + env(safe-area-inset-top));
+				padding-bottom: calc(5px + env(safe-area-inset-bottom));
+				padding-right: calc(5px + env(safe-area-inset-right));
+				padding-left: calc(5px + env(safe-area-inset-left));
+
+				display: flex;
+				flex-direction: row-reverse;
+
+				input {
+					display: none;
+				}
+
+				label {
+					display: block;
+					padding: 10px 10px;
+
+					cursor: pointer;
+					user-select: none;
+
+					border: 1px solid;
+					border-radius: 4px;
+
+					transition: 0.2s;
+					transition-property: background-color, border-color, box-shadow;
+
+					background-color: rgb(215 215 215);
+					border-color: rgb(180 180 180);
+					box-shadow: inset 1px 1px 4px rgba(180 180 180);
+
+					input:checked + & {
+						border-color: rgb(200 200 200);
+						background: rgb(245 245 245);
+						box-shadow: inset 1px 1px 4px rgba(255 255 255);
+					}
+
+					&:hover, input:checked + &:hover {
+						background: rgb(230 230 230);
+					}
+
+					img {
+						display: block;
+					}
+				}
+			}
 		</style>
 	</head>
 
@@ -343,7 +430,11 @@ permalink: /hours/
 							<div class="happy-hours">
 								{{ place.happy_hours[day] }}
 							</div>
-							<div class="happy-hours-icon"><img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25"></div>
+							<div class="happy-hours-icon">
+								<label for="hide-happy-hours">
+									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+								</label>
+							</div>
 							{% endif %}
 						</div>
 					</td>
@@ -377,6 +468,13 @@ permalink: /hours/
 		<div id="location-indicator" class="hidden">
 			<span class="pin">📍</span>
 			<span class="pin-text">Finding you...</span>
+		</div>
+
+		<div id="toolbar">
+			<input type="checkbox" id="hide-happy-hours" checked>
+			<label for="hide-happy-hours">
+				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
 		</div>
 
 		<script>
