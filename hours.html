@@ -267,21 +267,6 @@ permalink: /hours/
 				}
 			}
 
-			@keyframes day {
-				0%       { --today: 1; }
-				14.2857% { --today: 0; }
-			}
-
-			{% for place in site.data.places -%}
-			{% assign i = forloop.index0 -%}
-			@keyframes venue{{ i }} {
-				{% for period in place.current_schedule.percentage_periods -%}
-				{{ period.open  }}% { --open: 1; }
-				{{ period.close }}% { --open: 0; }
-				{% endfor %}
-			}
-			{% endfor %}
-
 			footer {
 				position: sticky;
 				left: 10vw;
@@ -383,6 +368,21 @@ permalink: /hours/
 					}
 				}
 			}
+
+			@keyframes day {
+				0%       { --today: 1; }
+				14.2857% { --today: 0; }
+			}
+
+			{% for place in site.data.places -%}
+			{% assign i = forloop.index0 -%}
+			@keyframes venue{{ i }} {
+				{% for period in place.current_schedule.percentage_periods -%}
+				{{ period.open  }}% { --open: 1; }
+				{{ period.close }}% { --open: 0; }
+				{% endfor %}
+			}
+			{% endfor %}
 		</style>
 	</head>
 
