@@ -8,23 +8,23 @@
             "lng": -0.0428948
         },
         "happy_hours": [
-            "\u00a33.50 pint cask",
-            "free pint when \u00a310+ spent on take-away cans",
-            "Taco Tuesday\n\u00a38 for 2 tacos, \u00a311 for 3 tacos, plus free soft drink or core beer for \u00a33",
-            "Wing Wednesday\n\u00a37 for 6 wings, \u00a312 for 10 wings, plus free soft drink or core beer for \u00a33",
-            "Thirsty Thursday\n\u00a34 core pints\n\u00a35 cocktails",
-            "Friday Lunch Menu\n\u00a310 any flatbread and soft drink",
+            "£3.50 pint cask",
+            "free pint when £10+ spent on take-away cans",
+            "<span class=\"offer_name\">Taco Tuesday</span>\n£8 for 2 tacos, £11 for 3 tacos, plus free soft drink or core beer for £3",
+            "<span class=\"offer_name\">Wing Wednesday</span>\n£7 for 6 wings, £12 for 10 wings, plus free soft drink or core beer for £3",
+            "<span class=\"offer_name\">Thirsty Thursday</span>\n£4 core pints\n£5 cocktails",
+            "<span class=\"offer_name\">Friday Lunch Menu</span>\n£10 any flatbread and soft drink",
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200911:30\u202fPM",
-                "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "12:00 – 11:30 PM",
+                "4:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ],
             "percentage_periods": [
                 {
@@ -63,13 +63,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200911:30\u202fPM",
-                "4:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "12:00 – 11:30 PM",
+                "4:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ]
         }
     },
@@ -85,20 +85,20 @@
             null,
             null,
             null,
-            "Games Night\n\u00a35 wine",
-            "First Pour Thursday\n\u00a34.50 new releases, core pints\n\u00a310 pizza (excl specials)\n\u00a320 six cans takeaway",
+            "<span class=\"offer_name\">Games Night</span>\n£5 wine",
+            "<span class=\"offer_name\">First Pour Thursday</span>\n£4.50 new releases, core pints\n£10 pizza (excl specials)\n£20 six cans takeaway",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -125,13 +125,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ]
         }
     },
@@ -148,19 +148,19 @@
             null,
             null,
             null,
-            "\u00a33.50 core pints",
+            "£3.50 core pints",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200911:00\u202fPM",
+                "12:00 – 11:00 PM",
                 "Closed",
                 "Closed",
-                "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "5:00 PM – 12:00 AM",
+                "5:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ],
             "percentage_periods": [
                 {
@@ -191,13 +191,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200911:00\u202fPM",
+                "12:00 – 11:00 PM",
                 "Closed",
                 "Closed",
-                "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "5:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "5:00 PM – 12:00 AM",
+                "5:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ]
         }
     },
@@ -210,23 +210,23 @@
             "lng": -0.0414756
         },
         "happy_hours": [
-            "\u00a34 pints",
+            "£4 pints",
             null,
             null,
             null,
-            "\u00a34 pints\n25% off wine bottles\n\u00a315 burger + fries + beer",
+            "£4 pints\n25% off wine bottles\n£15 burger + fries + beer",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM"
+                "4:00 – 11:00 PM",
+                "4:00 PM – 2:00 AM",
+                "12:00 PM – 2:00 AM"
             ],
             "percentage_periods": [
                 {
@@ -253,13 +253,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u202fPM\u2009\u2013\u20092:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20092:00\u202fAM"
+                "4:00 – 11:00 PM",
+                "4:00 PM – 2:00 AM",
+                "12:00 PM – 2:00 AM"
             ]
         }
     },
@@ -273,7 +273,7 @@
         },
         "happy_hours": [
             null,
-            "TODO",
+            "<span class=\"offer_name\">TODO</span>",
             null,
             null,
             null,
@@ -282,13 +282,13 @@
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20098:00\u202fPM",
+                "1:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "2:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "2:00 – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -307,13 +307,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u20098:00\u202fPM",
+                "1:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "2:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "2:00 – 11:00 PM"
             ]
         }
     },
@@ -330,19 +330,19 @@
             null,
             null,
             null,
-            "17:00\u2013close\n\u00a37 selected wines\n\u00a35 pints\n\u00a37 selected cocktails",
-            "12:00\u201319:00\n\u00a37 selected wines\n\u00a35 pints\n\u00a37 selected cocktails",
+            "<span class=\"offer_time\">17:00–close</span>\n£7 selected wines\n£5 pints\n£7 selected cocktails",
+            "<span class=\"offer_time\">12:00–19:00</span>\n£7 selected wines\n£5 pints\n£7 selected cocktails",
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20096:00\u202fPM",
+                "12:00 – 6:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -365,13 +365,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20096:00\u202fPM",
+                "12:00 – 6:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ]
         }
     },
@@ -388,19 +388,19 @@
             null,
             null,
             null,
-            "\u00a34 selected pints\n\u00a35 Aperol Spritz",
+            "£4 selected pints\n£5 Aperol Spritz",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -423,13 +423,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM"
+                "5:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
             ]
         }
     },
@@ -443,7 +443,7 @@
         },
         "happy_hours": [
             null,
-            "TODO",
+            "<span class=\"offer_name\">TODO</span>",
             null,
             null,
             null,
@@ -487,19 +487,19 @@
             null,
             null,
             null,
-            "Thirsty Thursday\n\u00a37 house cocktails",
+            "<span class=\"offer_name\">Thirsty Thursday</span>\n£7 house cocktails",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u200911:00\u202fPM",
+                "1:00 – 11:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "6:00\u2009\u2013\u200911:00\u202fPM",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "1:00\u2009\u2013\u200911:00\u202fPM"
+                "6:00 – 11:00 PM",
+                "5:00 – 11:00 PM",
+                "1:00 – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -522,13 +522,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "1:00\u2009\u2013\u200911:00\u202fPM",
+                "1:00 – 11:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
-                "6:00\u2009\u2013\u200911:00\u202fPM",
-                "5:00\u2009\u2013\u200911:00\u202fPM",
-                "1:00\u2009\u2013\u200911:00\u202fPM"
+                "6:00 – 11:00 PM",
+                "5:00 – 11:00 PM",
+                "1:00 – 11:00 PM"
             ]
         }
     },
@@ -542,22 +542,22 @@
         },
         "happy_hours": [
             null,
-            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
-            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
-            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
-            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)\n\n17:00\u2013close\nhalf-price games at Flukes",
-            "12:00\u201319:00\ntwo-for-one selected drinks (house beers, \u2026)",
+            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
+            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
+            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
+            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)\n\n<span class=\"offer_time\">17:00–close</span>\nhalf-price games at Flukes",
+            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "12:00 – 8:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ],
             "percentage_periods": [
                 {
@@ -596,13 +596,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u20091:00\u202fAM"
+                "12:00 – 8:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
             ]
         }
     },
@@ -616,22 +616,22 @@
         },
         "happy_hours": [
             null,
-            "\u00a35 pints of East London Brewing beers",
-            "\u00a35 pints of East London Brewing beers",
+            "£5 pints of East London Brewing beers",
+            "£5 pints of East London Brewing beers",
             null,
-            "\u00a316.50 burger + fries + can of East London Brewing\n\n16:00\u201320:00\n\u00a36 margaritas",
-            "16:00\u201320:00\n\u00a36 margaritas",
+            "£16.50 burger + fries + can of East London Brewing\n\n<span class=\"offer_time\">16:00–20:00</span>\n£6 margaritas",
+            "<span class=\"offer_time\">16:00–20:00</span>\n£6 margaritas",
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200910:30\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM"
+                "12:00 – 10:30 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 PM – 12:30 AM",
+                "12:00 PM – 12:30 AM"
             ],
             "percentage_periods": [
                 {
@@ -670,13 +670,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u200910:30\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "4:00\u2009\u2013\u200911:00\u202fPM",
-                "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM",
-                "12:00\u202fPM\u2009\u2013\u200912:30\u202fAM"
+                "12:00 – 10:30 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 PM – 12:30 AM",
+                "12:00 PM – 12:30 AM"
             ]
         }
     },
@@ -690,7 +690,7 @@
         },
         "happy_hours": [
             null,
-            "\u00a33.50 pints of cask",
+            "£3.50 pints of cask",
             null,
             null,
             null,
@@ -699,13 +699,13 @@
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -740,13 +740,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM",
-                "11:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM"
             ]
         }
     },
@@ -759,23 +759,23 @@
             "lng": -0.05769709999999999
         },
         "happy_hours": [
-            "\u00a34 cans",
+            "£4 cans",
             null,
             null,
             null,
             null,
-            "\u00a34 pints (core)",
+            "£4 pints (core)",
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u20099:00\u202fPM",
-                "12:00\u2009\u2013\u20098:00\u202fPM"
+                "5:00 – 9:00 PM",
+                "12:00 – 8:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -794,13 +794,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "12:00\u2009\u2013\u20098:00\u202fPM",
+                "12:00 – 8:00 PM",
                 "Closed",
                 "Closed",
                 "Closed",
                 "Closed",
-                "5:00\u2009\u2013\u20099:00\u202fPM",
-                "12:00\u2009\u2013\u20098:00\u202fPM"
+                "5:00 – 9:00 PM",
+                "12:00 – 8:00 PM"
             ]
         }
     },
@@ -816,20 +816,20 @@
             null,
             null,
             null,
-            "\u00a34 pints (except guest beers)",
+            "£4 pints (except guest beers)",
             "2-for-1 cocktails",
             null,
             null
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM",
+                "9:00 AM – 10:00 PM",
                 "Closed",
                 "Closed",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "2:00\u2009\u2013\u200911:00\u202fPM",
-                "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+                "3:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "2:00 – 11:00 PM",
+                "9:00 AM – 11:00 PM"
             ],
             "percentage_periods": [
                 {
@@ -856,13 +856,13 @@
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "9:00\u202fAM\u2009\u2013\u200910:00\u202fPM",
+                "9:00 AM – 10:00 PM",
                 "Closed",
                 "Closed",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "3:00\u2009\u2013\u200911:00\u202fPM",
-                "2:00\u2009\u2013\u200911:00\u202fPM",
-                "9:00\u202fAM\u2009\u2013\u200911:00\u202fPM"
+                "3:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "2:00 – 11:00 PM",
+                "9:00 AM – 11:00 PM"
             ]
         }
     }
