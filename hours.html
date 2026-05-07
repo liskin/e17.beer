@@ -156,33 +156,42 @@ permalink: /hours/
 					}
 				}
 
-				div.happy-hours {
-					margin-top: 10px;
-					text-align: left;
+				/* happy hours */
+				tbody {
+					div.happy-hours {
+						margin-top: 10px;
+						text-align: left;
 
-					max-width: 15em;
+						max-width: 15em;
 
-					/* make sure it's readable with the icon underneath */
-					position: relative;
-					z-index: 0;
-					-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
-					paint-order: stroke fill;
+						/* make sure it's readable with the icon underneath */
+						position: relative;
+						z-index: 1;
+						-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
+						paint-order: stroke fill;
 
-					/* TODO: place happy-hours-icon into the cell itself not the transitioning div */
-					div.happy-hours-icon {
-						position: absolute;
-						bottom: 0;
-						right: 0;
-						font-size: 3ex;
-						z-index: -1;
-						text-shadow: none;
+						span.offer-time, span.offer-name {
+							color: rgb(80 80 80);
+						}
+						span.offer-name {
+							font-style: oblique;
+						}
 					}
 
-					span.offer-time, span.offer-name {
-						color: rgb(80 80 80);
-					}
-					span.offer-name {
-						font-style: oblique;
+					/* "discount" icon */
+					td {
+						position: relative;
+
+						div.happy-hours-icon {
+							position: absolute;
+							z-index: 0;
+
+							bottom: 1px;
+							right: 1px;
+
+							opacity: 0.6;
+							font-size: 3ex;
+						}
 					}
 				}
 
@@ -331,9 +340,8 @@ permalink: /hours/
 							{% if place.happy_hours[day] -%}
 							<div class="happy-hours">
 								{{ place.happy_hours[day] }}
-								{% comment %} <div class="happy-hours-icon">🤑</div> {% endcomment %}
-								<div class="happy-hours-icon">🏷️</div>
 							</div>
+							<div class="happy-hours-icon">💸</div>
 							{% endif %}
 						</div>
 					</td>
