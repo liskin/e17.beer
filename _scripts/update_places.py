@@ -14,18 +14,18 @@ def format_happy_hours_line(line: str) -> str:
 
     # Lines starting with a capital letter are offer names
     if line and line[0].isupper():
-        return f'<span class="offer_name">{line}</span>'
+        return f'<span class="offer-name">{line}</span>'
 
     # Lines matching time patterns (HH:mm–HH:mm or HH:mm–close)
     if re.match(r"^\d{1,2}:\d{2}–", line):
-        return f'<span class="offer_time">{line}</span>'
+        return f'<span class="offer-time">{line}</span>'
 
     # Other lines
     return line
 
 
 def format_happy_hours(happy_hours_text: str) -> str:
-    return "\n".join(format_happy_hours_line(line) for line in happy_hours_text.splitlines())
+    return "<br>".join(format_happy_hours_line(line) for line in happy_hours_text.splitlines())
 
 
 def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:

@@ -10,10 +10,10 @@
         "happy_hours": [
             "£3.50 pint cask",
             "free pint when £10+ spent on take-away cans",
-            "<span class=\"offer_name\">Taco Tuesday</span>\n£8 for 2 tacos, £11 for 3 tacos, plus free soft drink or core beer for £3",
-            "<span class=\"offer_name\">Wing Wednesday</span>\n£7 for 6 wings, £12 for 10 wings, plus free soft drink or core beer for £3",
-            "<span class=\"offer_name\">Thirsty Thursday</span>\n£4 core pints\n£5 cocktails",
-            "<span class=\"offer_name\">Friday Lunch Menu</span>\n£10 any flatbread and soft drink",
+            "<span class=\"offer-name\">Taco Tuesday</span><br>£8 for 2 tacos, £11 for 3 tacos, plus free soft drink or core beer for £3",
+            "<span class=\"offer-name\">Wing Wednesday</span><br>£7 for 6 wings, £12 for 10 wings, plus free soft drink or core beer for £3",
+            "<span class=\"offer-name\">Thirsty Thursday</span><br>£4 core pints<br>£5 cocktails",
+            "<span class=\"offer-name\">Friday Lunch Menu</span><br>£10 any flatbread and soft drink",
             null
         ],
         "current_schedule": {
@@ -85,8 +85,8 @@
             null,
             null,
             null,
-            "<span class=\"offer_name\">Games Night</span>\n£5 wine",
-            "<span class=\"offer_name\">First Pour Thursday</span>\n£4.50 new releases, core pints\n£10 pizza (excl specials)\n£20 six cans takeaway",
+            "<span class=\"offer-name\">Games Night</span><br>£5 wine",
+            "<span class=\"offer-name\">First Pour Thursday</span><br>£4.50 new releases, core pints<br>£10 pizza (excl specials)<br>£20 six cans takeaway",
             null,
             null
         ],
@@ -214,7 +214,7 @@
             null,
             null,
             null,
-            "£4 pints\n25% off wine bottles\n£15 burger + fries + beer",
+            "£4 pints<br>25% off wine bottles<br>£15 burger + fries + beer",
             null,
             null
         ],
@@ -273,7 +273,7 @@
         },
         "happy_hours": [
             null,
-            "<span class=\"offer_name\">TODO</span>",
+            "<span class=\"offer-name\">TODO</span>",
             null,
             null,
             null,
@@ -330,8 +330,8 @@
             null,
             null,
             null,
-            "<span class=\"offer_time\">17:00–close</span>\n£7 selected wines\n£5 pints\n£7 selected cocktails",
-            "<span class=\"offer_time\">12:00–19:00</span>\n£7 selected wines\n£5 pints\n£7 selected cocktails",
+            "<span class=\"offer-time\">17:00–close</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
+            "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
             null
         ],
         "current_schedule": {
@@ -388,7 +388,7 @@
             null,
             null,
             null,
-            "£4 selected pints\n£5 Aperol Spritz",
+            "£4 selected pints<br>£5 Aperol Spritz",
             null,
             null
         ],
@@ -443,7 +443,7 @@
         },
         "happy_hours": [
             null,
-            "<span class=\"offer_name\">TODO</span>",
+            "<span class=\"offer-name\">TODO</span>",
             null,
             null,
             null,
@@ -487,7 +487,7 @@
             null,
             null,
             null,
-            "<span class=\"offer_name\">Thirsty Thursday</span>\n£7 house cocktails",
+            "<span class=\"offer-name\">Thirsty Thursday</span><br>£7 house cocktails",
             null,
             null
         ],
@@ -542,11 +542,11 @@
         },
         "happy_hours": [
             null,
-            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
-            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
-            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
-            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)\n\n<span class=\"offer_time\">17:00–close</span>\nhalf-price games at Flukes",
-            "<span class=\"offer_time\">12:00–19:00</span>\ntwo-for-one selected drinks (house beers, …)",
+            "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
+            "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
+            "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
+            "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)<br><br><span class=\"offer-time\">17:00–close</span><br>half-price games at Flukes",
+            "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
             null
         ],
         "current_schedule": {
@@ -619,8 +619,8 @@
             "£5 pints of East London Brewing beers",
             "£5 pints of East London Brewing beers",
             null,
-            "£16.50 burger + fries + can of East London Brewing\n\n<span class=\"offer_time\">16:00–20:00</span>\n£6 margaritas",
-            "<span class=\"offer_time\">16:00–20:00</span>\n£6 margaritas",
+            "£16.50 burger + fries + can of East London Brewing<br><br><span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
+            "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
             null
         ],
         "current_schedule": {

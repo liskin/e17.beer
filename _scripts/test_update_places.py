@@ -215,16 +215,16 @@ def test_fetch_place_api_error_handling():
 
 
 def test_format_happy_hours_line_offer_name():
-    """Lines starting with capital letters should be wrapped in offer_name span"""
-    assert format_happy_hours_line("Taco Tuesday") == '<span class="offer_name">Taco Tuesday</span>'
-    assert format_happy_hours_line("Wing Wednesday") == '<span class="offer_name">Wing Wednesday</span>'
+    """Lines starting with capital letters should be wrapped in offer-name span"""
+    assert format_happy_hours_line("Taco Tuesday") == '<span class="offer-name">Taco Tuesday</span>'
+    assert format_happy_hours_line("Wing Wednesday") == '<span class="offer-name">Wing Wednesday</span>'
 
 
 def test_format_happy_hours_line_offer_time():
-    """Lines matching time patterns should be wrapped in offer_time span"""
-    assert format_happy_hours_line("17:00–close") == '<span class="offer_time">17:00–close</span>'
-    assert format_happy_hours_line("12:00–19:00") == '<span class="offer_time">12:00–19:00</span>'
-    assert format_happy_hours_line("6:00–20:00") == '<span class="offer_time">6:00–20:00</span>'
+    """Lines matching time patterns should be wrapped in offer-time span"""
+    assert format_happy_hours_line("17:00–close") == '<span class="offer-time">17:00–close</span>'
+    assert format_happy_hours_line("12:00–19:00") == '<span class="offer-time">12:00–19:00</span>'
+    assert format_happy_hours_line("6:00–20:00") == '<span class="offer-time">6:00–20:00</span>'
 
 
 def test_format_happy_hours_line_other_text():

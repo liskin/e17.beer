@@ -27,6 +27,8 @@ permalink: /hours/
 				--open: 0;
 				--background-open: rgb(220 255 220);
 				--background-closed: rgb(255 255 255);
+
+				interpolate-size: allow-keywords;
 			}
 
 			body {
@@ -131,17 +133,56 @@ permalink: /hours/
 					td {
 						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite,
 							day 604800s var(--day-animation-delay) step-end infinite;
-						background-color: color-mix(in srgb,
+						--background-color: color-mix(in srgb,
 							var(--background-closed),
 							color-mix(in srgb,
 								var(--background-today),
 								var(--background-open) calc(var(--open) * 100%)
 							) calc(var(--today) * 100%)
 						);
+						background-color: var(--background-color);
 
 						table#opening-hours.paused & {
 							animation-play-state: paused, paused;
 						}
+					}
+				}
+
+				/* full height for divs in cells */
+				tbody {
+					td.day {
+						height: 1px; /* will expand but needed for the flex div underneath */
+						> div { height: 100%; }
+					}
+				}
+
+				div.happy-hours {
+					margin-top: 10px;
+					text-align: left;
+
+					max-width: 15em;
+
+					/* make sure it's readable with the icon underneath */
+					position: relative;
+					z-index: 0;
+					-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
+					paint-order: stroke fill;
+
+					/* TODO: place happy-hours-icon into the cell itself not the transitioning div */
+					div.happy-hours-icon {
+						position: absolute;
+						bottom: 0;
+						right: 0;
+						font-size: 3ex;
+						z-index: -1;
+						text-shadow: none;
+					}
+
+					span.offer-time, span.offer-name {
+						color: rgb(80 80 80);
+					}
+					span.offer-name {
+						font-style: oblique;
 					}
 				}
 
@@ -225,10 +266,11 @@ permalink: /hours/
 				background: rgba(255, 255, 255, 0.9);
 				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-				transition: all 0.5s; /* backwards compatibility */
-				transition: all 0.5s allow-discrete;
+				transition: 0.5s; /* backwards compatibility */
+				transition: 0.5s allow-discrete;
+				transition-property: opacity, display;
 
-				@starting-style { opacity: 0; display: block; }
+				@starting-style { opacity: 0; }
 				&.hidden { opacity: 0; display: none; }
 
 				.pin {
@@ -279,10 +321,21 @@ permalink: /hours/
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
 					<td class="day">
-						{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
-						<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
-						{% endif %}
-						{{ place.current_schedule.time_text_sun_to_sat[day] }}
+						<div>
+							<div class="opening-hours">
+								{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
+								<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+								{% endif -%}
+								{{ place.current_schedule.time_text_sun_to_sat[day] }}
+							</div>
+							{% if place.happy_hours[day] -%}
+							<div class="happy-hours">
+								{{ place.happy_hours[day] }}
+								{% comment %} <div class="happy-hours-icon">🤑</div> {% endcomment %}
+								<div class="happy-hours-icon">🏷️</div>
+							</div>
+							{% endif %}
+						</div>
 					</td>
 					{% endfor %}
 				</tr>
