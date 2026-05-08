@@ -112,6 +112,44 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         # Ensure list is chronologically sorted by the 'open' percentage
         return sorted(pct_periods, key=lambda x: x["open"])
 
+    def calculate_day_sort_values(opening_hours_obj) -> list:
+        """Calculate sortable values for earliest opening and latest closing times per day (Sun-Sat)."""
+        day_sort_values = [None] * 7  # Sunday=0 to Saturday=6
+
+        if not opening_hours_obj or not opening_hours_obj.periods:
+            return day_sort_values
+
+        for p in opening_hours_obj.periods:
+            if not p.open or not p.close:
+                continue
+
+            open_day = p.open.day
+            close_day = p.close.day
+
+            # Calculate day percentage (0-100 representing 00:00 to 23:59 within a single day)
+            # For opening times
+            open_day_pct = ((p.open.hour * 60 + p.open.minute) / 1440) * 100
+
+            # For closing times, allow > 100 for venues that close after midnight
+            # We need to determine if this closing time belongs to the opening day or next day
+            close_day_pct = ((p.close.hour * 60 + p.close.minute) / 1440) * 100
+
+            # If close_day is the same as open_day, it's a same-day close
+            # If close_day is different, the venue closes on the next day (after midnight)
+            if close_day != open_day:
+                # Close time is on the next day, so add 100 to represent it
+                close_day_pct += 100
+
+            # Update the opening day entry
+            if day_sort_values[open_day] is None:
+                day_sort_values[open_day] = {"open": open_day_pct, "close": close_day_pct}
+            else:
+                # Track earliest opening and latest closing for this day
+                day_sort_values[open_day]["open"] = min(day_sort_values[open_day]["open"], open_day_pct)
+                day_sort_values[open_day]["close"] = max(day_sort_values[open_day]["close"], close_day_pct)
+
+        return day_sort_values
+
     def process_text(opening_hours_obj) -> list:
         """Extracts text descriptions ordered Sunday to Saturday."""
         if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
@@ -142,10 +180,12 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         current_time_text = ["?"] * 7
         regular_time_text = ["?"] * 7
         pct_periods = []
+        day_sort_values = [None] * 7
     else:
         current_time_text = process_text(place.current_opening_hours)
         regular_time_text = process_text(place.regular_opening_hours)
         pct_periods = periods_to_percentages(place.current_opening_hours)
+        day_sort_values = calculate_day_sort_values(place.current_opening_hours)
 
     return {
         "place_name": place_name,
@@ -156,6 +196,7 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
             "percentage_periods": pct_periods,
+            "day_sort_values": day_sort_values,
         },
         "regular_schedule": {
             "time_text_sun_to_sat": regular_time_text,
