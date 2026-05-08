@@ -111,28 +111,23 @@ permalink: /hours/
 				/* column header - highlight today */
 				th.day {
 					animation: day 604800s var(--day-animation-delay) step-end infinite;
+					animation-play-state: paused;
 					background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
-
-					table#opening-hours.paused & {
-						animation-play-state: paused;
-					}
 				}
 
 				tbody tr {
 					/* row header - highlight today */
 					th {
 						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;
+						animation-play-state: paused;
 						background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
-
-						table#opening-hours.paused & {
-							animation-play-state: paused;
-						}
 					}
 
 					/* cells - highlight open/today */
 					td {
 						animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite,
 							day 604800s var(--day-animation-delay) step-end infinite;
+						animation-play-state: paused, paused;
 						--background-color: color-mix(in srgb,
 							var(--background-closed),
 							color-mix(in srgb,
@@ -141,10 +136,6 @@ permalink: /hours/
 							) calc(var(--today) * 100%)
 						);
 						background-color: var(--background-color);
-
-						table#opening-hours.paused & {
-							animation-play-state: paused, paused;
-						}
 					}
 				}
 
@@ -387,7 +378,7 @@ permalink: /hours/
 	</head>
 
 	<body>
-		<table id="opening-hours" class="paused">
+		<table id="opening-hours">
 			<thead>
 				<tr id="time-machine-row" hidden>
 					<th scope="row">time machine</th>
@@ -496,10 +487,10 @@ permalink: /hours/
 				}
 
 				/* pause CSS animation for time-machine input */
-				if (opts?.paused) {
-					document.getElementById('opening-hours').classList.add('paused');
+				if (opts?.timeTravelling) {
+					document.getElementById('opening-hours').classList.add('time-travelling');
 				} else {
-					document.getElementById('opening-hours').classList.remove('paused');
+					document.getElementById('opening-hours').classList.remove('time-travelling');
 				}
 
 				/* scroll to current day */
@@ -518,12 +509,15 @@ permalink: /hours/
 			/* tell CSS what time it is, scroll current day into view */
 			setWeekSecondsElapsed(null, { scroll: true });
 
-			/* sync CSS animations when document becomes visible again - animation timeline pauses when device sleeps */
-			document.addEventListener('visibilitychange', () => {
-				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('paused')) {
+			/* sync CSS animations every 10 seconds and also when document becomes visible after being hidden */
+			/* (we used to rely on CSS animations fully but the drift was unpredictable and CPU usage too high) */
+			function syncCSSAnimations() {
+				if (!document.hidden && !document.querySelector('table#opening-hours').classList.contains('time-travelling')) {
 					setWeekSecondsElapsed(null); /* don't scroll */
 				}
-			});
+			}
+			setInterval(syncCSSAnimations, 10_000);
+			document.addEventListener('visibilitychange', syncCSSAnimations);
 
 			/* -------------------------------------------------------------------------------- */
 
@@ -535,7 +529,7 @@ permalink: /hours/
 			/* update animation time on time-machine input */
 			document.getElementById('time-machine').addEventListener('input', (e) => {
 				const selectedDate = new Date(e.target.value);
-				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, paused: !isNaN(selectedDate)});
+				setWeekSecondsElapsed(isNaN(selectedDate) ? null : selectedDate, { scroll: true, timeTravelling: !isNaN(selectedDate)});
 			});
 
 			/* see https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435 */
@@ -558,7 +552,7 @@ permalink: /hours/
 
 				const date = new Date(now.valueOf() + (rangeSecondsElapsed - nowSecondsElapsed) * 1000);
 				document.getElementById('time-machine').value = convertToDateTimeLocalString(date);
-				setWeekSecondsElapsed(date, { slider: true, paused: true });
+				setWeekSecondsElapsed(date, { slider: true, timeTravelling: true });
 			});
 
 			/* -------------------------------------------------------------------------------- */
