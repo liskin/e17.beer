@@ -129,6 +129,14 @@ function sortVenuesByName() {
 	sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 }
 
+function sortVenuesByDay(day, field, reverse) {
+	function getFieldValue(tr) {
+		const value = tr.querySelector(`td.day[data-day="${day}"]`).dataset[field];
+		return value ? (reverse ? -1 : 1) * parseFloat(value) : Infinity;
+	}
+	sortVenuesBy((a, b) => getFieldValue(a) - getFieldValue(b));
+}
+
 async function sortVenuesByDistance() {
 	const position = await getCurrentPositionWithIndicator({
 		enableHighAccuracy: true,
@@ -160,6 +168,11 @@ async function sortVenuesByDistanceIfPermitted() {
 	}
 }
 
-document.getElementById('sort-name').addEventListener('click', (e) => { sortVenuesByName(); });
-document.getElementById('sort-distance').addEventListener('click', (e) => { sortVenuesByDistance(); });
+document.getElementById('sort-name').addEventListener('click', () => sortVenuesByName());
+document.getElementById('sort-distance').addEventListener('click', () => sortVenuesByDistance());
+document.querySelectorAll('button.sort-first-open').forEach((b) =>
+	b.addEventListener('click', () => sortVenuesByDay(b.parentElement.dataset.day, 'firstOpen', false)));
+document.querySelectorAll('button.sort-last-close').forEach((b) =>
+	b.addEventListener('click', () => sortVenuesByDay(b.parentElement.dataset.day, 'lastClose', true)));
+
 sortVenuesByDistanceIfPermitted();

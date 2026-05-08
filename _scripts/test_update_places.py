@@ -1,9 +1,10 @@
+import logging
 from unittest.mock import MagicMock
 
 import pytest
 from google.api_core import exceptions
 
-from update_places import fetch_place_data, format_happy_hours, format_happy_hours_line, get_week_percentage
+from update_places import fetch_place_data, format_happy_hours_line, get_week_percentage
 
 
 def create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
@@ -162,7 +163,7 @@ def test_valid_time_format():
     get_week_percentage(1, 9, 00)
 
 
-def test_incomplete_weekday_text_warning():
+def test_incomplete_weekday_text_warning(caplog):
     """Verify a warning is issued and 'N/A' is returned if data is missing"""
 
     mock_client = create_mock_client(
@@ -170,8 +171,12 @@ def test_incomplete_weekday_text_warning():
         descriptions=["Monday: 9:00 AM – 5:00 PM"],
     )
 
-    with pytest.warns(UserWarning, match=r"Missing data for Sunday*"):
-        result = fetch_place_data(mock_client, "dummy_id", {"name": "Broken Data Pub"})
+    result = fetch_place_data(mock_client, "dummy_id", {"name": "Broken Data Pub"})
+    assert (
+        "root",
+        logging.WARNING,
+        "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    ) in caplog.record_tuples
 
     times = result["current_schedule"]["time_text_sun_to_sat"]
     assert len(times) == 7

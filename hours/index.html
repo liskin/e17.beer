@@ -58,7 +58,9 @@
 					</th>
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
-					<td class="day">
+					{% assign first_open = place.current_schedule.day_sort_values[day].open %}
+					{% assign last_close = place.current_schedule.day_sort_values[day].close %}
+					<td class="day" data-day="{{ _day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
 						<div>
 							<div class="opening-hours">
 								{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
@@ -89,6 +91,13 @@
 						<button id="sort-name" title="sort by name">by name</button>
 						<button id="sort-distance" title="sort by distance">by distance</button>
 					</th>
+					{% for _day in (0..6) -%}
+					<th scope="col" class="day" data-day="{{ _day }}">
+						⇅
+						<button class="sort-first-open" title="sort by opening time">by first open</button>
+						<button class="sort-last-close" title="sort by closing time">by last close</button>
+					</th>
+					{% endfor %}
 				</tr>
 			</tfoot>
 		</table>
@@ -124,7 +133,6 @@
 		</script>
 	</body>
 
-<!-- TODO: order by opening hour, closing hour -->
 <!-- TODO: vis opening hours within cells -->
 <!-- TODO: add vertical line for current time -->
 
