@@ -151,13 +151,19 @@ permalink: /hours/
 
 				/* happy hours */
 				tbody {
-					div.happy-hours {
-						/* make sure it's readable with the icon underneath */
+					/* make sure it's readable with the icon underneath */
+					div.opening-hours, div.happy-hours {
 						position: relative;
 						z-index: 1;
 						-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
 						paint-order: stroke fill;
 
+					}
+					::selection {
+						-webkit-text-stroke: unset;
+					}
+
+					div.happy-hours {
 						/* text style */
 						text-align: left;
 						span.offer-time, span.offer-name { color: rgb(80 80 80); }
