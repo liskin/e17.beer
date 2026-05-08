@@ -59,6 +59,36 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 97.9167
+                },
+                {
+                    "open": 66.6667,
+                    "close": 100.0
+                },
+                {
+                    "open": 50.0,
+                    "close": 100.0
+                },
+                {
+                    "open": 50.0,
+                    "close": 100.0
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                }
             ]
         },
         "regular_schedule": {
@@ -120,6 +150,30 @@
                 {
                     "open": 92.8571,
                     "close": 99.4048
+                }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 83.3333
+                },
+                null,
+                null,
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
                 }
             ]
         },
@@ -187,6 +241,30 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                },
+                null,
+                null,
+                {
+                    "open": 70.8333,
+                    "close": 100.0
+                },
+                {
+                    "open": 70.8333,
+                    "close": 100.0
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                }
             ]
         },
         "regular_schedule": {
@@ -249,6 +327,27 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 83.3333
+                },
+                null,
+                null,
+                null,
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 66.6667,
+                    "close": 108.3333
+                },
+                {
+                    "open": 50.0,
+                    "close": 108.3333
+                }
             ]
         },
         "regular_schedule": {
@@ -302,6 +401,24 @@
                 {
                     "open": 94.0476,
                     "close": 99.4048
+                }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 4.1667,
+                    "close": 83.3333
+                },
+                null,
+                null,
+                null,
+                null,
+                {
+                    "open": 20.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 8.3333,
+                    "close": 95.8333
                 }
             ]
         },
@@ -361,6 +478,27 @@
                     "open": 92.8571,
                     "close": 99.4048
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 75.0
+                },
+                null,
+                null,
+                null,
+                {
+                    "open": 20.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                }
             ]
         },
         "regular_schedule": {
@@ -419,6 +557,27 @@
                     "open": 92.8571,
                     "close": 99.4048
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 83.3333
+                },
+                null,
+                null,
+                null,
+                {
+                    "open": 20.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 12.5,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                }
             ]
         },
         "regular_schedule": {
@@ -460,7 +619,16 @@
                 "?",
                 "?"
             ],
-            "percentage_periods": []
+            "percentage_periods": [],
+            "day_sort_values": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ]
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
@@ -517,6 +685,27 @@
                 {
                     "open": 93.4524,
                     "close": 99.4048
+                }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 4.1667,
+                    "close": 95.8333
+                },
+                null,
+                null,
+                null,
+                {
+                    "open": 25.0,
+                    "close": 95.8333
+                },
+                {
+                    "open": 20.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 4.1667,
+                    "close": 95.8333
                 }
             ]
         },
@@ -592,6 +781,36 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 83.3333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 100.0
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                },
+                {
+                    "open": 50.0,
+                    "close": 104.1667
+                }
             ]
         },
         "regular_schedule": {
@@ -666,6 +885,36 @@
                     "open": 92.8571,
                     "close": 100.0
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 93.75
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 16.6667,
+                    "close": 95.8333
+                },
+                {
+                    "open": 50.0,
+                    "close": 102.0833
+                },
+                {
+                    "open": 50.0,
+                    "close": 102.0833
+                }
             ]
         },
         "regular_schedule": {
@@ -736,6 +985,36 @@
                     "open": 92.2619,
                     "close": 99.4048
                 }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 45.8333,
+                    "close": 95.8333
+                }
             ]
         },
         "regular_schedule": {
@@ -789,6 +1068,24 @@
                 {
                     "open": 92.8571,
                     "close": 97.619
+                }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 50.0,
+                    "close": 83.3333
+                },
+                null,
+                null,
+                null,
+                null,
+                {
+                    "open": 20.8333,
+                    "close": 87.5
+                },
+                {
+                    "open": 50.0,
+                    "close": 83.3333
                 }
             ]
         },
@@ -851,6 +1148,30 @@
                 {
                     "open": 91.0714,
                     "close": 99.4048
+                }
+            ],
+            "day_sort_values": [
+                {
+                    "open": 37.5,
+                    "close": 91.6667
+                },
+                null,
+                null,
+                {
+                    "open": 12.5,
+                    "close": 95.8333
+                },
+                {
+                    "open": 12.5,
+                    "close": 95.8333
+                },
+                {
+                    "open": 8.3333,
+                    "close": 95.8333
+                },
+                {
+                    "open": 37.5,
+                    "close": 95.8333
                 }
             ]
         },
