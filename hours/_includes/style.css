@@ -306,6 +306,8 @@ div#toolbar {
 	left: 10px;
 	width: calc(100vw - 20px);
 
+	pointer-events: none;
+
 	padding-top: calc(5px + env(safe-area-inset-top));
 	padding-bottom: calc(5px + env(safe-area-inset-bottom));
 	padding-right: calc(5px + env(safe-area-inset-right));
@@ -325,6 +327,7 @@ div#toolbar {
 
 		cursor: pointer;
 		user-select: none;
+		pointer-events: auto;
 
 		border: 1px solid;
 		border-radius: 4px;
