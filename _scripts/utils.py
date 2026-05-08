@@ -1,10 +1,20 @@
 import copy
 import logging
 import os
+from contextlib import contextmanager
+from contextvars import ContextVar
 
 import click
 from dotenv import load_dotenv
 from google.maps import places_v1
+
+_log_context: ContextVar[str] = ContextVar("log_context", default="")
+
+
+class ContextFormatterMixin:
+    def format(self, record):
+        record.context = _log_context.get()
+        return super().format(record)
 
 
 class EmojiFormatterMixin:
@@ -37,8 +47,20 @@ class MultilineFormatterMixin:
             return "\n".join(formatted_lines)
 
 
-class Formatter(EmojiFormatterMixin, MultilineFormatterMixin, logging.Formatter):
-    pass
+class Formatter(ContextFormatterMixin, EmojiFormatterMixin, MultilineFormatterMixin, logging.Formatter):
+    def __init__(self):
+        fmt = "%(levelemoji)s %(levelname)5.5s | %(context)s%(message)s"
+        super().__init__(fmt)
+
+
+@contextmanager
+def logging_context(context: str):
+    """Context manager to add temporary data to logs."""
+    saved_log_context = _log_context.set(_log_context.get() + context + " | ")
+    try:
+        yield
+    finally:
+        _log_context.reset(saved_log_context)
 
 
 def setup_logging(verbosity):
@@ -51,11 +73,9 @@ def setup_logging(verbosity):
             level = logging.INFO
 
     console_handler = logging.StreamHandler()
-    fmt = "%(levelemoji)s %(levelname)5.5s | %(message)s"
-    console_handler.setFormatter(Formatter(fmt))
+    console_handler.setFormatter(Formatter())
 
     logging.basicConfig(level=level, handlers=[console_handler])
-    logging.captureWarnings(True)
 
 
 def click_option_verbosity():
