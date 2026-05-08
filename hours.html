@@ -424,7 +424,7 @@ permalink: /hours/
 								{{ place.happy_hours[day] }}
 							</div>
 							<div class="happy-hours-icon">
-								<label for="hide-happy-hours">
+								<label for="hide-happy-hours" title="show/hide happy hours">
 									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
 								</label>
 							</div>
@@ -439,8 +439,8 @@ permalink: /hours/
 				<tr>
 					<th scope="col" class="venue">
 						⇅
-						<button id="sort-name">by name</button>
-						<button id="sort-distance">by distance</button>
+						<button id="sort-name" title="sort by name">by name</button>
+						<button id="sort-distance" title="sort by distance">by distance</button>
 					</th>
 				</tr>
 			</tfoot>
@@ -465,7 +465,7 @@ permalink: /hours/
 
 		<div id="toolbar">
 			<input type="checkbox" id="hide-happy-hours" checked>
-			<label for="hide-happy-hours">
+			<label for="hide-happy-hours" title="show/hide happy hours">
 				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
 			</label>
 		</div>
