@@ -95,10 +95,11 @@ def periods_to_percentages(opening_hours_obj) -> list:
 
 
 def calculate_day_sort_values(opening_hours_obj) -> list:
-    """Calculate sortable values for earliest opening and latest closing times per day (Sun-Sat)."""
-    day_sort_values = [None] * 7  # Sunday=0 to Saturday=6
+    """Calculate earliest opening and latest closing percentages per day (Sun–Sat)."""
+    day_sort_values: list[dict | None] = [None] * 7
 
     if not opening_hours_obj or not opening_hours_obj.periods:
+        logging.warning("Missing all opening periods.")
         return day_sort_values
 
     for p in opening_hours_obj.periods:
@@ -106,12 +107,10 @@ def calculate_day_sort_values(opening_hours_obj) -> list:
             continue
 
         # Skip truncated intervals (e.g., Saturday late openings returned as Sunday morning)
-        # These are artifacts of Google Places API representation
+        # TODO: Preprocess periods from current, regular and saved opening hours to get rid of truncated intervals
         if p.open.truncated:
-            # Warn if the interval is longer than 4 hours (something might be wrong)
-            duration_hours = (p.close.hour * 60 + p.close.minute - p.open.hour * 60 - p.open.minute) / 60
-            if duration_hours > 4:
-                logging.warning("Skipping truncated interval longer than 4 hours (%s – %s)", p.open, p.close)
+            if p.close.hour >= 4:
+                logging.warning("Skipping truncated interval closing after 4am (%s – %s)", p.open, p.close)
             continue
 
         open_day = p.open.day
