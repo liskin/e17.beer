@@ -50,6 +50,31 @@ table#opening-hours {
 		min-width: 12em;
 	}
 
+	th.sortable {
+		.sort-controls {
+			display: block;
+			font-size: 0.8em;
+			margin-top: 0.2em;
+
+			button {
+				display: inline;
+				padding: 0 4px;
+				margin: 0 2px;
+
+				border: 1px solid rgb(190 190 190);
+				background-color: rgb(245 245 245);
+				border-radius: 3px;
+
+				font-size: 0.9em;
+				cursor: pointer;
+
+				&:hover {
+					background-color: rgb(230 230 230);
+				}
+			}
+		}
+	}
+
 	/* venue hyperlinks */
 	th.venue:has(a) {
 		padding: 0;

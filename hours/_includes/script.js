@@ -130,6 +130,27 @@ function sortVenuesByName() {
 	sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 }
 
+function sortVenuesByDayOpen(dayIndex) {
+	const dataAttr = `day${dayIndex}-open`;
+	sortVenuesBy((a, b) => {
+		const aVal = parseFloat(a.dataset[dataAttr]);
+		const bVal = parseFloat(b.dataset[dataAttr]);
+		return aVal - bVal;
+	});
+}
+
+function sortVenuesByDayClose(dayIndex) {
+	const dataAttr = `day${dayIndex}-close`;
+	sortVenuesBy((a, b) => {
+		const aVal = parseFloat(a.dataset[dataAttr]);
+		const bVal = parseFloat(b.dataset[dataAttr]);
+		// Sort descending (latest closing first), but closed venues (value -1) go last
+		if (bVal === -1) return -1;
+		if (aVal === -1) return 1;
+		return bVal - aVal;
+	});
+}
+
 async function sortVenuesByDistance() {
 	const position = await getCurrentPositionWithIndicator({
 		enableHighAccuracy: true,
@@ -163,4 +184,18 @@ async function sortVenuesByDistanceIfPermitted() {
 
 document.getElementById('sort-name').addEventListener('click', (e) => { sortVenuesByName(); });
 document.getElementById('sort-distance').addEventListener('click', (e) => { sortVenuesByDistance(); });
+
+/* add event listeners for day-specific sorting buttons */
+document.querySelectorAll('th.sortable').forEach((th) => {
+	const dayIndex = parseInt(th.dataset.day);
+	th.querySelector('.sort-open').addEventListener('click', (e) => {
+		e.stopPropagation();
+		sortVenuesByDayOpen(dayIndex);
+	});
+	th.querySelector('.sort-close').addEventListener('click', (e) => {
+		e.stopPropagation();
+		sortVenuesByDayClose(dayIndex);
+	});
+});
+
 sortVenuesByDistanceIfPermitted();

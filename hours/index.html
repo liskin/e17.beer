@@ -40,19 +40,19 @@
 				</tr>
 				<tr>
 					<th scope="col" class="venue">venue / day</th>
-					<th scope="col" class="day">Monday</th>
-					<th scope="col" class="day">Tuesday</th>
-					<th scope="col" class="day">Wednesday</th>
-					<th scope="col" class="day">Thursday</th>
-					<th scope="col" class="day">Friday</th>
-					<th scope="col" class="day">Saturday</th>
-					<th scope="col" class="day">Sunday</th>
+					<th scope="col" class="day sortable" data-day="0">Monday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="1">Tuesday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="2">Wednesday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="3">Thursday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="4">Friday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="5">Saturday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
+					<th scope="col" class="day sortable" data-day="6">Sunday<br><span class="sort-controls"><button class="sort-open" title="sort by opening time">↑</button><button class="sort-close" title="sort by closing time">↓</button></span></th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for place in site.data.places -%}
 				{% assign i = forloop.index0 -%}
-				<tr style="--venue: venue{{ i }}">
+				<tr style="--venue: venue{{ i }}" {% for _day in (0..6) -%}{% assign day = _day | plus: 1 | modulo: 7 -%}data-day{{ _day }}-open="{% if place.current_schedule.day_sort_values[day] %}{{ place.current_schedule.day_sort_values[day].open }}{% else %}999{% endif %}" data-day{{ _day }}-close="{% if place.current_schedule.day_sort_values[day] %}{{ place.current_schedule.day_sort_values[day].close }}{% else %}-1{% endif %}" {% endfor %}>
 					<th class="venue" scope="row" data-loc-lat="{{ place.location.lat }}" data-loc-lng="{{ place.location.lng }}">
 						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
 					</th>
