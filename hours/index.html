@@ -1,0 +1,132 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+
+		<title>Blackhorse Beer Mile - Opening Hours</title>
+
+		<style>
+{% include_relative _includes/modern-normalize.min.css %}
+
+{% include_relative _includes/style.css %}
+
+{% for place in site.data.places -%}
+{% assign i = forloop.index0 -%}
+@keyframes venue{{ i }} {
+	{% for period in place.current_schedule.percentage_periods -%}
+	{{ period.open  }}% { --open: 1; }
+	{{ period.close }}% { --open: 0; }
+	{% endfor %}
+}
+{% endfor %}
+		</style>
+	</head>
+
+	<body>
+		<table id="opening-hours">
+			<thead>
+				<tr id="time-machine-row">
+					<th scope="row">time machine</th>
+					<td colspan="7">
+						<div>
+							<input type="datetime-local" id="time-machine">
+							<input type="range" id="time-machine-slider" min="0" max="604800">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col" class="venue">venue / day</th>
+					<th scope="col" class="day">Monday</th>
+					<th scope="col" class="day">Tuesday</th>
+					<th scope="col" class="day">Wednesday</th>
+					<th scope="col" class="day">Thursday</th>
+					<th scope="col" class="day">Friday</th>
+					<th scope="col" class="day">Saturday</th>
+					<th scope="col" class="day">Sunday</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for place in site.data.places -%}
+				{% assign i = forloop.index0 -%}
+				<tr style="--venue: venue{{ i }}">
+					<th class="venue" scope="row" data-loc-lat="{{ place.location.lat }}" data-loc-lng="{{ place.location.lng }}">
+						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
+					</th>
+					{% for _day in (0..6) -%}
+					{% assign day = _day | plus: 1 | modulo: 7 -%}
+					<td class="day">
+						<div>
+							<div class="opening-hours">
+								{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
+								<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+								{% endif -%}
+								{{ place.current_schedule.time_text_sun_to_sat[day] }}
+							</div>
+							{% if place.happy_hours[day] -%}
+							<div class="happy-hours">
+								{{ place.happy_hours[day] }}
+							</div>
+							<div class="happy-hours-icon">
+								<label for="show-happy-hours" title="show/hide happy hours">
+									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+								</label>
+							</div>
+							{% endif %}
+						</div>
+					</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th scope="col" class="venue">
+						⇅
+						<button id="sort-name" title="sort by name">by name</button>
+						<button id="sort-distance" title="sort by distance">by distance</button>
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+
+		<footer>
+			<p hidden id="warning-time-zone-mismatch">
+			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
+			</p>
+			<p>
+			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
+			</p>
+		</footer>
+
+		<div id="location-indicator" class="hidden">
+			<span class="pin">📍</span>
+			<span class="pin-text">Finding you...</span>
+		</div>
+
+		<div id="toolbar">
+			<input type="checkbox" id="show-happy-hours">
+			<label for="show-happy-hours" title="show/hide happy hours">
+				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
+
+			<input type="checkbox" id="show-time-machine">
+			<label for="show-time-machine" title="show/hide time machine">
+				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
+		</div>
+
+		<script>
+{% include_relative _includes/script.js %}
+		</script>
+	</body>
+
+<!-- TODO: order by opening hour, closing hour -->
+<!-- TODO: vis opening hours within cells -->
+<!-- TODO: add vertical line for current time -->
+
+<!-- vim:set ft=liquid: -->
+</html>
