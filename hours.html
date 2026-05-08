@@ -38,6 +38,16 @@ permalink: /hours/
 				min-width: 100%;
 			}
 
+			/* full height for divs in cells - height chain hack */
+			table {
+				height: 100%;
+				tr { height: 100%; }
+				td {
+					height: 100%;
+					> div { height: 100%; }
+				}
+			}
+
 			table#opening-hours {
 				margin: 0 auto;
 
@@ -136,14 +146,6 @@ permalink: /hours/
 							) calc(var(--today) * 100%)
 						);
 						background-color: var(--background-color);
-					}
-				}
-
-				/* full height for divs in cells */
-				tbody {
-					td.day {
-						height: 1px; /* will expand but needed for the div underneath */
-						> div { height: 100%; }
 					}
 				}
 
