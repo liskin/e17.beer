@@ -25,8 +25,7 @@ function setWeekSecondsElapsed(date, opts) {
 	/* scroll to current day */
 	if (opts?.scroll) {
 		const day = new Date(date - 4 * 3600 * 1000 /* make days start at 4am */).getDay();
-		const col = 2 + (day - 1 + 7) % 7; /* venue is first column, Monday is second, Sunday is last */
-		document.querySelector(`th.day:nth-child(${col})`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
+		document.querySelector(`thead th.day[data-day="${day}"]`).scrollIntoView({ behavior: 'smooth', inline: 'end' });
 	}
 
 	/* check for time zone mismatch */
