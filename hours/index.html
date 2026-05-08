@@ -40,13 +40,11 @@
 				</tr>
 				<tr>
 					<th scope="col" class="venue">venue / day</th>
-					<th scope="col" class="day" data-day="1">Monday</th>
-					<th scope="col" class="day" data-day="2">Tuesday</th>
-					<th scope="col" class="day" data-day="3">Wednesday</th>
-					<th scope="col" class="day" data-day="4">Thursday</th>
-					<th scope="col" class="day" data-day="5">Friday</th>
-					<th scope="col" class="day" data-day="6">Saturday</th>
-					<th scope="col" class="day" data-day="0">Sunday</th>
+					{% assign day_names = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday" | split: " " -%}
+					{% for day_name in day_names -%}
+					{% assign _day = forloop.index0 | plus: 1 | modulo: 7 -%}
+					<th scope="col" class="day" data-day="{{ _day }}">{{ day_name }}</th>
+					{% endfor %}
 				</tr>
 			</thead>
 			<tbody>
@@ -60,7 +58,7 @@
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
 					{% assign first_open = place.current_schedule.day_sort_values[day].open %}
 					{% assign last_close = place.current_schedule.day_sort_values[day].close %}
-					<td class="day" data-day="{{ _day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
+					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
 						<div>
 							<div class="opening-hours">
 								{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
@@ -92,7 +90,8 @@
 						<button id="sort-distance" title="sort by distance">by distance</button>
 					</th>
 					{% for _day in (0..6) -%}
-					<th scope="col" class="day" data-day="{{ _day }}">
+					{% assign day = _day | plus: 1 | modulo: 7 -%}
+					<th scope="col" class="day" data-day="{{ day }}">
 						⇅
 						<button class="sort-first-open" title="sort by opening time">by first open</button>
 						<button class="sort-last-close" title="sort by closing time">by last close</button>
