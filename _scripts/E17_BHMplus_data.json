@@ -56,7 +56,7 @@
         "url": "https://maps.google.com/?cid=10943805710222089070&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
         "happy_hours": [
             null,
-            "TODO",
+            null,
             null,
             null,
             null,
@@ -94,13 +94,13 @@
         "place_name": "East London Brewing",
         "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
         "happy_hours": [
-            null,
-            "TODO",
-            null,
+            "£5 pints all May",
             null,
             null,
             null,
-            null
+            null,
+            "£5 pints all May",
+            "£5 pints all May"
         ]
     },
     "ChIJt44reHMddkgRK2rJwANEAyI": {
