@@ -174,7 +174,7 @@ permalink: /hours/
 						transition-property: opacity, display, max-width, max-height, margin-top;
 						transition-timing-function: linear;
 
-						body:has(input#hide-happy-hours:checked) & {
+						body:not(:has(input#show-happy-hours:checked)) & {
 							display: none;
 							margin-top: 0;
 							max-width: 11em;
@@ -212,7 +212,7 @@ permalink: /hours/
 
 								transition: opacity 0.5s;
 
-								body:has(input#hide-happy-hours:checked) & {
+								body:not(:has(input#show-happy-hours:checked)) & {
 									opacity: 0.3;
 								}
 							}
@@ -220,11 +220,11 @@ permalink: /hours/
 					}
 				}
 
-				th#time-machine-trigger {
-					user-select: none;
-				}
-
 				tr#time-machine-row {
+					body:not(:has(input#show-time-machine:checked)) & {
+						display: none;
+					}
+
 					td {
 						div {
 							display: flex;
@@ -324,6 +324,7 @@ permalink: /hours/
 
 				display: flex;
 				flex-direction: row-reverse;
+				gap: 5px;
 
 				input {
 					display: none;
@@ -342,14 +343,14 @@ permalink: /hours/
 					transition: 0.2s;
 					transition-property: background-color, border-color, box-shadow;
 
-					background-color: rgb(215 215 215);
-					border-color: rgb(180 180 180);
-					box-shadow: inset 1px 1px 4px rgba(180 180 180);
+					border-color: rgb(200 200 200);
+					background: rgb(245 245 245);
+					box-shadow: inset 1px 1px 4px rgba(255 255 255);
 
 					input:checked + & {
-						border-color: rgb(200 200 200);
-						background: rgb(245 245 245);
-						box-shadow: inset 1px 1px 4px rgba(255 255 255);
+						background-color: rgb(215 215 215);
+						border-color: rgb(180 180 180);
+						box-shadow: inset 1px 1px 4px rgba(180 180 180);
 					}
 
 					&:hover, input:checked + &:hover {
@@ -382,7 +383,7 @@ permalink: /hours/
 	<body>
 		<table id="opening-hours">
 			<thead>
-				<tr id="time-machine-row" hidden>
+				<tr id="time-machine-row">
 					<th scope="row">time machine</th>
 					<td colspan="7">
 						<div>
@@ -392,7 +393,7 @@ permalink: /hours/
 					</td>
 				</tr>
 				<tr>
-					<th scope="col" class="venue" id="time-machine-trigger">venue / day</th>
+					<th scope="col" class="venue">venue / day</th>
 					<th scope="col" class="day">Monday</th>
 					<th scope="col" class="day">Tuesday</th>
 					<th scope="col" class="day">Wednesday</th>
@@ -424,7 +425,7 @@ permalink: /hours/
 								{{ place.happy_hours[day] }}
 							</div>
 							<div class="happy-hours-icon">
-								<label for="hide-happy-hours" title="show/hide happy hours">
+								<label for="show-happy-hours" title="show/hide happy hours">
 									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
 								</label>
 							</div>
@@ -451,9 +452,6 @@ permalink: /hours/
 			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
 			</p>
 			<p>
-			Tip: double-click "venue / day" to show the Time Machine
-			</p>
-			<p>
 			See more at <a href="{{ "/" | relative_url }}">E17.beer</a>
 			</p>
 		</footer>
@@ -464,9 +462,14 @@ permalink: /hours/
 		</div>
 
 		<div id="toolbar">
-			<input type="checkbox" id="hide-happy-hours" checked>
-			<label for="hide-happy-hours" title="show/hide happy hours">
+			<input type="checkbox" id="show-happy-hours">
+			<label for="show-happy-hours" title="show/hide happy hours">
 				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
+
+			<input type="checkbox" id="show-time-machine">
+			<label for="show-time-machine" title="show/hide time machine">
+				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25">
 			</label>
 		</div>
 
@@ -522,11 +525,6 @@ permalink: /hours/
 			document.addEventListener('visibilitychange', syncCSSAnimations);
 
 			/* -------------------------------------------------------------------------------- */
-
-			/* triple click shows time-machine */
-			document.getElementById('time-machine-trigger').addEventListener('dblclick', (e) => {
-				document.getElementById('time-machine-row').hidden = false;
-			});
 
 			/* update animation time on time-machine input */
 			document.getElementById('time-machine').addEventListener('input', (e) => {
