@@ -124,29 +124,23 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
                 continue
 
             open_day = p.open.day
-            close_day = p.close.day
 
-            # Calculate day percentage (0-100 representing 00:00 to 23:59 within a single day)
-            # For opening times
-            open_day_pct = ((p.open.hour * 60 + p.open.minute) / 1440) * 100
+            # Use get_week_percentage for consistent calculation
+            open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
+            close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
 
-            # For closing times, allow > 100 for venues that close after midnight
-            # We need to determine if this closing time belongs to the opening day or next day
-            close_day_pct = ((p.close.hour * 60 + p.close.minute) / 1440) * 100
-
-            # If close_day is the same as open_day, it's a same-day close
-            # If close_day is different, the venue closes on the next day (after midnight)
-            if close_day != open_day:
-                # Close time is on the next day, so add 100 to represent it
-                close_day_pct += 100
+            # Handle week wraparound: if open_pct > close_pct, the closing is next week
+            # Instead of splitting like in percentage_periods, add 100 to close_pct
+            if open_pct > close_pct:
+                close_pct += 100
 
             # Update the opening day entry
             if day_sort_values[open_day] is None:
-                day_sort_values[open_day] = {"open": open_day_pct, "close": close_day_pct}
+                day_sort_values[open_day] = {"open": open_pct, "close": close_pct}
             else:
                 # Track earliest opening and latest closing for this day
-                day_sort_values[open_day]["open"] = min(day_sort_values[open_day]["open"], open_day_pct)
-                day_sort_values[open_day]["close"] = max(day_sort_values[open_day]["close"], close_day_pct)
+                day_sort_values[open_day]["open"] = min(day_sort_values[open_day]["open"], open_pct)
+                day_sort_values[open_day]["close"] = max(day_sort_values[open_day]["close"], close_pct)
 
         return day_sort_values
 

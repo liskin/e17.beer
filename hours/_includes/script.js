@@ -131,19 +131,21 @@ function sortVenuesByName() {
 }
 
 function sortVenuesByDayOpen(dayIndex) {
-	const dataAttr = `day${dayIndex}-open`;
 	sortVenuesBy((a, b) => {
-		const aVal = parseFloat(a.dataset[dataAttr]);
-		const bVal = parseFloat(b.dataset[dataAttr]);
+		const aTd = a.children[dayIndex + 1]; // +1 because first child is venue name
+		const bTd = b.children[dayIndex + 1];
+		const aVal = parseFloat(aTd.dataset.open);
+		const bVal = parseFloat(bTd.dataset.open);
 		return aVal - bVal;
 	});
 }
 
 function sortVenuesByDayClose(dayIndex) {
-	const dataAttr = `day${dayIndex}-close`;
 	sortVenuesBy((a, b) => {
-		const aVal = parseFloat(a.dataset[dataAttr]);
-		const bVal = parseFloat(b.dataset[dataAttr]);
+		const aTd = a.children[dayIndex + 1]; // +1 because first child is venue name
+		const bTd = b.children[dayIndex + 1];
+		const aVal = parseFloat(aTd.dataset.close);
+		const bVal = parseFloat(bTd.dataset.close);
 		// Sort descending (latest closing first), but closed venues (value -1) go last
 		if (bVal === -1) return -1;
 		if (aVal === -1) return 1;
@@ -186,14 +188,16 @@ document.getElementById('sort-name').addEventListener('click', (e) => { sortVenu
 document.getElementById('sort-distance').addEventListener('click', (e) => { sortVenuesByDistance(); });
 
 /* add event listeners for day-specific sorting buttons */
-document.querySelectorAll('th.sortable').forEach((th) => {
-	const dayIndex = parseInt(th.dataset.day);
-	th.querySelector('.sort-open').addEventListener('click', (e) => {
-		e.stopPropagation();
+document.querySelectorAll('button.sort-day-open').forEach((btn) => {
+	const dayIndex = parseInt(btn.dataset.day);
+	btn.addEventListener('click', (e) => {
 		sortVenuesByDayOpen(dayIndex);
 	});
-	th.querySelector('.sort-close').addEventListener('click', (e) => {
-		e.stopPropagation();
+});
+
+document.querySelectorAll('button.sort-day-close').forEach((btn) => {
+	const dayIndex = parseInt(btn.dataset.day);
+	btn.addEventListener('click', (e) => {
 		sortVenuesByDayClose(dayIndex);
 	});
 });
