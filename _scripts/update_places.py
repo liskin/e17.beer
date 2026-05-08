@@ -63,7 +63,7 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
 
 def periods_to_percentages(opening_hours_obj) -> list:
     """Transforms periods into percentage-of-week intervals."""
-    pct_periods = []
+    pct_periods: list[dict] = []
 
     # Check for missing top-level data
     if not opening_hours_obj or not opening_hours_obj.periods:

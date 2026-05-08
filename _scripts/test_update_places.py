@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 from google.api_core import exceptions
 
-from update_places import fetch_place_data, format_happy_hours, format_happy_hours_line, get_week_percentage
+from update_places import fetch_place_data, format_happy_hours_line, get_week_percentage
 
 
 def create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
