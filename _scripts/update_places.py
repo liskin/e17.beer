@@ -123,6 +123,19 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
             if not p.open or not p.close:
                 continue
 
+            # Skip truncated intervals (e.g., Saturday late openings returned as Sunday morning)
+            # These are artifacts of Google Places API representation
+            if p.open.truncated:
+                # Warn if the interval is longer than 4 hours (something might be wrong)
+                duration_hours = (p.close.hour * 60 + p.close.minute - p.open.hour * 60 - p.open.minute) / 60
+                if duration_hours > 4:
+                    warnings.warn(
+                        f"⚠️ {place_name}: Skipping truncated interval longer than 4 hours "
+                        f"(day {p.open.day}, {p.open.hour:02d}:{p.open.minute:02d}–{p.close.hour:02d}:{p.close.minute:02d})",
+                        UserWarning
+                    )
+                continue
+
             open_day = p.open.day
 
             # Use get_week_percentage for consistent calculation
