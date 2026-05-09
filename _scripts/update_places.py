@@ -187,10 +187,10 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         "url": url,
         "location": gps_location,
         "happy_hours": happy_hours,
+        "percentage_periods": pct_periods,
+        "day_sort_values": day_sort_values,
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,
-            "percentage_periods": pct_periods,
-            "day_sort_values": day_sort_values,
         },
         "regular_schedule": {
             "time_text_sun_to_sat": regular_time_text,
