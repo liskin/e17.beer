@@ -59,6 +59,9 @@ def logging_context(context: str):
     saved_log_context = _log_context.set(_log_context.get() + context + " | ")
     try:
         yield
+    except Exception as e:
+        logging.exception(f"{e}")
+        raise
     finally:
         _log_context.reset(saved_log_context)
 

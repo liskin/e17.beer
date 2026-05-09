@@ -63,13 +63,11 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
 
 def periods_to_percentages(opening_hours_obj) -> list:
     """Transforms periods into percentage-of-week intervals."""
-    pct_periods: list[dict] = []
 
-    # Check for missing top-level data
     if not opening_hours_obj or not opening_hours_obj.periods:
-        logging.warning("Missing all opening periods.")
-        return pct_periods
+        raise RuntimeError("No periods available.")
 
+    pct_periods: list[dict] = []
     for p in opening_hours_obj.periods:
         # Check for missing period boundaries
         # TODO: later update for the case of 24-hour venues, where Google omits 'close',
@@ -94,14 +92,13 @@ def periods_to_percentages(opening_hours_obj) -> list:
     return sorted(pct_periods, key=lambda x: x["open"])
 
 
-def calculate_day_sort_values(opening_hours_obj) -> list:
+def calculate_day_sort_values(opening_hours_obj: places_v1.types.Place.OpeningHours) -> list:
     """Calculate earliest opening and latest closing percentages per day (Sun–Sat)."""
-    day_sort_values: list[dict | None] = [None] * 7
 
     if not opening_hours_obj or not opening_hours_obj.periods:
-        logging.warning("Missing all opening periods.")
-        return day_sort_values
+        raise RuntimeError("No periods available.")
 
+    day_sort_values: list[dict | None] = [None] * 7
     for p in opening_hours_obj.periods:
         if not p.open or not p.close:
             continue
@@ -135,11 +132,11 @@ def calculate_day_sort_values(opening_hours_obj) -> list:
     return day_sort_values
 
 
-def process_text(opening_hours_obj) -> list:
+def process_text(opening_hours_obj: places_v1.types.Place.OpeningHours) -> list:
     """Extracts text descriptions ordered Sunday to Saturday."""
+
     if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
-        logging.warning("No weekday descriptions available.")
-        return ["N/A"] * 7
+        raise RuntimeError("No weekday descriptions available.")
 
     days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     desc_list = list(opening_hours_obj.weekday_descriptions)
@@ -156,7 +153,7 @@ def process_text(opening_hours_obj) -> list:
     # Check if any day came back as None
     if None in ordered_hours_text:
         missing_days = [days_order[i] for i, val in enumerate(ordered_hours_text) if val is None]
-        logging.warning("Missing data for %s", ", ".join(missing_days))
+        raise RuntimeError(f"Missing data for {', '.join(missing_days)}")
 
     return ordered_hours_text
 
@@ -165,19 +162,17 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
-    place_name = place_metadata.get("place_name")
+    place_name = place_metadata["place_name"]
     with logging_context(f"place_name={place_name}"):
-        url = place_metadata.get("url")
-        happy_hours = place_metadata.get("happy_hours")
-        if happy_hours:
-            happy_hours = [format_happy_hours(hh) for hh in happy_hours]
+        url = place_metadata["url"]
+        happy_hours = [format_happy_hours(hh) for hh in place_metadata["happy_hours"]]
 
         field_mask = "id,regularOpeningHours,currentOpeningHours,location"
         place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])
 
         # Verify the ID
         if place.id != place_id:
-            raise ValueError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
+            raise RuntimeError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
         gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
 

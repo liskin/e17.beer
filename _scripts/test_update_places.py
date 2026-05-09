@@ -1,8 +1,8 @@
-import logging
+from collections import defaultdict
 from unittest.mock import MagicMock
 
+import google.api_core
 import pytest
-from google.api_core import exceptions
 
 from update_places import (
     fetch_place_data,
@@ -137,22 +137,16 @@ def test_valid_time_format():
     get_week_percentage(1, 9, 00)
 
 
-def test_incomplete_weekday_text_warning(caplog):
-    """Verify a warning is issued and 'N/A' is returned if data is missing"""
+def test_incomplete_weekday_text_error():
+    """Verify an exception is issued if data is missing"""
 
     opening_hours_obj = MagicMock()
     opening_hours_obj.weekday_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
 
-    times = process_text(opening_hours_obj)
-    assert (
-        "root",
-        logging.WARNING,
-        "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday",
-    ) in caplog.record_tuples
+    with pytest.raises(RuntimeError) as excinfo:
+        process_text(opening_hours_obj)
 
-    assert len(times) == 7
-    assert times[0] is None or times[0] == "N/A"  # Sunday is missing
-    assert times[1] == "9:00 AM – 5:00 PM"  # Monday is present
+    assert "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday" == str(excinfo.value)
 
 
 # --- API RETURN TESTS ---
@@ -179,10 +173,10 @@ def test_fetch_place_api_error_handling():
 
     google_reason = "Invalid 'place_id' parameter."
     mock_client = MagicMock()
-    mock_client.get_place.side_effect = exceptions.InvalidArgument(google_reason)
+    mock_client.get_place.side_effect = google.api_core.exceptions.InvalidArgument(google_reason)
 
-    with pytest.raises(exceptions.InvalidArgument) as excinfo:
-        fetch_place_data(mock_client, "bad_id", {"name": "Test Brewery"})
+    with pytest.raises(google.api_core.exceptions.InvalidArgument) as excinfo:
+        fetch_place_data(mock_client, "bad_id", defaultdict(str))
 
     assert google_reason in str(excinfo.value)
 
