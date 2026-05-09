@@ -26,3 +26,5 @@ theme: linkhub-jekyll-theme
 exclude:
   - Justfile
   - Makefile
+  - AGENTS.md
+  - CLAUDE.md
