@@ -130,6 +130,7 @@ def main(verbosity, output):
         output_dict = dict(process_row(row) for _, row in t)
 
     json.dump(output_dict, output, indent=4, ensure_ascii=False)
+    output.write("\n")
 
 
 if __name__ == "__main__":

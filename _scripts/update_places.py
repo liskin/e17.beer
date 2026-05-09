@@ -246,6 +246,7 @@ def main(verbosity, input, output):
         output_list = [process(pid, metadata) for pid, metadata in t]
 
     json.dump(output_list, output, indent=4, ensure_ascii=False)
+    output.write("\n")
 
 
 if __name__ == "__main__":
