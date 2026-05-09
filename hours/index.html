@@ -55,9 +55,12 @@
 			{% for section in site.data.places -%}
 			{% assign section_index = forloop.index0 -%}
 			<tbody>
+				<tr class="section-header">
+					<th colspan="8"><div>{{ section.section }}</div></th>
+				</tr>
 				{% for venue in section.venues -%}
 				{% assign i = forloop.index0 -%}
-				<tr style="--venue: venue{{ section_index }}-{{ i }}">
+				<tr class="venue" style="--venue: venue{{ section_index }}-{{ i }}">
 					<th class="venue" scope="row" data-loc-lat="{{ venue.location.lat }}" data-loc-lng="{{ venue.location.lng }}">
 						<a href="{{ venue.url }}" target="_blank">{{ venue.place_name }}</a>
 					</th>

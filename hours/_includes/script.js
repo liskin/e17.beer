@@ -129,7 +129,11 @@ async function sortVenuesBy(getCompareFn) {
 
 	document.querySelectorAll('table#opening-hours > tbody').forEach((tbody) => {
 		/* sort each tbody separately */
-		[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+		[...tbody.children].filter((e) =>
+			e.classList.contains('venue')
+		).sort(compareFn).reduceRight((acc, x) =>
+			tbody.insertBefore(x, acc)
+		);
 	});
 }
 
