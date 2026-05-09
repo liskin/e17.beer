@@ -77,6 +77,11 @@ def periods_to_percentages(opening_hours_obj) -> list:
             logging.warning("Incomplete period data (missing %s)", msg)
             continue
 
+        if p.open.truncated:
+            logging.warning("Truncated open period: %s", p.open)
+        if p.close.truncated:
+            logging.warning("Truncated close period: %s", p.close)
+
         # Standard percentage calculation
         open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
         close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
