@@ -80,52 +80,22 @@ document.getElementById('time-machine-slider').addEventListener('input', (e) => 
 
 /* -------------------------------------------------------------------------------- */
 
-/* async wrapper for getCurrentPosition with AbortSignal support */
-function getCurrentPosition(options, signal) {
+/* async wrapper for getCurrentPosition */
+function getCurrentPosition(options) {
 	return new Promise((resolve, reject) => {
-		if (!navigator.geolocation) {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(resolve, reject, options);
+		} else {
 			reject(new Error("Geolocation is not supported by your browser"));
-			return;
 		}
-
-		/* check if already aborted */
-		if (signal?.aborted) {
-			reject(new DOMException("Geolocation request aborted", "AbortError"));
-			return;
-		}
-
-		const watchId = navigator.geolocation.getCurrentPosition(
-			(position) => {
-				if (!signal?.aborted) {
-					resolve(position);
-				}
-			},
-			(error) => {
-				if (!signal?.aborted) {
-					reject(error);
-				}
-			},
-			options
-		);
-
-		/* abort handler */
-		signal?.addEventListener('abort', () => {
-			reject(new DOMException("Geolocation request aborted", "AbortError"));
-		});
 	});
 }
 
-async function getCurrentPositionWithIndicator(options, signal) {
+async function getCurrentPositionWithIndicator(options) {
 	const indicator = document.querySelector('div#location-indicator');
 	try {
 		indicator.classList.remove('hidden');
-		return await getCurrentPosition(options, signal);
-	} catch (error) {
-		/* hide indicator on abort */
-		if (error.name === 'AbortError') {
-			throw error;
-		}
-		throw error;
+		return await getCurrentPosition(options);
 	} finally {
 		indicator.classList.add('hidden');
 	}
@@ -147,8 +117,8 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 /* -------------------------------------------------------------------------------- */
 
-/* AbortController to cancel pending geolocation requests */
-let currentLocationAbortController = null;
+/* sort counter to track the latest sort request */
+let sortRequestCounter = 0;
 
 /* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
 function sortVenuesBy(compareFn) {
@@ -157,20 +127,14 @@ function sortVenuesBy(compareFn) {
 }
 
 function sortVenuesByName() {
-	/* abort any pending geolocation request */
-	currentLocationAbortController?.abort();
-	currentLocationAbortController = null;
-
+	sortRequestCounter++; /* cancel any pending geolocation-based sort */
 	const collator = new Intl.Collator("en");
 	const getText = (tr) => tr.querySelector('th.venue').innerText;
 	sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 }
 
 function sortVenuesByDay(day, field, reverse) {
-	/* abort any pending geolocation request */
-	currentLocationAbortController?.abort();
-	currentLocationAbortController = null;
-
+	sortRequestCounter++; /* cancel any pending geolocation-based sort */
 	function getFieldValue(tr) {
 		const value = tr.querySelector(`td.day[data-day="${day}"]`).dataset[field];
 		return value ? (reverse ? -1 : 1) * parseFloat(value) : Infinity;
@@ -179,41 +143,29 @@ function sortVenuesByDay(day, field, reverse) {
 }
 
 async function sortVenuesByDistance() {
-	/* abort any pending geolocation request */
-	currentLocationAbortController?.abort();
+	const currentSortId = ++sortRequestCounter;
 
-	/* create new AbortController for this request */
-	const abortController = new AbortController();
-	currentLocationAbortController = abortController;
+	const position = await getCurrentPositionWithIndicator({
+		enableHighAccuracy: true,
+		timeout: 10000,
+		maximumAge: 60 * 1000,
+	});
 
-	try {
-		const position = await getCurrentPositionWithIndicator({
-			enableHighAccuracy: true,
-			timeout: 10000,
-			maximumAge: 60 * 1000,
-		}, abortController.signal);
-
-		/* calculate and store distances */
-		[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
-			venue.dataset.distance = getDistance(
-				venue.dataset.locLat, venue.dataset.locLng,
-				position.coords.latitude, position.coords.longitude
-			);
-		});
-
-		const getVenueDistance = (tr) => tr.querySelector('th.venue').dataset.distance;
-		sortVenuesBy((a, b) => getVenueDistance(a) - getVenueDistance(b));
-	} catch (error) {
-		/* silently ignore AbortError - user cancelled the request */
-		if (error.name !== 'AbortError') {
-			console.error('Error getting location:', error);
-		}
-	} finally {
-		/* clear the controller reference if this is still the current one */
-		if (currentLocationAbortController === abortController) {
-			currentLocationAbortController = null;
-		}
+	/* only apply sort if this is still the latest sort request */
+	if (currentSortId !== sortRequestCounter) {
+		return;
 	}
+
+	/* calculate and store distances */
+	[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
+		venue.dataset.distance = getDistance(
+			venue.dataset.locLat, venue.dataset.locLng,
+			position.coords.latitude, position.coords.longitude
+		);
+	});
+
+	const getVenueDistance = (tr) => tr.querySelector('th.venue').dataset.distance;
+	sortVenuesBy((a, b) => getVenueDistance(a) - getVenueDistance(b));
 }
 
 /* sort by distance by default if permission already granted */
