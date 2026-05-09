@@ -117,6 +117,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 /* -------------------------------------------------------------------------------- */
 
+/* sort counter to track the latest sort request */
+let sortRequestCounter = 0;
+
 /* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
 function sortVenuesBy(compareFn) {
 	const tbody = document.querySelector('table#opening-hours > tbody');
@@ -124,12 +127,14 @@ function sortVenuesBy(compareFn) {
 }
 
 function sortVenuesByName() {
+	sortRequestCounter++; /* cancel any pending geolocation-based sort */
 	const collator = new Intl.Collator("en");
 	const getText = (tr) => tr.querySelector('th.venue').innerText;
 	sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
 }
 
 function sortVenuesByDay(day, field, reverse) {
+	sortRequestCounter++; /* cancel any pending geolocation-based sort */
 	function getFieldValue(tr) {
 		const value = tr.querySelector(`td.day[data-day="${day}"]`).dataset[field];
 		return value ? (reverse ? -1 : 1) * parseFloat(value) : Infinity;
@@ -138,11 +143,18 @@ function sortVenuesByDay(day, field, reverse) {
 }
 
 async function sortVenuesByDistance() {
+	const currentSortId = ++sortRequestCounter;
+
 	const position = await getCurrentPositionWithIndicator({
 		enableHighAccuracy: true,
 		timeout: 10000,
 		maximumAge: 60 * 1000,
 	});
+
+	/* only apply sort if this is still the latest sort request */
+	if (currentSortId !== sortRequestCounter) {
+		return;
+	}
 
 	/* calculate and store distances */
 	[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
