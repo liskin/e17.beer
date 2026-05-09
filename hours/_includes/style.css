@@ -83,7 +83,6 @@ table#opening-hours {
 		position: sticky;
 		left: 0;
 		z-index: 4;
-		background-color: white;
 	}
 
 	tr .day:nth-child(2) { --day: 1; }
@@ -233,6 +232,7 @@ table#opening-hours {
 		/* TODO: visually separate from tbody */
 		th {
 			font-weight: initial;
+			background-color: rgb(255 255 255);
 
 			button {
 				display: inline;
