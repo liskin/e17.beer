@@ -4,37 +4,13 @@ from unittest.mock import MagicMock
 import pytest
 from google.api_core import exceptions
 
-from update_places import fetch_place_data, format_happy_hours_line, get_week_percentage
-
-
-def create_mock_place(name="Test Brewery", place_id="dummy_id", periods=None, descriptions=None):
-    # Create the main object
-    place = MagicMock()
-    place.display_name.text = name
-    place.id = place_id
-
-    # Setup periods (default to empty list if None)
-    if periods is None:
-        periods = []
-
-    # Setup descriptions (default to 7 empty days if None)
-    if descriptions is None:
-        descriptions = [""] * 7
-
-    place.regular_opening_hours.periods = periods
-    place.regular_opening_hours.weekday_descriptions = descriptions
-
-    place.current_opening_hours.periods = periods
-    place.current_opening_hours.weekday_descriptions = descriptions
-
-    return place
-
-
-def create_mock_client(**kwargs):
-    mock_client = MagicMock()
-    mock_client.get_place.return_value = create_mock_place(**kwargs)
-    return mock_client
-
+from update_places import (
+    fetch_place_data,
+    format_happy_hours_line,
+    get_week_percentage,
+    periods_to_percentages,
+    process_text,
+)
 
 # --- PERCENTAGE CALCULATION TESTS ---
 
@@ -83,10 +59,10 @@ def test_wraparound_split():
     period.open.day, period.open.hour, period.open.minute = 6, 22, 0
     period.close.day, period.close.hour, period.close.minute = 0, 2, 0
 
-    mock_client = create_mock_client(periods=[period])
-    result = fetch_place_data(mock_client, "dummy_id", {"name": "Late Night Venue"})
+    opening_hours_obj = MagicMock()
+    opening_hours_obj.periods = [period]
 
-    intervals = result["current_schedule"]["percentage_periods"]
+    intervals = periods_to_percentages(opening_hours_obj)
     assert len(intervals) == 2
 
     # 1st interval should start at the beginning of week
@@ -107,7 +83,8 @@ def test_wraparound_split():
 def test_weekday_text_ordering_and_format():
     """Verify raw text is split correctly and ordered Sunday to Saturday"""
 
-    descriptions = [
+    opening_hours_obj = MagicMock()
+    opening_hours_obj.weekday_descriptions = [
         "Monday: 4:00 PM – 12:00 AM",
         "Tuesday: 12:00 PM – 12:00 AM",
         "Wednesday: 12:00 PM – 12:00 AM",
@@ -117,10 +94,7 @@ def test_weekday_text_ordering_and_format():
         "Sunday: 12:00 – 11:30 PM",
     ]
 
-    mock_client = create_mock_client(name="Test Brewery", descriptions=descriptions)
-    result = fetch_place_data(mock_client, "dummy_id", {"name": "Test Brewery"})
-
-    times = result["current_schedule"]["time_text_sun_to_sat"]
+    times = process_text(opening_hours_obj)
 
     # Verify Sunday is first (index 0)
     assert times[0] == "12:00 – 11:30 PM"
@@ -166,19 +140,16 @@ def test_valid_time_format():
 def test_incomplete_weekday_text_warning(caplog):
     """Verify a warning is issued and 'N/A' is returned if data is missing"""
 
-    mock_client = create_mock_client(
-        name="Broken Data Pub",
-        descriptions=["Monday: 9:00 AM – 5:00 PM"],
-    )
+    opening_hours_obj = MagicMock()
+    opening_hours_obj.weekday_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
 
-    result = fetch_place_data(mock_client, "dummy_id", {"name": "Broken Data Pub"})
+    times = process_text(opening_hours_obj)
     assert (
         "root",
         logging.WARNING,
         "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday",
     ) in caplog.record_tuples
 
-    times = result["current_schedule"]["time_text_sun_to_sat"]
     assert len(times) == 7
     assert times[0] is None or times[0] == "N/A"  # Sunday is missing
     assert times[1] == "9:00 AM – 5:00 PM"  # Monday is present
@@ -196,11 +167,11 @@ def test_incomplete_period_handling():
     incomplete_period.open.minute = 0
     incomplete_period.close = None
 
-    mock_client = create_mock_client(name="Incomplete Data Bar", periods=[incomplete_period])
-    result = fetch_place_data(mock_client, "dummy_id", {"name": "Incomplete Data Bar"})
+    opening_hours_obj = MagicMock()
+    opening_hours_obj.periods = [incomplete_period]
 
     # percentage_periods should be empty - it skipped the bad period instead of crashing
-    assert result["current_schedule"]["percentage_periods"] == []
+    assert periods_to_percentages(opening_hours_obj) == []
 
 
 def test_fetch_place_api_error_handling():
