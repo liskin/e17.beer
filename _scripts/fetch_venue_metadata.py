@@ -87,7 +87,7 @@ def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> 
     "-o",
     "--output",
     type=click.File("w"),
-    default="E17_BHMplus_data.json",
+    default="_data/venue_metadata.json",
     help="Output file",
     show_default=True,
 )

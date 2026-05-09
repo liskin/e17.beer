@@ -20,5 +20,5 @@ update-places *args:
     uv run update_places.py {{ args }}
 
 [group('run')]
-generate-place-ids *args:
-    uv run generate_place_ids.py {{ args }}
+fetch-venue-metadata *args:
+    uv run fetch_venue_metadata.py {{ args }}

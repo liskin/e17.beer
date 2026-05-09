@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from generate_place_ids import get_place_data_from_api
+from fetch_venue_metadata import get_place_data_from_api
 
 
 def test_get_place_data_from_api_ambiguous():
