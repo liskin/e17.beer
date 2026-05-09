@@ -16,28 +16,6 @@
             "<span class=\"offer-name\">Friday Lunch Menu</span><br>£10 any flatbread and soft drink",
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 11:30 PM",
-                "4:00 PM – 12:00 AM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 11:30 PM",
-                "4:00 PM – 12:00 AM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 0.0,
@@ -91,7 +69,7 @@
             },
             {
                 "open": 64.2857,
-                "close": 71.4286
+                "close": 72.0238
             },
             {
                 "open": 78.5714,
@@ -101,7 +79,29 @@
                 "open": 92.8571,
                 "close": 100.5952
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 11:30 PM",
+                "4:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 11:30 PM",
+                "4:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        }
     },
     {
         "place_name": "Pretty Decent",
@@ -120,28 +120,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -187,7 +165,29 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Hackney Church",
@@ -206,28 +206,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 11:00 PM",
-                "Closed",
-                "Closed",
-                "5:00 PM – 12:00 AM",
-                "5:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 11:00 PM",
-                "Closed",
-                "Closed",
-                "5:00 PM – 12:00 AM",
-                "5:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 0.0,
@@ -277,7 +255,29 @@
                 "open": 92.8571,
                 "close": 100.5952
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 11:00 PM",
+                "Closed",
+                "Closed",
+                "5:00 PM – 12:00 AM",
+                "5:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 11:00 PM",
+                "Closed",
+                "Closed",
+                "5:00 PM – 12:00 AM",
+                "5:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        }
     },
     {
         "place_name": "Exale",
@@ -296,28 +296,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "4:00 – 11:00 PM",
-                "4:00 PM – 2:00 AM",
-                "12:00 PM – 2:00 AM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "4:00 – 11:00 PM",
-                "4:00 PM – 2:00 AM",
-                "12:00 PM – 2:00 AM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 0.0,
@@ -360,7 +338,29 @@
                 "open": 92.8571,
                 "close": 101.1905
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "4:00 – 11:00 PM",
+                "4:00 PM – 2:00 AM",
+                "12:00 PM – 2:00 AM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "4:00 – 11:00 PM",
+                "4:00 PM – 2:00 AM",
+                "12:00 PM – 2:00 AM"
+            ]
+        }
     },
     {
         "place_name": "Borough Wines",
@@ -379,28 +379,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "2:00 – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "2:00 – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.7381,
@@ -432,7 +410,29 @@
                 "open": 94.0476,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "2:00 – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "2:00 – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Renegade",
@@ -451,28 +451,6 @@
             "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 6:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 6:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -511,7 +489,29 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 6:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 6:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "40ft",
@@ -530,28 +530,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "3:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 11:00 PM",
-                "3:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -590,7 +568,29 @@
                 "open": 92.8571,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "12:00 – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "East London Brewing",
@@ -609,28 +609,6 @@
             "£5 pints all May",
             "£5 pints all May"
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 10:00 PM",
-                "12:00 – 10:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 10:00 PM",
-                "12:00 – 10:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -662,7 +640,29 @@
                 "open": 92.8571,
                 "close": 98.8095
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 10:00 PM",
+                "12:00 – 10:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 10:00 PM",
+                "12:00 – 10:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Burnt Faith",
@@ -681,28 +681,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00 – 11:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "6:00 – 11:00 PM",
-                "5:00 – 11:00 PM",
-                "1:00 – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "1:00 – 11:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "6:00 – 11:00 PM",
-                "5:00 – 11:00 PM",
-                "1:00 – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.7381,
@@ -741,7 +719,29 @@
                 "open": 93.4524,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00 – 11:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "6:00 – 11:00 PM",
+                "5:00 – 11:00 PM",
+                "1:00 – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "1:00 – 11:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "6:00 – 11:00 PM",
+                "5:00 – 11:00 PM",
+                "1:00 – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Big Penny",
@@ -760,28 +760,6 @@
             "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 PM – 12:00 AM",
-                "12:00 PM – 1:00 AM",
-                "12:00 PM – 1:00 AM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 0.0,
@@ -845,7 +823,29 @@
                 "open": 92.8571,
                 "close": 100.5952
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 – 11:00 PM",
+                "12:00 PM – 12:00 AM",
+                "12:00 PM – 1:00 AM",
+                "12:00 PM – 1:00 AM"
+            ]
+        }
     },
     {
         "place_name": "Tavern on the Hill",
@@ -864,28 +864,6 @@
             "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 10:30 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "12:00 PM – 12:30 AM",
-                "12:00 PM – 12:30 AM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 10:30 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "4:00 – 11:00 PM",
-                "12:00 PM – 12:30 AM",
-                "12:00 PM – 12:30 AM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 0.0,
@@ -949,7 +927,29 @@
                 "open": 92.8571,
                 "close": 100.2976
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 10:30 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 PM – 12:30 AM",
+                "12:00 PM – 12:30 AM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 10:30 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "4:00 – 11:00 PM",
+                "12:00 PM – 12:30 AM",
+                "12:00 PM – 12:30 AM"
+            ]
+        }
     },
     {
         "place_name": "Ferry Boat Inn",
@@ -968,28 +968,6 @@
             "2-for-1 cocktails",
             "2-for-1 cocktails"
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM",
-                "11:00 AM – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 6.5476,
@@ -1049,7 +1027,29 @@
                 "open": 92.2619,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM",
+                "11:00 AM – 11:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Pressure Drop",
@@ -1068,28 +1068,6 @@
             "£4 pints (core)",
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 9:00 PM",
-                "12:00 – 8:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "12:00 – 8:00 PM",
-                "Closed",
-                "Closed",
-                "Closed",
-                "Closed",
-                "5:00 – 9:00 PM",
-                "12:00 – 8:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 7.1429,
@@ -1121,7 +1099,29 @@
                 "open": 92.8571,
                 "close": 97.619
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 9:00 PM",
+                "12:00 – 8:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 9:00 PM",
+                "12:00 – 8:00 PM"
+            ]
+        }
     },
     {
         "place_name": "Blondies Brewery",
@@ -1140,28 +1140,6 @@
             null,
             null
         ],
-        "current_schedule": {
-            "time_text_sun_to_sat": [
-                "9:00 AM – 10:00 PM",
-                "Closed",
-                "Closed",
-                "3:00 – 11:00 PM",
-                "3:00 – 11:00 PM",
-                "2:00 – 11:00 PM",
-                "9:00 AM – 11:00 PM"
-            ]
-        },
-        "regular_schedule": {
-            "time_text_sun_to_sat": [
-                "9:00 AM – 10:00 PM",
-                "Closed",
-                "Closed",
-                "3:00 – 11:00 PM",
-                "3:00 – 11:00 PM",
-                "2:00 – 11:00 PM",
-                "9:00 AM – 11:00 PM"
-            ]
-        },
         "percentage_periods": [
             {
                 "open": 5.3571,
@@ -1207,6 +1185,28 @@
                 "open": 91.0714,
                 "close": 99.4048
             }
-        ]
+        ],
+        "current_schedule": {
+            "time_text_sun_to_sat": [
+                "9:00 AM – 10:00 PM",
+                "Closed",
+                "Closed",
+                "3:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "2:00 – 11:00 PM",
+                "9:00 AM – 11:00 PM"
+            ]
+        },
+        "regular_schedule": {
+            "time_text_sun_to_sat": [
+                "9:00 AM – 10:00 PM",
+                "Closed",
+                "Closed",
+                "3:00 – 11:00 PM",
+                "3:00 – 11:00 PM",
+                "2:00 – 11:00 PM",
+                "9:00 AM – 11:00 PM"
+            ]
+        }
     }
 ]
