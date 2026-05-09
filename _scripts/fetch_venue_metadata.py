@@ -111,33 +111,75 @@ def main(verbosity, output):
     except Exception as e:
         raise RuntimeError("Could not read Google Sheet CSV") from e
 
-    row_exclusions = ["near, but not beer mile:"]
+    separator = "near, but not beer mile:"
     days_ordered = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-    # Clean DataFrame (filter out rows where the first column is NaN or in row_exclusions)
-    clean_df = df[df.iloc[:, 0].notna() & ~df.iloc[:, 0].str.strip().isin(row_exclusions)].copy()
+    # Find the separator row
+    separator_indices = df[df.iloc[:, 0].notna() & (df.iloc[:, 0].str.strip() == separator)].index.tolist()
 
-    with tqdm_logging_redirect(
-        list(clean_df.iterrows()),
-        desc=f"Google Sheet CSV → {output.name}",
-        disable=True if verbosity < 0 else None,
-    ) as t:
+    if len(separator_indices) == 0:
+        # No separator found, all venues are in the beer mile section
+        beer_mile_df = df[df.iloc[:, 0].notna()].copy()
+        nearby_df = pd.DataFrame()
+    elif len(separator_indices) == 1:
+        separator_idx = separator_indices[0]
+        # Venues before separator are beer mile, after are nearby
+        beer_mile_df = df[:separator_idx][df[:separator_idx].iloc[:, 0].notna()].copy()
+        nearby_df = df[separator_idx + 1 :][df[separator_idx + 1 :].iloc[:, 0].notna()].copy()
+    else:
+        raise RuntimeError(f"Multiple separator rows found: {len(separator_indices)}")
 
-        def process_row(row):
-            place_name = row.iloc[0]
-            t.set_postfix(name=place_name)
+    sections = []
 
-            api_result = get_place_data_from_api(places_client, place_name)
-            return {
-                "place_id": api_result["place_id"],
-                "place_name": place_name,
-                "url": api_result["url"],
-                "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
-            }
+    # Process beer mile section
+    if not beer_mile_df.empty:
+        with tqdm_logging_redirect(
+            list(beer_mile_df.iterrows()),
+            desc=f"Google Sheet CSV [Blackhorse Beer Mile] → {output.name}",
+            disable=True if verbosity < 0 else None,
+        ) as t:
 
-        venues = [process_row(row) for _, row in t]
+            def process_row(row):
+                place_name = row.iloc[0]
+                t.set_postfix(name=place_name)
 
-    sections = [{"section": "Blackhorse Beer Mile & nearby", "venues": venues}]
+                api_result = get_place_data_from_api(places_client, place_name)
+                return {
+                    "place_id": api_result["place_id"],
+                    "place_name": place_name,
+                    "url": api_result["url"],
+                    "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+                }
+
+            venues = [process_row(row) for _, row in t]
+
+        sections.append({"section": "Blackhorse Beer Mile", "venues": venues})
+
+    # Process nearby section
+    if not nearby_df.empty:
+        with tqdm_logging_redirect(
+            list(nearby_df.iterrows()),
+            desc=f"Google Sheet CSV [nearby] → {output.name}",
+            disable=True if verbosity < 0 else None,
+        ) as t:
+
+            def process_row(row):
+                place_name = row.iloc[0]
+                t.set_postfix(name=place_name)
+
+                api_result = get_place_data_from_api(places_client, place_name)
+                return {
+                    "place_id": api_result["place_id"],
+                    "place_name": place_name,
+                    "url": api_result["url"],
+                    "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+                }
+
+            # nearby_dict = dict(process_row(row) for _, row in t)
+            venues = [process_row(row) for _, row in t]
+
+        sections.append({"section": "nearby", "venues": venues})
+
     json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
 

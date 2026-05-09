@@ -1,6 +1,6 @@
 [
     {
-        "section": "Blackhorse Beer Mile & nearby",
+        "section": "Blackhorse Beer Mile",
         "venues": [
             {
                 "place_id": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
@@ -849,7 +849,12 @@
                         "12:00 pm – 1:00 am"
                     ]
                 }
-            },
+            }
+        ]
+    },
+    {
+        "section": "nearby",
+        "venues": [
             {
                 "place_id": "ChIJNZQZJjcddkgRJlbGoKPRzg8",
                 "place_name": "Tavern on the Hill",
