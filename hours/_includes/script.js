@@ -121,53 +121,49 @@ function getDistance(lat1, lon1, lat2, lon2) {
 let lastSortId = 0;
 
 /* sort venues - compareFn takes a pair of <tr> elements and return one of -1, 0, 1 */
-function sortVenuesBy(compareFn) {
+async function sortVenuesBy(getCompareFn) {
+	const currentSortId = ++lastSortId;
+	const compareFn = await getCompareFn();
+	if (currentSortId !== lastSortId)
+		return; /* skip if another sort happened in the meantime */
+
 	const tbody = document.querySelector('table#opening-hours > tbody');
 	[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
 }
 
-function sortVenuesByName() {
-	++lastSortId; /* cancel any pending geolocation-based sort */
-
+async function sortVenuesByName() {
 	const collator = new Intl.Collator("en");
 	const getText = (tr) => tr.querySelector('th.venue').innerText;
-	sortVenuesBy((a, b) => collator.compare(getText(a), getText(b)));
+	await sortVenuesBy(async () => (a, b) => collator.compare(getText(a), getText(b)));
 }
 
-function sortVenuesByDay(day, field, reverse) {
-	++lastSortId; /* cancel any pending geolocation-based sort */
-
+async function sortVenuesByDay(day, field, reverse) {
 	function getFieldValue(tr) {
 		const value = tr.querySelector(`td.day[data-day="${day}"]`).dataset[field];
 		return value ? (reverse ? -1 : 1) * parseFloat(value) : Infinity;
 	}
-	sortVenuesBy((a, b) => getFieldValue(a) - getFieldValue(b));
+	await sortVenuesBy(async () => (a, b) => getFieldValue(a) - getFieldValue(b));
 }
 
 async function sortVenuesByDistance() {
-	const currentSortId = ++lastSortId;
+	await sortVenuesBy(async () => {
+		const position = await getCurrentPositionWithIndicator({
+			enableHighAccuracy: true,
+			timeout: 10000,
+			maximumAge: 60 * 1000,
+		});
 
-	const position = await getCurrentPositionWithIndicator({
-		enableHighAccuracy: true,
-		timeout: 10000,
-		maximumAge: 60 * 1000,
+		/* calculate and store distances */
+		[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
+			venue.dataset.distance = getDistance(
+				venue.dataset.locLat, venue.dataset.locLng,
+				position.coords.latitude, position.coords.longitude
+			);
+		});
+
+		const getVenueDistance = (tr) => tr.querySelector('th.venue').dataset.distance;
+		return (a, b) => getVenueDistance(a) - getVenueDistance(b);
 	});
-
-	/* only apply sort if this is still the latest sort request */
-	if (currentSortId !== lastSortId) {
-		return;
-	}
-
-	/* calculate and store distances */
-	[...document.querySelectorAll('table#opening-hours > tbody th.venue')].forEach((venue) => {
-		venue.dataset.distance = getDistance(
-			venue.dataset.locLat, venue.dataset.locLng,
-			position.coords.latitude, position.coords.longitude
-		);
-	});
-
-	const getVenueDistance = (tr) => tr.querySelector('th.venue').dataset.distance;
-	sortVenuesBy((a, b) => getVenueDistance(a) - getVenueDistance(b));
 }
 
 /* sort by distance by default if permission already granted */
