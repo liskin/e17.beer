@@ -16,7 +16,7 @@
             "<span class=\"offer-name\">Friday Lunch Menu</span><br>£10 any flatbread and soft drink",
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 0.0,
                 "close": 0.5952
@@ -120,7 +120,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.1429,
                 "close": 11.9048
@@ -206,7 +206,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 0.0,
                 "close": 0.5952
@@ -296,7 +296,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 0.0,
                 "close": 1.1905
@@ -379,7 +379,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.7381,
                 "close": 11.9048
@@ -451,7 +451,7 @@
             "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.1429,
                 "close": 10.7143
@@ -530,7 +530,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.1429,
                 "close": 11.9048
@@ -609,7 +609,7 @@
             "£5 pints all May",
             "£5 pints all May"
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.1429,
                 "close": 11.9048
@@ -681,7 +681,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.7381,
                 "close": 13.6905
@@ -760,7 +760,7 @@
             "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 0.0,
                 "close": 0.5952
@@ -864,7 +864,7 @@
             "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 0.0,
                 "close": 0.2976
@@ -968,7 +968,7 @@
             "2-for-1 cocktails",
             "2-for-1 cocktails"
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 6.5476,
                 "close": 13.6905
@@ -1068,7 +1068,7 @@
             "£4 pints (core)",
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 7.1429,
                 "close": 11.9048
@@ -1140,7 +1140,7 @@
             null,
             null
         ],
-        "percentage_periods": [
+        "keyframe_periods": [
             {
                 "open": 5.3571,
                 "close": 13.0952

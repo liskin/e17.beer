@@ -164,7 +164,7 @@ def test_incomplete_period_handling():
     opening_hours_obj = MagicMock()
     opening_hours_obj.periods = [incomplete_period]
 
-    # percentage_periods should be empty - it skipped the bad period instead of crashing
+    # should be empty - it skipped the bad period instead of crashing
     assert periods_to_percentages(opening_hours_obj) == []
 
 

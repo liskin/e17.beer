@@ -122,7 +122,7 @@ def calculate_day_sort_values(opening_hours_obj: places_v1.types.Place.OpeningHo
         close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
 
         # Handle week wraparound: if open_pct > close_pct, the closing is next week
-        # Instead of splitting like in percentage_periods, add 100 to close_pct
+        # Instead of splitting like in periods_to_percentages, add 100 to close_pct
         if open_pct > close_pct:
             close_pct += 100
 
@@ -200,7 +200,7 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         "url": url,
         "location": gps_location,
         "happy_hours": happy_hours,
-        "percentage_periods": pct_periods,
+        "keyframe_periods": pct_periods,
         "day_sort_values": day_sort_values,
         "current_schedule": {
             "time_text_sun_to_sat": current_time_text,

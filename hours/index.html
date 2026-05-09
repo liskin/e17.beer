@@ -17,7 +17,7 @@
 {% for place in site.data.places -%}
 {% assign i = forloop.index0 -%}
 @keyframes venue{{ i }} {
-	{% for period in place.percentage_periods -%}
+	{% for period in place.keyframe_periods -%}
 	{{ period.open  }}% { --open: 1; }
 	{{ period.close }}% { --open: 0; }
 	{% endfor %}
