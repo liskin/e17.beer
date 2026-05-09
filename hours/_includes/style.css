@@ -61,8 +61,10 @@ table#opening-hours {
 			color: unset;
 			text-decoration: unset;
 
-			&:hover {
-				text-decoration: underline;
+			@media(hover: hover) and (pointer: fine) {
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 	}
@@ -346,8 +348,10 @@ div#toolbar {
 			box-shadow: inset 1px 1px 4px rgba(180 180 180);
 		}
 
-		&:hover, input:checked + &:hover {
-			background: rgb(230 230 230);
+		@media(hover: hover) and (pointer: fine) {
+			&:hover, input:checked + &:hover {
+				background: rgb(230 230 230);
+			}
 		}
 
 		img {
