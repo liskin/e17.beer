@@ -10,9 +10,9 @@
 		<title>Blackhorse Beer Mile - Opening Hours</title>
 
 		<style>
-{% include_relative _includes/modern-normalize.min.css %}
+{% include hours/modern-normalize.min.css %}
 
-{% include_relative _includes/style.css %}
+{% include hours/style.css %}
 
 {% for place in site.data.places -%}
 {% assign i = forloop.index0 -%}
@@ -128,7 +128,7 @@
 		</div>
 
 		<script>
-{% include_relative _includes/script.js %}
+{% include hours/script.js %}
 		</script>
 	</body>
 
