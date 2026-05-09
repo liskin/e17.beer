@@ -234,30 +234,47 @@ def main(verbosity, input, output):
     """
     Load/update information about venues
 
-    Input file structured as ID-keyed nested dictionary:
+    Input file structured as list of sections, each containing a name and venues dict:
 
-        { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
+        [{ "name": "Section Name", "venues": { "PLACE_ID": { "place_name": "…", ... }, ... } }, ...]
+
+    Output structured as list of sections, each containing a name and places list:
+
+        [{ "name": "Section Name", "places": [{ "place_name": "…", ... }, ...] }, ...]
     """
     setup_logging(verbosity)
     client = get_places_client()
 
-    input_dict = json.load(input)
-    if not input_dict:
+    input_sections = json.load(input)
+    if not input_sections:
         raise RuntimeError("No data found in input JSON.")
 
-    with tqdm_logging_redirect(
-        input_dict.items(),
-        desc=f"{input.name} → {output.name}",
-        disable=True if verbosity < 0 else None,
-    ) as t:
+    output_sections = []
 
-        def process(pid, metadata):
-            t.set_postfix(name=metadata["place_name"])
-            return fetch_place_data(client, pid, metadata)
+    for section in input_sections:
+        section_name = section["name"]
+        input_dict = section["venues"]
 
-        output_list = [process(pid, metadata) for pid, metadata in t]
+        with tqdm_logging_redirect(
+            input_dict.items(),
+            desc=f"{input.name} [{section_name}] → {output.name}",
+            disable=True if verbosity < 0 else None,
+        ) as t:
 
-    json.dump(output_list, output, indent=4, ensure_ascii=False)
+            def process(pid, metadata):
+                t.set_postfix(name=metadata["place_name"])
+                return fetch_place_data(client, pid, metadata)
+
+            output_list = [process(pid, metadata) for pid, metadata in t]
+
+        output_sections.append(
+            {
+                "name": section_name,
+                "places": output_list,
+            }
+        )
+
+    json.dump(output_sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
 
 

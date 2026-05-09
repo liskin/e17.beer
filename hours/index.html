@@ -16,14 +16,17 @@
 
 {% include hours/style.css %}
 
-{% for place in site.data.places -%}
+{% for section in site.data.places -%}
+{% for place in section.places -%}
 {% assign i = forloop.index0 -%}
-@keyframes venue{{ i }} {
+{% assign section_index = forloop.parentloop.index0 -%}
+@keyframes venue{{ section_index }}-{{ i }} {
 	{% for period in place.keyframe_periods -%}
 	{{ period.open  }}% { --open: 1; }
 	{{ period.close }}% { --open: 0; }
 	{% endfor %}
 }
+{% endfor %}
 {% endfor %}
 		</style>
 	</head>
@@ -49,10 +52,12 @@
 					{% endfor %}
 				</tr>
 			</thead>
-			<tbody>
-				{% for place in site.data.places -%}
+			{% for section in site.data.places -%}
+			<tbody data-section="{{ section.name }}">
+				{% for place in section.places -%}
 				{% assign i = forloop.index0 -%}
-				<tr style="--venue: venue{{ i }}">
+				{% assign section_index = forloop.parentloop.index0 -%}
+				<tr style="--venue: venue{{ section_index }}-{{ i }}">
 					<th class="venue" scope="row" data-loc-lat="{{ place.location.lat }}" data-loc-lng="{{ place.location.lng }}">
 						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
 					</th>
@@ -84,6 +89,7 @@
 				</tr>
 				{% endfor %}
 			</tbody>
+			{% endfor %}
 			<tfoot>
 				<tr>
 					<th scope="col" class="venue">

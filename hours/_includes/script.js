@@ -127,8 +127,10 @@ async function sortVenuesBy(getCompareFn) {
 	if (currentSortId !== lastSortId)
 		return; /* skip if another sort happened in the meantime */
 
-	const tbody = document.querySelector('table#opening-hours > tbody');
-	[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+	const tbodies = document.querySelectorAll('table#opening-hours > tbody');
+	tbodies.forEach((tbody) => {
+		[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+	});
 }
 
 async function sortVenuesByName() {
