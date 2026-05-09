@@ -28,3 +28,4 @@ exclude:
   - Makefile
   - AGENTS.md
   - CLAUDE.md
+  - _scripts
