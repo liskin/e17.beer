@@ -611,34 +611,56 @@
         ],
         "current_schedule": {
             "time_text_sun_to_sat": [
-                "?",
-                "?",
-                "?",
-                "?",
-                "?",
-                "?",
-                "?"
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 10:00 PM",
+                "12:00 – 10:00 PM"
             ],
-            "percentage_periods": [],
+            "percentage_periods": [
+                {
+                    "open": 7.1429,
+                    "close": 11.9048
+                },
+                {
+                    "open": 81.5476,
+                    "close": 84.5238
+                },
+                {
+                    "open": 92.8571,
+                    "close": 98.8095
+                }
+            ],
             "day_sort_values": [
+                {
+                    "open": 7.1429,
+                    "close": 11.9048
+                },
                 null,
                 null,
                 null,
                 null,
-                null,
-                null,
-                null
+                {
+                    "open": 81.5476,
+                    "close": 84.5238
+                },
+                {
+                    "open": 92.8571,
+                    "close": 98.8095
+                }
             ]
         },
         "regular_schedule": {
             "time_text_sun_to_sat": [
-                "?",
-                "?",
-                "?",
-                "?",
-                "?",
-                "?",
-                "?"
+                "12:00 – 8:00 PM",
+                "Closed",
+                "Closed",
+                "Closed",
+                "Closed",
+                "5:00 – 10:00 PM",
+                "12:00 – 10:00 PM"
             ]
         }
     },

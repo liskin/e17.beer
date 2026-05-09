@@ -181,17 +181,10 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
 
         gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
 
-        # Hack: Handle East London Brewing not showing correct opening hours yet
-        if place_name == "East London Brewing":
-            current_time_text = ["?"] * 7
-            regular_time_text = ["?"] * 7
-            pct_periods = []
-            day_sort_values = [None] * 7
-        else:
-            current_time_text = process_text(place.current_opening_hours)
-            regular_time_text = process_text(place.regular_opening_hours)
-            pct_periods = periods_to_percentages(place.current_opening_hours)
-            day_sort_values = calculate_day_sort_values(place.current_opening_hours)
+        current_time_text = process_text(place.current_opening_hours)
+        regular_time_text = process_text(place.regular_opening_hours)
+        pct_periods = periods_to_percentages(place.current_opening_hours)
+        day_sort_values = calculate_day_sort_values(place.current_opening_hours)
 
     return {
         "place_name": place_name,
