@@ -178,8 +178,16 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
 
         current_time_text = process_text(place.current_opening_hours)
         regular_time_text = process_text(place.regular_opening_hours)
-        pct_periods = periods_to_percentages(place.current_opening_hours)
-        day_sort_values = calculate_day_sort_values(place.current_opening_hours)
+
+        # Use regular_opening_hours for percentage calculations if descriptions match
+        # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
+        if current_time_text == regular_time_text:
+            opening_hours = place.regular_opening_hours
+        else:
+            opening_hours = place.current_opening_hours
+
+        pct_periods = periods_to_percentages(opening_hours)
+        day_sort_values = calculate_day_sort_values(opening_hours)
 
     return {
         "place_name": place_name,
