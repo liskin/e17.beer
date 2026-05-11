@@ -1,0 +1,22 @@
+{
+  "name": "e17.beer/hours",
+  "start_url": "/hours/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/assets/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/logo256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
