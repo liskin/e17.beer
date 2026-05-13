@@ -10,8 +10,9 @@ from update_places import (
     format_happy_hours_line,
     get_week_percentage,
     periods_to_percentages,
-    process_text,
     process_venue,
+    process_weekday_descriptions_en,
+    process_weekday_descriptions_sv,
 )
 
 # --- PERCENTAGE CALCULATION TESTS ---
@@ -112,7 +113,7 @@ def test_weekday_text_ordering_and_format():
         ]
     )
 
-    times = process_text(opening_hours_obj)
+    times = process_weekday_descriptions_en(opening_hours_obj)
 
     # Verify Sunday is first (index 0)
     assert times[0] == "12:00 – 11:30 PM"
@@ -122,6 +123,22 @@ def test_weekday_text_ordering_and_format():
     assert times[-1] == "12:00 PM – 1:30 AM"
     # Verify the list length is exactly 7
     assert len(times) == 7
+
+
+def test_weekday_sv():
+    opening_hours_obj = Place.OpeningHours(
+        weekday_descriptions=[
+            "måndag: Stängt",
+            "tisdag: 12:00 – 20:00",
+            "onsdag: 12:00 – 20:00",
+            "torsdag: 12:00 – 20:00",
+            "fredag: 12:00 – 20:00",
+            "lördag: 12:00 – 20:00",
+            "söndag: 12:00 – 20:00",
+        ]
+    )
+    times = process_weekday_descriptions_sv(opening_hours_obj)
+    assert times[1] == "Closed"
 
 
 # --- VALIDATION TESTS ---
@@ -160,9 +177,9 @@ def test_incomplete_weekday_text_error():
     opening_hours_obj = Place.OpeningHours(weekday_descriptions=["Monday: 9:00 AM – 5:00 PM"])
 
     with pytest.raises(RuntimeError) as excinfo:
-        process_text(opening_hours_obj)
+        process_weekday_descriptions_en(opening_hours_obj)
 
-    assert "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday" == str(excinfo.value)
+    assert "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday" in str(excinfo.value)
 
 
 # --- API RETURN TESTS ---
