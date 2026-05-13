@@ -195,16 +195,15 @@ sortVenuesByDistanceIfPermitted();
 
 /* -------------------------------------------------------------------------------- */
 
-/* Clock format toggle (12h/24h) - localStorage management only */
-const use24hCheckbox = document.getElementById('use-24h-format');
+{
+	const useTime24hCheckbox = document.getElementById('use-time-24h');
 
-/* Load saved preference from localStorage */
-const saved24hPreference = localStorage.getItem('use24hFormat');
-if (saved24hPreference !== null) {
-	use24hCheckbox.checked = saved24hPreference === 'true';
+	/* save preference to localStorage when changed */
+	useTime24hCheckbox.addEventListener('change', (e) => localStorage.setItem('use-time-24h', e.target.checked));
+
+	/* load saved preference from localStorage */
+	const useTime24h = localStorage.getItem('use-time-24h');
+	if (useTime24h !== null) {
+		useTime24hCheckbox.checked = useTime24h === 'true';
+	}
 }
-
-/* Save preference to localStorage when changed */
-use24hCheckbox.addEventListener('change', () => {
-	localStorage.setItem('use24hFormat', use24hCheckbox.checked);
-});
