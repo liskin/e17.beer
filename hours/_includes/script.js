@@ -86,7 +86,7 @@ function getCurrentPosition(options) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(resolve, reject, options);
 		} else {
-			reject(new Error("Geolocation is not supported by your browser"));
+			reject(new Error('Geolocation is not supported by your browser'));
 		}
 	});
 }
@@ -127,12 +127,18 @@ async function sortVenuesBy(getCompareFn) {
 	if (currentSortId !== lastSortId)
 		return; /* skip if another sort happened in the meantime */
 
-	const tbody = document.querySelector('table#opening-hours > tbody');
-	[...tbody.children].sort(compareFn).reduceRight((acc, x) => tbody.insertBefore(x, acc));
+	document.querySelectorAll('table#opening-hours > tbody').forEach((tbody) => {
+		/* sort each tbody separately */
+		[...tbody.children].filter((e) =>
+			e.classList.contains('venue')
+		).sort(compareFn).reduceRight((acc, x) =>
+			tbody.insertBefore(x, acc)
+		);
+	});
 }
 
 async function sortVenuesByName() {
-	const collator = new Intl.Collator("en");
+	const collator = new Intl.Collator('en');
 	const getText = (tr) => tr.querySelector('th.venue').innerText;
 	await sortVenuesBy(async () => (a, b) => collator.compare(getText(a), getText(b)));
 }
@@ -170,7 +176,7 @@ async function sortVenuesByDistance() {
 async function sortVenuesByDistanceIfPermitted() {
 	try {
 		const p = await navigator.permissions.query({ name: "geolocation" });
-		if (p.state === "granted") {
+		if (p.state === 'granted') {
 			await sortVenuesByDistance();
 		}
 	} catch (error) {

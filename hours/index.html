@@ -16,14 +16,17 @@
 
 {% include hours/style.css %}
 
-{% for place in site.data.places -%}
+{% for section in site.data.places -%}
+{% assign section_index = forloop.index0 -%}
+{% for venue in section.venues -%}
 {% assign i = forloop.index0 -%}
-@keyframes venue{{ i }} {
-	{% for period in place.keyframe_periods -%}
+@keyframes venue{{ section_index }}-{{ i }} {
+	{% for period in venue.keyframe_periods -%}
 	{{ period.open  }}% { --open: 1; }
 	{{ period.close }}% { --open: 0; }
 	{% endfor %}
 }
+{% endfor %}
 {% endfor %}
 		</style>
 	</head>
@@ -49,28 +52,33 @@
 					{% endfor %}
 				</tr>
 			</thead>
+			{% for section in site.data.places -%}
+			{% assign section_index = forloop.index0 -%}
 			<tbody>
-				{% for place in site.data.places -%}
+				<tr class="section-header">
+					<th colspan="8"><div>{{ section.section }}</div></th>
+				</tr>
+				{% for venue in section.venues -%}
 				{% assign i = forloop.index0 -%}
-				<tr style="--venue: venue{{ i }}">
-					<th class="venue" scope="row" data-loc-lat="{{ place.location.lat }}" data-loc-lng="{{ place.location.lng }}">
-						<a href="{{ place.url }}" target="_blank">{{ place.place_name }}</a>
+				<tr class="venue" style="--venue: venue{{ section_index }}-{{ i }}">
+					<th class="venue" scope="row" data-loc-lat="{{ venue.location.lat }}" data-loc-lng="{{ venue.location.lng }}">
+						<a href="{{ venue.url }}" target="_blank">{{ venue.place_name }}</a>
 					</th>
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
-					{% assign first_open = place.day_sort_values[day].open %}
-					{% assign last_close = place.day_sort_values[day].close %}
+					{% assign first_open = venue.day_sort_values[day].open %}
+					{% assign last_close = venue.day_sort_values[day].close %}
 					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
 						<div>
 							<div class="opening-hours">
-								{% if place.current_schedule.time_text_sun_to_sat[day] != place.regular_schedule.time_text_sun_to_sat[day] -%}
-								<s title="regular opening hours">{{ place.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+								{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
+								<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
 								{% endif -%}
-								{{ place.current_schedule.time_text_sun_to_sat[day] }}
+								{{ venue.current_schedule.time_text_sun_to_sat[day] }}
 							</div>
-							{% if place.happy_hours[day] -%}
+							{% if venue.happy_hours[day] -%}
 							<div class="happy-hours">
-								{{ place.happy_hours[day] }}
+								{{ venue.happy_hours[day] }}
 							</div>
 							<div class="happy-hours-icon">
 								<label for="show-happy-hours" title="show/hide happy hours">
@@ -84,6 +92,7 @@
 				</tr>
 				{% endfor %}
 			</tbody>
+			{% endfor %}
 			<tfoot>
 				<tr>
 					<th scope="col" class="venue">

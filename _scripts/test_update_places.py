@@ -7,11 +7,11 @@ from google.maps.places_v1.types import Place
 
 from update_places import (
     calculate_day_sort_values,
-    fetch_place_data,
     format_happy_hours_line,
     get_week_percentage,
     periods_to_percentages,
     process_text,
+    process_venue,
 )
 
 # --- PERCENTAGE CALCULATION TESTS ---
@@ -203,7 +203,7 @@ def test_fetch_place_api_error_handling():
     mock_client.get_place.side_effect = google.api_core.exceptions.InvalidArgument(google_reason)
 
     with pytest.raises(google.api_core.exceptions.InvalidArgument) as excinfo:
-        fetch_place_data(mock_client, "bad_id", defaultdict(str))
+        process_venue(mock_client, venue=defaultdict(str, place_id="bad_id"))
 
     assert google_reason in str(excinfo.value)
 

@@ -8,7 +8,7 @@ import pandas as pd
 from google.maps import places_v1
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, get_places_client, setup_logging
+from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
 def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> dict:
@@ -93,6 +93,13 @@ def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> 
 )
 @click_option_verbosity()
 def main(verbosity, output):
+    """
+    Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
+
+    Output structured as list of sections, each containing a list of venues:
+
+        [{ "section": "Name", "venues": [{ "place_id": "…", … }, … ] }, … ]
+    """
     setup_logging(verbosity)
     places_client = get_places_client()
 
@@ -104,32 +111,61 @@ def main(verbosity, output):
     except Exception as e:
         raise RuntimeError("Could not read Google Sheet CSV") from e
 
-    row_exclusions = ["near, but not beer mile:"]
+    separator = "near, but not beer mile:"
     days_ordered = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-    # Clean DataFrame (filter out rows where the first column is NaN or in row_exclusions)
-    clean_df = df[df.iloc[:, 0].notna() & ~df.iloc[:, 0].str.strip().isin(row_exclusions)].copy()
+    # Find the separator row
+    separator_indices = df[df.iloc[:, 0].notna() & (df.iloc[:, 0].str.strip() == separator)].index.tolist()
+
+    if len(separator_indices) != 1:
+        raise RuntimeError(f"Exactly 1 separator row expected, found: {len(separator_indices)}")
+
+    # Venues before separator are beer mile, after are nearby
+    separator_idx = separator_indices[0]
+    sections = [
+        {
+            "section": "Blackhorse Beer Mile",
+            "df": df[:separator_idx][df[:separator_idx].iloc[:, 0].notna()].copy(),
+        },
+        {
+            "section": "nearby",
+            "df": df[separator_idx + 1 :][df[separator_idx + 1 :].iloc[:, 0].notna()].copy(),
+        },
+    ]
+
+    def process_section(df):
+        with tqdm_logging_redirect(
+            list(df.iterrows()),
+            disable=True if verbosity < 0 else None,
+        ) as t:
+
+            def process_row(row):
+                place_name = row.iloc[0]
+                t.set_postfix(name=place_name)
+                with logging_context(f"place_name={place_name}"):
+                    api_result = get_place_data_from_api(places_client, place_name)
+                    return {
+                        "place_id": api_result["place_id"],
+                        "place_name": place_name,
+                        "url": api_result["url"],
+                        "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+                    }
+
+            return [process_row(row) for _, row in t]
 
     with tqdm_logging_redirect(
-        list(clean_df.iterrows()),
+        sections,
         desc=f"Google Sheet CSV → {output.name}",
         disable=True if verbosity < 0 else None,
     ) as t:
+        for section in t:
+            section_name = section["section"]
+            t.set_postfix(name=section_name)
+            with logging_context(f"section_name={section_name}"):
+                section["venues"] = process_section(section["df"])
+                del section["df"]
 
-        def process_row(row):
-            place_name = row.iloc[0]
-            t.set_postfix(name=place_name)
-
-            api_result = get_place_data_from_api(places_client, place_name)
-            return api_result["place_id"], {
-                "place_name": place_name,
-                "url": api_result["url"],
-                "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
-            }
-
-        output_dict = dict(process_row(row) for _, row in t)
-
-    json.dump(output_dict, output, indent=4, ensure_ascii=False)
+    json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
 
 

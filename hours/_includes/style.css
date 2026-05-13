@@ -87,14 +87,27 @@ table#opening-hours {
 		z-index: 4;
 	}
 
-	tr .day:nth-child(2) { --day: 1; }
-	tr .day:nth-child(3) { --day: 2; }
-	tr .day:nth-child(4) { --day: 3; }
-	tr .day:nth-child(5) { --day: 4; }
-	tr .day:nth-child(6) { --day: 5; }
-	tr .day:nth-child(7) { --day: 6; }
-	tr .day:nth-child(8) { --day: 0; }
-	tr .day {
+	/* section headers */
+	tr.section-header {
+		th {
+			background-color: rgb(245 245 245);
+
+			div {
+				max-width: calc(100vw - 60px);
+				position: sticky;
+				left: 30px;
+			}
+		}
+	}
+
+	tr.venue .day:nth-child(2) { --day: 1; }
+	tr.venue .day:nth-child(3) { --day: 2; }
+	tr.venue .day:nth-child(4) { --day: 3; }
+	tr.venue .day:nth-child(5) { --day: 4; }
+	tr.venue .day:nth-child(6) { --day: 5; }
+	tr.venue .day:nth-child(7) { --day: 6; }
+	tr.venue .day:nth-child(8) { --day: 0; }
+	tr.venue .day {
 		--day-animation-delay: calc(0s
 			- var(--week-seconds-elapsed)
 			+ var(--day) * 86400s  /* align 0 with the selected day */
@@ -110,7 +123,7 @@ table#opening-hours {
 		background-color: color-mix(in srgb, var(--background-day), var(--background-today) calc(var(--today) * 100%));
 	}
 
-	tbody tr {
+	tbody tr.venue {
 		/* row header - highlight today */
 		th {
 			animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;

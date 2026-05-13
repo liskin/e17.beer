@@ -166,53 +166,41 @@ def process_text(opening_hours_obj: Place.OpeningHours) -> list:
     return ordered_hours_text
 
 
-def fetch_place_data(client: PlacesClient, place_id: str, place_metadata: dict) -> dict:
+def process_venue(client: PlacesClient, venue: dict):
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
-    place_name = place_metadata["place_name"]
-    with logging_context(f"place_name={place_name}"):
-        url = place_metadata["url"]
-        happy_hours = [format_happy_hours(hh) for hh in place_metadata["happy_hours"]]
+    place_id = venue["place_id"]
+    request = GetPlaceRequest(name=f"places/{place_id}", language_code="en-GB")
+    field_mask = "id,regularOpeningHours,currentOpeningHours,location"
+    place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
 
-        request = GetPlaceRequest(name=f"places/{place_id}", language_code="en-GB")
-        field_mask = "id,regularOpeningHours,currentOpeningHours,location"
-        place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
+    # Verify the ID
+    if place.id != place_id:
+        raise RuntimeError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-        # Verify the ID
-        if place.id != place_id:
-            raise RuntimeError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
+    current_time_text = process_text(place.current_opening_hours)
+    regular_time_text = process_text(place.regular_opening_hours)
 
-        gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
+    # Use regular_opening_hours for percentage calculations if descriptions match
+    # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
+    if current_time_text == regular_time_text:
+        opening_hours = place.regular_opening_hours
+    else:
+        opening_hours = place.current_opening_hours
 
-        current_time_text = process_text(place.current_opening_hours)
-        regular_time_text = process_text(place.regular_opening_hours)
-
-        # Use regular_opening_hours for percentage calculations if descriptions match
-        # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
-        if current_time_text == regular_time_text:
-            opening_hours = place.regular_opening_hours
-        else:
-            opening_hours = place.current_opening_hours
-
-        pct_periods = periods_to_percentages(opening_hours)
-        day_sort_values = calculate_day_sort_values(opening_hours)
-
-    return {
-        "place_name": place_name,
-        "place_id": place_id,
-        "url": url,
-        "location": gps_location,
-        "happy_hours": happy_hours,
-        "keyframe_periods": pct_periods,
-        "day_sort_values": day_sort_values,
-        "current_schedule": {
+    venue.update(
+        happy_hours=[format_happy_hours(hh) for hh in venue["happy_hours"]],
+        location={"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None,
+        keyframe_periods=periods_to_percentages(opening_hours),
+        day_sort_values=calculate_day_sort_values(opening_hours),
+        current_schedule={
             "time_text_sun_to_sat": current_time_text,
         },
-        "regular_schedule": {
+        regular_schedule={
             "time_text_sun_to_sat": regular_time_text,
         },
-    }
+    )
 
 
 @click.command()
@@ -234,30 +222,39 @@ def main(verbosity, input, output):
     """
     Load/update information about venues
 
-    Input file structured as ID-keyed nested dictionary:
+    Input and Output structured as list of sections, each containing a list of venues:
 
-        { "PLACE_ID": { "place_name": "…", "url": "…", "happy_hours": […] }, … }
+        [{ "section": "Name", "venues": [{ "place_id": "…", … }, … ] }, … ]
     """
     setup_logging(verbosity)
     client = get_places_client()
 
-    input_dict = json.load(input)
-    if not input_dict:
+    sections = json.load(input)
+    if not sections:
         raise RuntimeError("No data found in input JSON.")
 
+    def process_section(venues):
+        with tqdm_logging_redirect(
+            venues,
+            disable=True if verbosity < 0 else None,
+        ) as t:
+            for venue in t:
+                t.set_postfix(name=venue["place_name"])
+                with logging_context(f"place_name={venue['place_name']}"):
+                    process_venue(client=client, venue=venue)
+
     with tqdm_logging_redirect(
-        input_dict.items(),
+        sections,
         desc=f"{input.name} → {output.name}",
         disable=True if verbosity < 0 else None,
     ) as t:
+        for section in t:
+            section_name = section["section"]
+            t.set_postfix(name=section_name)
+            with logging_context(f"section_name={section_name}"):
+                process_section(section["venues"])
 
-        def process(pid, metadata):
-            t.set_postfix(name=metadata["place_name"])
-            return fetch_place_data(client, pid, metadata)
-
-        output_list = [process(pid, metadata) for pid, metadata in t]
-
-    json.dump(output_list, output, indent=4, ensure_ascii=False)
+    json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
 
 
