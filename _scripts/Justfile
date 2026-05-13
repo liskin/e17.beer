@@ -13,6 +13,9 @@ fmt:
     ruff format
     ruff check --select I --fix
 
+ipython:
+    uv run --with ipython python -m IPython
+
 # ----------------------------------------------------------------------
 
 [group('run')]
