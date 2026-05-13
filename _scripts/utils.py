@@ -60,7 +60,7 @@ def logging_context(context: str):
     try:
         yield
     except Exception as e:
-        logging.exception(f"{e}")
+        e.add_note(f"Context: {context}")
         raise
     finally:
         _log_context.reset(saved_log_context)
