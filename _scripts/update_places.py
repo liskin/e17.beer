@@ -90,7 +90,8 @@ def periods_to_percentages(opening_hours_obj: Place.OpeningHours) -> list:
         # Week wraparound logic (period span from Sat to Sun split into two)
         if open_pct > close_pct:
             pct_periods.append({"open": open_pct, "close": 100.0})
-            pct_periods.insert(0, {"open": 0.0, "close": close_pct})
+            if close_pct > 0:
+                pct_periods.insert(0, {"open": 0.0, "close": close_pct})
         else:
             pct_periods.append({"open": open_pct, "close": close_pct})
 

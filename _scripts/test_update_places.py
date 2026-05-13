@@ -81,6 +81,20 @@ def test_wraparound_split():
     assert intervals[-1]["close"] > 98.8
 
 
+def test_wraparound_split_eow():
+    """Wraparound split doesn't emit a (0, 0) interval when a venue closes Saturday/Sunday midnight"""
+    opening_hours_obj = Place.OpeningHours(
+        periods=[
+            Place.OpeningHours.Period(
+                open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
+                close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
+            )
+        ]
+    )
+    intervals = periods_to_percentages(opening_hours_obj)
+    assert len(intervals) == 1
+
+
 # --- DATA TRANSFORMATION TESTS ---
 
 
