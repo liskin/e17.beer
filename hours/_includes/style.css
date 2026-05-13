@@ -143,6 +143,8 @@ table#opening-hours {
 			-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
 			paint-order: stroke fill;
 
+			/* workaround for https://issues.chromium.org/issues/41433814 */
+			s { text-decoration-color: rgb(0 0 0); }
 		}
 		::selection {
 			-webkit-text-stroke: unset;
