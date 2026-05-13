@@ -6,6 +6,7 @@ import textwrap
 import click
 import pandas as pd
 from google.maps import places_v1
+from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
@@ -134,7 +135,7 @@ def main(verbosity, output):
     ]
 
     def process_section(df):
-        with tqdm_logging_redirect(
+        with tqdm(
             list(df.iterrows()),
             disable=True if verbosity < 0 else None,
         ) as t:

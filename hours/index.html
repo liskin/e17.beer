@@ -71,10 +71,18 @@
 					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
 						<div>
 							<div class="opening-hours">
-								{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
-								<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
-								{% endif -%}
-								{{ venue.current_schedule.time_text_sun_to_sat[day] }}
+								<div class="time-12h">
+									{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
+									<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+									{% endif -%}
+									{{ venue.current_schedule.time_text_sun_to_sat[day] }}
+								</div>
+								<div class="time-24h">
+									{% if venue.current_schedule.time_text_sun_to_sat_24h[day] != venue.regular_schedule.time_text_sun_to_sat_24h[day] -%}
+									<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat_24h[day] }}</s><br>
+									{% endif -%}
+									{{ venue.current_schedule.time_text_sun_to_sat_24h[day] }}
+								</div>
 							</div>
 							{% if venue.happy_hours[day] -%}
 							<div class="happy-hours">
@@ -138,6 +146,13 @@
 			<input type="checkbox" id="show-time-machine">
 			<label for="show-time-machine" title="show/hide time machine">
 				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
+
+			<input type="checkbox" id="use-time-24h">
+			<label for="use-time-24h" title="toggle 12h/24h clock format">
+				<div class="time-12h">24</div>
+				<div class="time-24h">12</div>
+				<div class="use-time-24h-icon">🕐</div>
 			</label>
 		</div>
 

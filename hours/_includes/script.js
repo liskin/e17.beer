@@ -192,3 +192,18 @@ document.querySelectorAll('button.sort-last-close').forEach((b) =>
 	b.addEventListener('click', () => sortVenuesByDay(b.parentElement.dataset.day, 'lastClose', true)));
 
 sortVenuesByDistanceIfPermitted();
+
+/* -------------------------------------------------------------------------------- */
+
+{
+	const useTime24hCheckbox = document.getElementById('use-time-24h');
+
+	/* save preference to localStorage when changed */
+	useTime24hCheckbox.addEventListener('change', (e) => localStorage.setItem('use-time-24h', e.target.checked));
+
+	/* load saved preference from localStorage */
+	const useTime24h = localStorage.getItem('use-time-24h');
+	if (useTime24h !== null) {
+		useTime24hCheckbox.checked = useTime24h === 'true';
+	}
+}

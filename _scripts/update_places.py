@@ -5,6 +5,7 @@ import re
 import click
 from google.maps.places_v1 import GetPlaceRequest, PlacesClient
 from google.maps.places_v1.types import Place
+from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
@@ -140,28 +141,46 @@ def calculate_day_sort_values(opening_hours_obj: Place.OpeningHours) -> list:
     return day_sort_values
 
 
-def process_text(opening_hours_obj: Place.OpeningHours) -> list:
+def process_weekday_descriptions_en(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
+    return process_weekday_descriptions(
+        opening_hours_obj,
+        days=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        closed="Closed",
+    )
+
+
+def process_weekday_descriptions_sv(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
+    return process_weekday_descriptions(
+        opening_hours_obj,
+        days=["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"],
+        closed="Stängt",
+    )
+
+
+def process_weekday_descriptions(
+    opening_hours_obj: Place.OpeningHours, days: list[str], closed: str
+) -> list[str | None]:
     """Extracts text descriptions ordered Sunday to Saturday."""
 
     if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
         raise RuntimeError("No weekday descriptions available.")
 
-    days_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    desc_list = list(opening_hours_obj.weekday_descriptions)
     week_dict = {}
-
-    for entry in desc_list:
+    for entry in list(opening_hours_obj.weekday_descriptions):
         if ": " in entry:
             day, hours = entry.split(": ", 1)
-            week_dict[day.strip()] = hours.strip()
+            hours = hours.strip()
+            if hours == closed:
+                hours = "Closed"
+            week_dict[day.strip()] = hours
 
     # Create the ordered list
-    ordered_hours_text = [week_dict.get(day, None) for day in days_order]
+    ordered_hours_text = [week_dict.get(day, None) for day in days]
 
     # Check if any day came back as None
     if None in ordered_hours_text:
-        missing_days = [days_order[i] for i, val in enumerate(ordered_hours_text) if val is None]
-        raise RuntimeError(f"Missing data for {', '.join(missing_days)}")
+        missing_days = [days[i] for i, val in enumerate(ordered_hours_text) if val is None]
+        raise RuntimeError(f"Missing data for {', '.join(missing_days)}: {opening_hours_obj.weekday_descriptions}")
 
     return ordered_hours_text
 
@@ -170,17 +189,20 @@ def process_venue(client: PlacesClient, venue: dict):
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
-    place_id = venue["place_id"]
-    request = GetPlaceRequest(name=f"places/{place_id}", language_code="en-GB")
-    field_mask = "id,regularOpeningHours,currentOpeningHours,location"
+    # Fetch 12-hour format (en-GB) + location
+    request = GetPlaceRequest(name=f"places/{venue['place_id']}", language_code="en-GB")
+    field_mask = "regularOpeningHours,currentOpeningHours,location"
     place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
 
-    # Verify the ID
-    if place.id != place_id:
-        raise RuntimeError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
+    # Fetch 24-hour format (sv for Swedish locale)
+    request_24h = GetPlaceRequest(name=f"places/{venue['place_id']}", language_code="sv")
+    field_mask_24h = "regularOpeningHours,currentOpeningHours"
+    place_24h = client.get_place(request=request_24h, metadata=[("x-goog-fieldmask", field_mask_24h)])
 
-    current_time_text = process_text(place.current_opening_hours)
-    regular_time_text = process_text(place.regular_opening_hours)
+    current_time_text = process_weekday_descriptions_en(place.current_opening_hours)
+    regular_time_text = process_weekday_descriptions_en(place.regular_opening_hours)
+    current_time_text_24h = process_weekday_descriptions_sv(place_24h.current_opening_hours)
+    regular_time_text_24h = process_weekday_descriptions_sv(place_24h.regular_opening_hours)
 
     # Use regular_opening_hours for percentage calculations if descriptions match
     # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
@@ -196,9 +218,11 @@ def process_venue(client: PlacesClient, venue: dict):
         day_sort_values=calculate_day_sort_values(opening_hours),
         current_schedule={
             "time_text_sun_to_sat": current_time_text,
+            "time_text_sun_to_sat_24h": current_time_text_24h,
         },
         regular_schedule={
             "time_text_sun_to_sat": regular_time_text,
+            "time_text_sun_to_sat_24h": regular_time_text_24h,
         },
     )
 
@@ -234,7 +258,7 @@ def main(verbosity, input, output):
         raise RuntimeError("No data found in input JSON.")
 
     def process_section(venues):
-        with tqdm_logging_redirect(
+        with tqdm(
             venues,
             disable=True if verbosity < 0 else None,
         ) as t:
