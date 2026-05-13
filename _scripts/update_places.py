@@ -175,7 +175,7 @@ def fetch_place_data(client: PlacesClient, place_id: str, place_metadata: dict) 
         url = place_metadata["url"]
         happy_hours = [format_happy_hours(hh) for hh in place_metadata["happy_hours"]]
 
-        request = GetPlaceRequest(name=f"places/{place_id}")
+        request = GetPlaceRequest(name=f"places/{place_id}", language_code="en-GB")
         field_mask = "id,regularOpeningHours,currentOpeningHours,location"
         place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
 
