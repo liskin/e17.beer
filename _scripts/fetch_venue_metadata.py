@@ -8,7 +8,7 @@ import pandas as pd
 from google.maps import places_v1
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, get_places_client, setup_logging
+from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
 def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> dict:
@@ -117,68 +117,53 @@ def main(verbosity, output):
     # Find the separator row
     separator_indices = df[df.iloc[:, 0].notna() & (df.iloc[:, 0].str.strip() == separator)].index.tolist()
 
-    if len(separator_indices) == 0:
-        # No separator found, all venues are in the beer mile section
-        beer_mile_df = df[df.iloc[:, 0].notna()].copy()
-        nearby_df = pd.DataFrame()
-    elif len(separator_indices) == 1:
-        separator_idx = separator_indices[0]
-        # Venues before separator are beer mile, after are nearby
-        beer_mile_df = df[:separator_idx][df[:separator_idx].iloc[:, 0].notna()].copy()
-        nearby_df = df[separator_idx + 1 :][df[separator_idx + 1 :].iloc[:, 0].notna()].copy()
-    else:
-        raise RuntimeError(f"Multiple separator rows found: {len(separator_indices)}")
+    if len(separator_indices) != 1:
+        raise RuntimeError(f"Exactly 1 separator row expected, found: {len(separator_indices)}")
 
-    sections = []
+    # Venues before separator are beer mile, after are nearby
+    separator_idx = separator_indices[0]
+    sections = [
+        {
+            "section": "Blackhorse Beer Mile",
+            "df": df[:separator_idx][df[:separator_idx].iloc[:, 0].notna()].copy(),
+        },
+        {
+            "section": "nearby",
+            "df": df[separator_idx + 1 :][df[separator_idx + 1 :].iloc[:, 0].notna()].copy(),
+        },
+    ]
 
-    # Process beer mile section
-    if not beer_mile_df.empty:
+    def process_section(df):
         with tqdm_logging_redirect(
-            list(beer_mile_df.iterrows()),
-            desc=f"Google Sheet CSV [Blackhorse Beer Mile] → {output.name}",
+            list(df.iterrows()),
             disable=True if verbosity < 0 else None,
         ) as t:
 
             def process_row(row):
                 place_name = row.iloc[0]
                 t.set_postfix(name=place_name)
+                with logging_context(f"place_name={place_name}"):
+                    api_result = get_place_data_from_api(places_client, place_name)
+                    return {
+                        "place_id": api_result["place_id"],
+                        "place_name": place_name,
+                        "url": api_result["url"],
+                        "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+                    }
 
-                api_result = get_place_data_from_api(places_client, place_name)
-                return {
-                    "place_id": api_result["place_id"],
-                    "place_name": place_name,
-                    "url": api_result["url"],
-                    "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
-                }
+            return [process_row(row) for _, row in t]
 
-            venues = [process_row(row) for _, row in t]
-
-        sections.append({"section": "Blackhorse Beer Mile", "venues": venues})
-
-    # Process nearby section
-    if not nearby_df.empty:
-        with tqdm_logging_redirect(
-            list(nearby_df.iterrows()),
-            desc=f"Google Sheet CSV [nearby] → {output.name}",
-            disable=True if verbosity < 0 else None,
-        ) as t:
-
-            def process_row(row):
-                place_name = row.iloc[0]
-                t.set_postfix(name=place_name)
-
-                api_result = get_place_data_from_api(places_client, place_name)
-                return {
-                    "place_id": api_result["place_id"],
-                    "place_name": place_name,
-                    "url": api_result["url"],
-                    "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
-                }
-
-            # nearby_dict = dict(process_row(row) for _, row in t)
-            venues = [process_row(row) for _, row in t]
-
-        sections.append({"section": "nearby", "venues": venues})
+    with tqdm_logging_redirect(
+        sections,
+        desc=f"Google Sheet CSV → {output.name}",
+        disable=True if verbosity < 0 else None,
+    ) as t:
+        for section in t:
+            section_name = section["section"]
+            t.set_postfix(name=section_name)
+            with logging_context(f"section_name={section_name}"):
+                section["venues"] = process_section(section["df"])
+                del section["df"]
 
     json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")

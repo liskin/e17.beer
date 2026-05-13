@@ -203,30 +203,6 @@ def process_venue(client: PlacesClient, venue: dict):
     )
 
 
-def process_section_venues(client, venues, verbosity):
-    with tqdm_logging_redirect(
-        venues,
-        disable=True if verbosity < 0 else None,
-    ) as t:
-        for venue in t:
-            t.set_postfix(name=venue["place_name"])
-            with logging_context(f"place_name={venue['place_name']}"):
-                process_venue(client=client, venue=venue)
-
-
-def process_sections(client, sections, tqdm_desc, verbosity):
-    with tqdm_logging_redirect(
-        sections,
-        desc=tqdm_desc,
-        disable=True if verbosity < 0 else None,
-    ) as t:
-        for section in t:
-            section_name = section["section"]
-            t.set_postfix(name=section_name)
-            with logging_context(f"section_name={section_name}"):
-                process_section_venues(client=client, venues=section["venues"], verbosity=verbosity)
-
-
 @click.command()
 @click.option(
     "-o",
@@ -257,12 +233,26 @@ def main(verbosity, input, output):
     if not sections:
         raise RuntimeError("No data found in input JSON.")
 
-    process_sections(
-        client=client,
-        sections=sections,
-        tqdm_desc=f"{input.name} → {output.name}",
-        verbosity=verbosity,
-    )
+    def process_section(venues):
+        with tqdm_logging_redirect(
+            venues,
+            disable=True if verbosity < 0 else None,
+        ) as t:
+            for venue in t:
+                t.set_postfix(name=venue["place_name"])
+                with logging_context(f"place_name={venue['place_name']}"):
+                    process_venue(client=client, venue=venue)
+
+    with tqdm_logging_redirect(
+        sections,
+        desc=f"{input.name} → {output.name}",
+        disable=True if verbosity < 0 else None,
+    ) as t:
+        for section in t:
+            section_name = section["section"]
+            t.set_postfix(name=section_name)
+            with logging_context(f"section_name={section_name}"):
+                process_section(section["venues"])
 
     json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
