@@ -5,6 +5,7 @@ import re
 import click
 from google.maps.places_v1 import GetPlaceRequest, PlacesClient
 from google.maps.places_v1.types import Place
+from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
@@ -245,7 +246,7 @@ def main(verbosity, input, output):
         raise RuntimeError("No data found in input JSON.")
 
     def process_section(venues):
-        with tqdm_logging_redirect(
+        with tqdm(
             venues,
             disable=True if verbosity < 0 else None,
         ) as t:
