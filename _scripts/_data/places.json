@@ -139,7 +139,7 @@
             },
             {
                 "open": 92.8571,
-                "close": 99.4048
+                "close": 100.0
             }
         ],
         "day_sort_values": [
@@ -163,7 +163,7 @@
             },
             {
                 "open": 92.8571,
-                "close": 99.4048
+                "close": 100.0
             }
         ],
         "current_schedule": {
@@ -174,7 +174,7 @@
                 "4:00 – 11:00 PM",
                 "4:00 – 11:00 PM",
                 "4:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
+                "12:00 PM – 12:00 AM"
             ]
         },
         "regular_schedule": {
@@ -185,7 +185,7 @@
                 "4:00 – 11:00 PM",
                 "4:00 – 11:00 PM",
                 "4:00 – 11:00 PM",
-                "12:00 – 11:00 PM"
+                "12:00 PM – 12:00 AM"
             ]
         }
     },
@@ -770,12 +770,12 @@
                 "close": 11.9048
             },
             {
-                "open": 21.4286,
+                "open": 25.0,
                 "close": 27.9762
             },
             {
-                "open": 35.7143,
-                "close": 42.2619
+                "open": 39.2857,
+                "close": 42.8571
             },
             {
                 "open": 50.0,
@@ -800,12 +800,12 @@
                 "close": 11.9048
             },
             {
-                "open": 21.4286,
+                "open": 25.0,
                 "close": 27.9762
             },
             {
-                "open": 35.7143,
-                "close": 42.2619
+                "open": 39.2857,
+                "close": 42.8571
             },
             {
                 "open": 50.0,
@@ -827,8 +827,8 @@
         "current_schedule": {
             "time_text_sun_to_sat": [
                 "12:00 – 8:00 PM",
-                "12:00 – 11:00 PM",
-                "12:00 – 11:00 PM",
+                "6:00 – 11:00 PM",
+                "6:00 PM – 12:00 AM",
                 "12:00 – 11:00 PM",
                 "12:00 PM – 12:00 AM",
                 "12:00 PM – 1:00 AM",
@@ -858,7 +858,7 @@
         "happy_hours": [
             null,
             "£5 pints of East London Brewing beers",
-            "£5 pints of East London Brewing beers",
+            null,
             null,
             "£16.50 burger + fries + can of East London Brewing<br><br><span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
             "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
