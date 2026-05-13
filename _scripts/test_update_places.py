@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 
 import google.api_core
 import pytest
+from google.maps.places_v1.types import Place
 
 from update_places import (
     fetch_place_data,
@@ -55,12 +56,14 @@ def test_midnight_transition():
 
 
 def test_wraparound_split():
-    period = MagicMock()
-    period.open.day, period.open.hour, period.open.minute = 6, 22, 0
-    period.close.day, period.close.hour, period.close.minute = 0, 2, 0
-
-    opening_hours_obj = MagicMock()
-    opening_hours_obj.periods = [period]
+    opening_hours_obj = Place.OpeningHours(
+        periods=[
+            Place.OpeningHours.Period(
+                open=Place.OpeningHours.Period.Point(day=6, hour=22, minute=0),
+                close=Place.OpeningHours.Period.Point(day=0, hour=2, minute=0),
+            )
+        ]
+    )
 
     intervals = periods_to_percentages(opening_hours_obj)
     assert len(intervals) == 2
@@ -82,17 +85,17 @@ def test_wraparound_split():
 
 def test_weekday_text_ordering_and_format():
     """Verify raw text is split correctly and ordered Sunday to Saturday"""
-
-    opening_hours_obj = MagicMock()
-    opening_hours_obj.weekday_descriptions = [
-        "Monday: 4:00 PM – 12:00 AM",
-        "Tuesday: 12:00 PM – 12:00 AM",
-        "Wednesday: 12:00 PM – 12:00 AM",
-        "Thursday: 12:00 PM – 1:00 AM",
-        "Friday: 12:00 PM – 1:00 AM",
-        "Saturday: 12:00 PM – 1:30 AM",
-        "Sunday: 12:00 – 11:30 PM",
-    ]
+    opening_hours_obj = Place.OpeningHours(
+        weekday_descriptions=[
+            "Monday: 4:00 PM – 12:00 AM",
+            "Tuesday: 12:00 PM – 12:00 AM",
+            "Wednesday: 12:00 PM – 12:00 AM",
+            "Thursday: 12:00 PM – 1:00 AM",
+            "Friday: 12:00 PM – 1:00 AM",
+            "Saturday: 12:00 PM – 1:30 AM",
+            "Sunday: 12:00 – 11:30 PM",
+        ]
+    )
 
     times = process_text(opening_hours_obj)
 
@@ -139,9 +142,7 @@ def test_valid_time_format():
 
 def test_incomplete_weekday_text_error():
     """Verify an exception is issued if data is missing"""
-
-    opening_hours_obj = MagicMock()
-    opening_hours_obj.weekday_descriptions = ["Monday: 9:00 AM – 5:00 PM"]
+    opening_hours_obj = Place.OpeningHours(weekday_descriptions=["Monday: 9:00 AM – 5:00 PM"])
 
     with pytest.raises(RuntimeError) as excinfo:
         process_text(opening_hours_obj)
@@ -152,20 +153,16 @@ def test_incomplete_weekday_text_error():
 # --- API RETURN TESTS ---
 
 
-def test_incomplete_period_handling():
+def test_incomplete_period_handling(caplog):
     """Verify that a period missing a 'close' time doesn't crash the script"""
 
-    incomplete_period = MagicMock()
-    incomplete_period.open.day = 1
-    incomplete_period.open.hour = 21
-    incomplete_period.open.minute = 0
-    incomplete_period.close = None
-
-    opening_hours_obj = MagicMock()
-    opening_hours_obj.periods = [incomplete_period]
+    opening_hours_obj = Place.OpeningHours(
+        periods=[Place.OpeningHours.Period(open=Place.OpeningHours.Period.Point(day=1, hour=21, minute=0))]
+    )
 
     # should be empty - it skipped the bad period instead of crashing
     assert periods_to_percentages(opening_hours_obj) == []
+    assert "missing close time" in caplog.text
 
 
 def test_fetch_place_api_error_handling():

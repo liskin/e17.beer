@@ -3,7 +3,8 @@ import logging
 import re
 
 import click
-from google.maps import places_v1
+from google.maps.places_v1 import GetPlaceRequest, PlacesClient
+from google.maps.places_v1.types import Place
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
@@ -61,7 +62,7 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
     return round(percentage, 4)
 
 
-def periods_to_percentages(opening_hours_obj) -> list:
+def periods_to_percentages(opening_hours_obj: Place.OpeningHours) -> list:
     """Transforms periods into percentage-of-week intervals."""
 
     if not opening_hours_obj or not opening_hours_obj.periods:
@@ -97,7 +98,7 @@ def periods_to_percentages(opening_hours_obj) -> list:
     return sorted(pct_periods, key=lambda x: x["open"])
 
 
-def calculate_day_sort_values(opening_hours_obj: places_v1.types.Place.OpeningHours) -> list:
+def calculate_day_sort_values(opening_hours_obj: Place.OpeningHours) -> list:
     """Calculate earliest opening and latest closing percentages per day (Sun–Sat)."""
 
     if not opening_hours_obj or not opening_hours_obj.periods:
@@ -137,7 +138,7 @@ def calculate_day_sort_values(opening_hours_obj: places_v1.types.Place.OpeningHo
     return day_sort_values
 
 
-def process_text(opening_hours_obj: places_v1.types.Place.OpeningHours) -> list:
+def process_text(opening_hours_obj: Place.OpeningHours) -> list:
     """Extracts text descriptions ordered Sunday to Saturday."""
 
     if not opening_hours_obj or not opening_hours_obj.weekday_descriptions:
@@ -163,7 +164,7 @@ def process_text(opening_hours_obj: places_v1.types.Place.OpeningHours) -> list:
     return ordered_hours_text
 
 
-def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metadata: dict) -> dict:
+def fetch_place_data(client: PlacesClient, place_id: str, place_metadata: dict) -> dict:
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
@@ -172,8 +173,9 @@ def fetch_place_data(client: places_v1.PlacesClient, place_id: str, place_metada
         url = place_metadata["url"]
         happy_hours = [format_happy_hours(hh) for hh in place_metadata["happy_hours"]]
 
+        request = GetPlaceRequest(name=f"places/{place_id}")
         field_mask = "id,regularOpeningHours,currentOpeningHours,location"
-        place = client.get_place(name=f"places/{place_id}", metadata=[("x-goog-fieldmask", field_mask)])
+        place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
 
         # Verify the ID
         if place.id != place_id:
