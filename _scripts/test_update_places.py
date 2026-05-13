@@ -203,7 +203,7 @@ def test_fetch_place_api_error_handling():
     mock_client.get_place.side_effect = google.api_core.exceptions.InvalidArgument(google_reason)
 
     with pytest.raises(google.api_core.exceptions.InvalidArgument) as excinfo:
-        fetch_place_data(mock_client, "bad_id", defaultdict(str))
+        fetch_place_data(mock_client, venue=defaultdict(str, place_id="bad_id"))
 
     assert google_reason in str(excinfo.value)
 

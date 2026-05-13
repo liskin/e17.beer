@@ -94,11 +94,11 @@ def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> 
 @click_option_verbosity()
 def main(verbosity, output):
     """
-    Fetch venue metadata from Google Sheet and output as sections structure.
+    Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
 
-    Output structured as list of sections, each containing a name and venues dict:
+    Output structured as list of sections, each containing a list of venues:
 
-        [{ "name": "Section Name", "venues": { "PLACE_ID": { "place_name": "…", ... }, ... } }, ...]
+        [{ "section": "Name", "venues": [{ "place_id": "…", … }, … ] }, … ]
     """
     setup_logging(verbosity)
     places_client = get_places_client()
@@ -128,22 +128,16 @@ def main(verbosity, output):
             t.set_postfix(name=place_name)
 
             api_result = get_place_data_from_api(places_client, place_name)
-            return api_result["place_id"], {
+            return {
+                "place_id": api_result["place_id"],
                 "place_name": place_name,
                 "url": api_result["url"],
                 "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
             }
 
-        output_dict = dict(process_row(row) for _, row in t)
+        venues = [process_row(row) for _, row in t]
 
-    # Wrap in sections structure
-    sections = [
-        {
-            "name": "Blackhorse Beer Mile",
-            "venues": output_dict,
-        }
-    ]
-
+    sections = [{"section": "Blackhorse Beer Mile & nearby", "venues": venues}]
     json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
 
