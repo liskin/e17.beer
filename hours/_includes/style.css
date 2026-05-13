@@ -381,6 +381,15 @@ div#toolbar {
 	}
 }
 
+/* Clock format switching - hide 24h format by default, show when checkbox is checked */
+body:not(:has(input#use-24h-format:checked)) .opening-hours .time-24h {
+	display: none;
+}
+
+body:has(input#use-24h-format:checked) .opening-hours .time-12h {
+	display: none;
+}
+
 @keyframes day {
 	0%       { --today: 1; }
 	14.2857% { --today: 0; }
