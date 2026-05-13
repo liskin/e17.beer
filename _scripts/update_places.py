@@ -73,9 +73,9 @@ def periods_to_percentages(opening_hours_obj: Place.OpeningHours) -> list:
         # Check for missing period boundaries
         # TODO: later update for the case of 24-hour venues, where Google omits 'close',
         #  otherwise both open and close should be present
-        if not p.open or not p.close:
-            msg = "open time" if not p.open else "close time (possibly 24h venue)"
-            logging.warning("Incomplete period data (missing %s)", msg)
+        if "open_" not in p or "close" not in p:
+            msg = "open time" if "open_" not in p else "close time (possibly 24h venue)"
+            logging.warning("Incomplete period data (missing %s): %s", msg, p)
             continue
 
         if p.open.truncated:
@@ -106,7 +106,8 @@ def calculate_day_sort_values(opening_hours_obj: Place.OpeningHours) -> list:
 
     day_sort_values: list[dict | None] = [None] * 7
     for p in opening_hours_obj.periods:
-        if not p.open or not p.close:
+        if "open_" not in p or "close" not in p:
+            # no warning, already issued from periods_to_percentages()
             continue
 
         # Skip truncated intervals (e.g., Saturday late openings returned as Sunday morning)

@@ -6,6 +6,7 @@ import pytest
 from google.maps.places_v1.types import Place
 
 from update_places import (
+    calculate_day_sort_values,
     fetch_place_data,
     format_happy_hours_line,
     get_week_percentage,
@@ -163,6 +164,21 @@ def test_incomplete_period_handling(caplog):
     # should be empty - it skipped the bad period instead of crashing
     assert periods_to_percentages(opening_hours_obj) == []
     assert "missing close time" in caplog.text
+
+
+def test_midnight_not_mistaken_as_incomplete():
+    """Verify that we don't mistake a falsy Place.OpeningHours.Period.Point object as unspecified"""
+    opening_hours_obj = Place.OpeningHours(
+        periods=[
+            # Saturday noon to midnight
+            Place.OpeningHours.Period(
+                open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
+                close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
+            )
+        ]
+    )
+    assert periods_to_percentages(opening_hours_obj) != []
+    assert calculate_day_sort_values(opening_hours_obj)[6] is not None
 
 
 def test_fetch_place_api_error_handling():
