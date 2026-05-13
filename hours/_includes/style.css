@@ -347,7 +347,7 @@ div#toolbar {
 
 	label {
 		display: block;
-		padding: 10px 10px;
+		position: relative;
 
 		cursor: pointer;
 		user-select: none;
@@ -377,12 +377,36 @@ div#toolbar {
 
 		img {
 			display: block;
+			margin: 10px;
 		}
 
-		.clock-icon {
-			display: block;
-			font-size: 20px;
-			line-height: 1;
+		&[for="use-time-24h"] {
+			div {
+				height: calc(10px + 25px + 10px);
+				width: calc(10px + 25px + 10px);
+				overflow: clip;
+
+				text-align: center;
+				line-height: calc(10px + 25px + 10px);
+
+				font-weight: bold;
+				font-size: 20px;
+
+				position: relative;
+				z-index: 12;
+			}
+
+			div.use-time-24h-icon {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 11;
+
+				font-size: 25px;
+			}
+
+			body:has(input#use-time-24h:checked) & div.time-12h { display: none; }
+			body:not(:has(input#use-time-24h:checked)) & div.time-24h { display: none; }
 		}
 	}
 }
