@@ -372,6 +372,12 @@ div#toolbar {
 		img {
 			display: block;
 		}
+
+		.clock-icon {
+			display: block;
+			font-size: 20px;
+			line-height: 1;
+		}
 	}
 }
 

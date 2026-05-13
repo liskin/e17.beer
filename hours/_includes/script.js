@@ -192,3 +192,43 @@ document.querySelectorAll('button.sort-last-close').forEach((b) =>
 	b.addEventListener('click', () => sortVenuesByDay(b.parentElement.dataset.day, 'lastClose', true)));
 
 sortVenuesByDistanceIfPermitted();
+
+/* -------------------------------------------------------------------------------- */
+
+/* Clock format toggle (12h/24h) */
+const use24hCheckbox = document.getElementById('use-24h-format');
+
+/* Load saved preference from localStorage */
+const saved24hPreference = localStorage.getItem('use24hFormat');
+if (saved24hPreference !== null) {
+	use24hCheckbox.checked = saved24hPreference === 'true';
+}
+
+/* Function to update all time displays based on format */
+function updateTimeDisplays() {
+	const use24h = use24hCheckbox.checked;
+
+	document.querySelectorAll('td.day').forEach((cell) => {
+		const currentHoursSpan = cell.querySelector('.opening-hours .current-hours');
+		const regularHoursS = cell.querySelector('.opening-hours .regular-hours');
+
+		if (currentHoursSpan) {
+			const currentTime = use24h ? cell.dataset.time24hCurrent : cell.dataset.time12hCurrent;
+			currentHoursSpan.textContent = currentTime;
+		}
+
+		if (regularHoursS) {
+			const regularTime = use24h ? cell.dataset.time24hRegular : cell.dataset.time12hRegular;
+			regularHoursS.textContent = regularTime;
+		}
+	});
+}
+
+/* Update displays on checkbox change */
+use24hCheckbox.addEventListener('change', () => {
+	localStorage.setItem('use24hFormat', use24hCheckbox.checked);
+	updateTimeDisplays();
+});
+
+/* Initial update on page load */
+updateTimeDisplays();

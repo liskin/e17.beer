@@ -171,9 +171,16 @@ def process_venue(client: PlacesClient, venue: dict):
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
     place_id = venue["place_id"]
+
+    # Fetch 12-hour format (en-GB)
     request = GetPlaceRequest(name=f"places/{place_id}", language_code="en-GB")
     field_mask = "id,regularOpeningHours,currentOpeningHours,location"
     place = client.get_place(request=request, metadata=[("x-goog-fieldmask", field_mask)])
+
+    # Fetch 24-hour format (sv for Swedish locale)
+    request_24h = GetPlaceRequest(name=f"places/{place_id}", language_code="sv")
+    field_mask_24h = "regularOpeningHours,currentOpeningHours"
+    place_24h = client.get_place(request=request_24h, metadata=[("x-goog-fieldmask", field_mask_24h)])
 
     # Verify the ID
     if place.id != place_id:
@@ -181,6 +188,8 @@ def process_venue(client: PlacesClient, venue: dict):
 
     current_time_text = process_text(place.current_opening_hours)
     regular_time_text = process_text(place.regular_opening_hours)
+    current_time_text_24h = process_text(place_24h.current_opening_hours)
+    regular_time_text_24h = process_text(place_24h.regular_opening_hours)
 
     # Use regular_opening_hours for percentage calculations if descriptions match
     # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
@@ -196,9 +205,11 @@ def process_venue(client: PlacesClient, venue: dict):
         day_sort_values=calculate_day_sort_values(opening_hours),
         current_schedule={
             "time_text_sun_to_sat": current_time_text,
+            "time_text_sun_to_sat_24h": current_time_text_24h,
         },
         regular_schedule={
             "time_text_sun_to_sat": regular_time_text,
+            "time_text_sun_to_sat_24h": regular_time_text_24h,
         },
     )
 

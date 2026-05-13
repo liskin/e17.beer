@@ -68,13 +68,13 @@
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
 					{% assign first_open = venue.day_sort_values[day].open %}
 					{% assign last_close = venue.day_sort_values[day].close %}
-					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
+					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}" data-time-12h-current="{{ venue.current_schedule.time_text_sun_to_sat[day] }}" data-time-12h-regular="{{ venue.regular_schedule.time_text_sun_to_sat[day] }}" data-time-24h-current="{{ venue.current_schedule.time_text_sun_to_sat_24h[day] }}" data-time-24h-regular="{{ venue.regular_schedule.time_text_sun_to_sat_24h[day] }}">
 						<div>
 							<div class="opening-hours">
 								{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
-								<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+								<s title="regular opening hours" class="regular-hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
 								{% endif -%}
-								{{ venue.current_schedule.time_text_sun_to_sat[day] }}
+								<span class="current-hours">{{ venue.current_schedule.time_text_sun_to_sat[day] }}</span>
 							</div>
 							{% if venue.happy_hours[day] -%}
 							<div class="happy-hours">
@@ -138,6 +138,11 @@
 			<input type="checkbox" id="show-time-machine">
 			<label for="show-time-machine" title="show/hide time machine">
 				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+			</label>
+
+			<input type="checkbox" id="use-24h-format">
+			<label for="use-24h-format" title="toggle 12h/24h clock format">
+				<span class="clock-icon">🕐</span>
 			</label>
 		</div>
 
