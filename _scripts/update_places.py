@@ -166,7 +166,7 @@ def process_text(opening_hours_obj: Place.OpeningHours) -> list:
     return ordered_hours_text
 
 
-def fetch_place_data(client: PlacesClient, venue: dict) -> dict:
+def process_venue(client: PlacesClient, venue: dict):
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
@@ -179,8 +179,6 @@ def fetch_place_data(client: PlacesClient, venue: dict) -> dict:
     if place.id != place_id:
         raise RuntimeError(f"ID Mismatch! Requested place_id: {place_id}, got id: {place.id}")
 
-    gps_location = {"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None
-
     current_time_text = process_text(place.current_opening_hours)
     regular_time_text = process_text(place.regular_opening_hours)
 
@@ -191,25 +189,18 @@ def fetch_place_data(client: PlacesClient, venue: dict) -> dict:
     else:
         opening_hours = place.current_opening_hours
 
-    pct_periods = periods_to_percentages(opening_hours)
-    day_sort_values = calculate_day_sort_values(opening_hours)
-    happy_hours = [format_happy_hours(hh) for hh in venue["happy_hours"]]
-
-    return {
-        "place_name": venue["place_name"],
-        "place_id": place_id,
-        "url": venue["url"],
-        "location": gps_location,
-        "happy_hours": happy_hours,
-        "keyframe_periods": pct_periods,
-        "day_sort_values": day_sort_values,
-        "current_schedule": {
+    venue.update(
+        happy_hours=[format_happy_hours(hh) for hh in venue["happy_hours"]],
+        location={"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None,
+        keyframe_periods=periods_to_percentages(opening_hours),
+        day_sort_values=calculate_day_sort_values(opening_hours),
+        current_schedule={
             "time_text_sun_to_sat": current_time_text,
         },
-        "regular_schedule": {
+        regular_schedule={
             "time_text_sun_to_sat": regular_time_text,
         },
-    }
+    )
 
 
 def process_section_venues(client, venues, verbosity):
@@ -220,11 +211,7 @@ def process_section_venues(client, venues, verbosity):
         for venue in t:
             t.set_postfix(name=venue["place_name"])
             with logging_context(f"place_name={venue['place_name']}"):
-                venue_details = fetch_place_data(client=client, venue=venue)
-
-                # FIXME: update directly in fetch_place_data
-                venue.clear()
-                venue.update(venue_details)
+                process_venue(client=client, venue=venue)
 
 
 def process_sections(client, sections, tqdm_desc, verbosity):

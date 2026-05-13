@@ -3,13 +3,9 @@
         "section": "Blackhorse Beer Mile & nearby",
         "venues": [
             {
-                "place_name": "Signature",
                 "place_id": "ChIJKVqfjZgddkgRPsLCEegdp_Y",
+                "place_name": "Signature",
                 "url": "https://maps.google.com/?cid=17773207337008546366&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5916078,
-                    "lng": -0.0428948
-                },
                 "happy_hours": [
                     "£3.50 pint cask",
                     "free pint when £10+ spent on take-away cans",
@@ -19,6 +15,10 @@
                     "<span class=\"offer-name\">Friday Lunch Menu</span><br>£10 any flatbread and soft drink",
                     null
                 ],
+                "location": {
+                    "lat": 51.5916078,
+                    "lng": -0.0428948
+                },
                 "keyframe_periods": [
                     {
                         "open": 0.0,
@@ -107,13 +107,9 @@
                 }
             },
             {
-                "place_name": "Pretty Decent",
                 "place_id": "ChIJK_3JDekddkgR_9lv8ApNmVo",
+                "place_name": "Pretty Decent",
                 "url": "https://maps.google.com/?cid=6528333844229118463&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.591877399999994,
-                    "lng": -0.041494199999999995
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -123,6 +119,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.591877399999994,
+                    "lng": -0.041494199999999995
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.1429,
@@ -193,13 +193,9 @@
                 }
             },
             {
-                "place_name": "Hackney Church",
                 "place_id": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
+                "place_name": "Hackney Church",
                 "url": "https://maps.google.com/?cid=8187523938147072846&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5907765,
-                    "lng": -0.040632
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -209,6 +205,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.5907765,
+                    "lng": -0.040632
+                },
                 "keyframe_periods": [
                     {
                         "open": 0.0,
@@ -283,13 +283,9 @@
                 }
             },
             {
-                "place_name": "Exale",
                 "place_id": "ChIJn5s47P0ddkgRs97vifafiI0",
+                "place_name": "Exale",
                 "url": "https://maps.google.com/?cid=10198577237405458099&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5932337,
-                    "lng": -0.0414756
-                },
                 "happy_hours": [
                     "£4 pints",
                     null,
@@ -299,6 +295,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.5932337,
+                    "lng": -0.0414756
+                },
                 "keyframe_periods": [
                     {
                         "open": 0.0,
@@ -366,13 +366,9 @@
                 }
             },
             {
-                "place_name": "Borough Wines",
                 "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
+                "place_name": "Borough Wines",
                 "url": "https://maps.google.com/?cid=10943805710222089070&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5932588,
-                    "lng": -0.0418763
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -382,6 +378,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.5932588,
+                    "lng": -0.0418763
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.7381,
@@ -438,13 +438,9 @@
                 }
             },
             {
-                "place_name": "Renegade",
                 "place_id": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
+                "place_name": "Renegade",
                 "url": "https://maps.google.com/?cid=13237074120801061574&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.595413199999996,
-                    "lng": -0.043168
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -454,6 +450,10 @@
                     "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
                     null
                 ],
+                "location": {
+                    "lat": 51.595413199999996,
+                    "lng": -0.043168
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.1429,
@@ -517,13 +517,9 @@
                 }
             },
             {
-                "place_name": "40ft",
                 "place_id": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
+                "place_name": "40ft",
                 "url": "https://maps.google.com/?cid=17602513503578849304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5957661,
-                    "lng": -0.041589299999999996
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -533,6 +529,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.5957661,
+                    "lng": -0.041589299999999996
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.1429,
@@ -596,13 +596,9 @@
                 }
             },
             {
-                "place_name": "East London Brewing",
                 "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
+                "place_name": "East London Brewing",
                 "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.595348699999995,
-                    "lng": -0.042222699999999995
-                },
                 "happy_hours": [
                     "£5 pints all May",
                     null,
@@ -612,6 +608,10 @@
                     "£5 pints all May",
                     "£5 pints all May"
                 ],
+                "location": {
+                    "lat": 51.595348699999995,
+                    "lng": -0.042222699999999995
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.1429,
@@ -668,13 +668,9 @@
                 }
             },
             {
-                "place_name": "Burnt Faith",
                 "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
+                "place_name": "Burnt Faith",
                 "url": "https://maps.google.com/?cid=2450877405129697835&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.590790999999996,
-                    "lng": -0.0382645
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -684,6 +680,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.590790999999996,
+                    "lng": -0.0382645
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.7381,
@@ -747,13 +747,9 @@
                 }
             },
             {
-                "place_name": "Big Penny",
                 "place_id": "ChIJOXISL-oddkgR8T4iCezLtY4",
+                "place_name": "Big Penny",
                 "url": "https://maps.google.com/?cid=10283349538796355313&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5908551,
-                    "lng": -0.041318099999999996
-                },
                 "happy_hours": [
                     null,
                     "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
@@ -763,6 +759,10 @@
                     "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
                     null
                 ],
+                "location": {
+                    "lat": 51.5908551,
+                    "lng": -0.041318099999999996
+                },
                 "keyframe_periods": [
                     {
                         "open": 0.0,
@@ -851,13 +851,9 @@
                 }
             },
             {
-                "place_name": "Tavern on the Hill",
                 "place_id": "ChIJNZQZJjcddkgRJlbGoKPRzg8",
+                "place_name": "Tavern on the Hill",
                 "url": "https://maps.google.com/?cid=1139078256478541350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.596764,
-                    "lng": -0.034974
-                },
                 "happy_hours": [
                     null,
                     "£5 pints of East London Brewing beers",
@@ -867,6 +863,10 @@
                     "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
                     null
                 ],
+                "location": {
+                    "lat": 51.596764,
+                    "lng": -0.034974
+                },
                 "keyframe_periods": [
                     {
                         "open": 0.0,
@@ -955,13 +955,9 @@
                 }
             },
             {
-                "place_name": "Ferry Boat Inn",
                 "place_id": "ChIJMx4DJDIcdkgRxOVl_zEjmCE",
+                "place_name": "Ferry Boat Inn",
                 "url": "https://maps.google.com/?cid=2420723497356879300&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5868611,
-                    "lng": -0.0524694
-                },
                 "happy_hours": [
                     null,
                     "£3.50 pints of cask",
@@ -971,6 +967,10 @@
                     "2-for-1 cocktails",
                     "2-for-1 cocktails"
                 ],
+                "location": {
+                    "lat": 51.5868611,
+                    "lng": -0.0524694
+                },
                 "keyframe_periods": [
                     {
                         "open": 6.5476,
@@ -1055,13 +1055,9 @@
                 }
             },
             {
-                "place_name": "Pressure Drop",
                 "place_id": "ChIJQeFXoy8cdkgRrIXf96VGQyI",
+                "place_name": "Pressure Drop",
                 "url": "https://maps.google.com/?cid=2468894699371333036&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.590553,
-                    "lng": -0.05769709999999999
-                },
                 "happy_hours": [
                     "£4 cans",
                     null,
@@ -1071,6 +1067,10 @@
                     "£4 pints (core)",
                     null
                 ],
+                "location": {
+                    "lat": 51.590553,
+                    "lng": -0.05769709999999999
+                },
                 "keyframe_periods": [
                     {
                         "open": 7.1429,
@@ -1127,13 +1127,9 @@
                 }
             },
             {
-                "place_name": "Blondies Brewery",
                 "place_id": "ChIJj4Jz2N4ddkgRo7KEHp0rGRM",
+                "place_name": "Blondies Brewery",
                 "url": "https://maps.google.com/?cid=1376179114960269987&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-                "location": {
-                    "lat": 51.5696764,
-                    "lng": -0.0242162
-                },
                 "happy_hours": [
                     null,
                     null,
@@ -1143,6 +1139,10 @@
                     null,
                     null
                 ],
+                "location": {
+                    "lat": 51.5696764,
+                    "lng": -0.0242162
+                },
                 "keyframe_periods": [
                     {
                         "open": 5.3571,
