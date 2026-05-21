@@ -14,13 +14,10 @@ buttons:
         icon: mdi:calendar-outline
   - category: 🍻 Beer 🍻
     items:
-      - title: Blackhorse Beer Mile opening hours
+      - title: Blackhorse Beer Mile opening/happy hours
         url: /hours/
         icon: fluent-mdl2:business-hours-sign
-      - title: Happy Hours near BHR
-        url: https://docs.google.com/spreadsheets/d/1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0/edit?usp=sharing
-        icon: ic:outline-discount
-      - title: Blackhorse Beer Mile website
+      - title: official Blackhorse Beer Mile website
         url: https://www.blackhorsebeermile.co.uk/
         icon: mdi:web
       - title: Exale
@@ -41,12 +38,18 @@ buttons:
         tag: E17 locals card
   - category: 📩 Contact 📩
     items:
-      - title: Tomas J.
-        url: https://lisk.in/contact
-        icon: mdi:contact-outline
-      - title: follow our Instagram
+      - title: follow @e17.beer on Instagram
         url: https://instagram.com/e17.beer
         icon: skill-icons:instagram
       - title: report issues on GitHub
         url: https://github.com/liskin/e17.beer/issues
         icon: ri:github-fill
+      - title: tom@e17.beer
+        url: 'mailto:tom@e17.beer'
+        icon: material-symbols:mail-outline
+      - title: Tomas J.
+        url: https://lisk.in/contact
+        icon: mdi:contact-outline
+
+# icons:
+# https://icon-sets.iconify.design/
