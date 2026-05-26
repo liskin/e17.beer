@@ -49,7 +49,7 @@
                 "place_name": "Exale",
                 "url": "https://maps.google.com/?cid=10198577237405458099&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
-                    "£4 pints",
+                    null,
                     null,
                     null,
                     null,
@@ -105,13 +105,13 @@
                 "place_name": "East London Brewing",
                 "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
-                    "£5 pints all May",
+                    "£5 pints all May (bring your own cup)",
                     null,
                     null,
                     null,
                     null,
-                    "£5 pints all May",
-                    "£5 pints all May"
+                    "£5 pints all May (bring your own cup)",
+                    "£5 pints all May (bring your own cup)"
                 ]
             },
             {
