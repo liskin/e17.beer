@@ -78,6 +78,14 @@ document.getElementById('time-machine-slider').addEventListener('input', (e) => 
 	setWeekSecondsElapsed(date, { slider: true, timeTravelling: true });
 });
 
+/* clear time-machine when hidden */
+document.getElementById('show-time-machine').addEventListener('input', (e) => {
+	if (!e.target.checked) {
+		document.getElementById('time-machine').value = null;
+		setWeekSecondsElapsed(null, {});
+	}
+});
+
 /* -------------------------------------------------------------------------------- */
 
 /* async wrapper for getCurrentPosition */
