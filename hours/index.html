@@ -73,21 +73,27 @@
 						<div>
 							<div class="opening-hours">
 								<div class="time-12h">
-									{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
-									<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
-									{% endif -%}
-									{{ venue.current_schedule.time_text_sun_to_sat[day] }}
+									<span>
+										{% if venue.current_schedule.time_text_sun_to_sat[day] != venue.regular_schedule.time_text_sun_to_sat[day] -%}
+										<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat[day] }}</s><br>
+										{% endif -%}
+										{{ venue.current_schedule.time_text_sun_to_sat[day] }}
+									</span>
 								</div>
 								<div class="time-24h">
-									{% if venue.current_schedule.time_text_sun_to_sat_24h[day] != venue.regular_schedule.time_text_sun_to_sat_24h[day] -%}
-									<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat_24h[day] }}</s><br>
-									{% endif -%}
-									{{ venue.current_schedule.time_text_sun_to_sat_24h[day] }}
+									<span>
+										{% if venue.current_schedule.time_text_sun_to_sat_24h[day] != venue.regular_schedule.time_text_sun_to_sat_24h[day] -%}
+										<s title="regular opening hours">{{ venue.regular_schedule.time_text_sun_to_sat_24h[day] }}</s><br>
+										{% endif -%}
+										{{ venue.current_schedule.time_text_sun_to_sat_24h[day] }}
+									</span>
 								</div>
 							</div>
 							{% if venue.happy_hours[day] -%}
 							<div class="happy-hours">
-								{{ venue.happy_hours[day] }}
+								<span>
+									{{ venue.happy_hours[day] }}
+								</span>
 							</div>
 							<div class="happy-hours-icon">
 								<label for="show-happy-hours" title="show/hide happy hours">
