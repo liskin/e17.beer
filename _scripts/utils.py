@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 
 import click
+import diskcache  # type: ignore [import-untyped]
 from dotenv import load_dotenv
 from google.maps import places_v1
 
@@ -97,11 +98,28 @@ def click_option_verbosity():
     return lambda f: verbose(quiet(f))
 
 
-def get_places_client() -> places_v1.PlacesClient:
+class CacheWrapper:
+    def __init__(self, wrapped, cache):
+        self._wrapped = wrapped
+        self._cache = cache
+
+        @self._cache.memoize(expire=7200, typed=True)
+        def _memoized_call(name, **kwargs):
+            method = getattr(self._wrapped, name)
+            return method(**kwargs)
+
+        self._memoized_call = _memoized_call
+
+    def __getattr__(self, name):
+        return lambda **kwargs: self._memoized_call(name, **kwargs)
+
+
+def get_places_client(cache: None | diskcache.Cache) -> places_v1.PlacesClient | CacheWrapper:
     load_dotenv()
 
     api_key = os.getenv("GOOGLE_MAPS_API_KEY")
     if not api_key:
         raise ValueError("No API Key found! Check your .env file.")
 
-    return places_v1.PlacesClient(client_options={"api_key": api_key})
+    client = places_v1.PlacesClient(client_options={"api_key": api_key})
+    return CacheWrapper(wrapped=client, cache=cache) if cache is not None else client

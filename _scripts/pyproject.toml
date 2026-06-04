@@ -4,6 +4,7 @@ dynamic = ["version"]
 requires-python = ">=3.11"
 dependencies = [
     "click>=8",
+    "diskcache>=5.6.3",
     "google-maps-places>=0.8",
     "pandas>=3",
     "python-dotenv>=1.2",

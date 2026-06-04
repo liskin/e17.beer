@@ -4,6 +4,7 @@ import pprint
 import textwrap
 
 import click
+import diskcache  # type: ignore [import-untyped]
 import pandas as pd
 from google.maps import places_v1
 from tqdm import tqdm
@@ -85,6 +86,20 @@ def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> 
 
 @click.command()
 @click.option(
+    "-C",
+    "--no-cache",
+    is_flag=True,
+    show_default=True,
+)
+@click.option(
+    "-c",
+    "--cache-dir",
+    type=click.Path(file_okay=False),
+    default="_data/_cache",
+    help="Cache directory",
+    show_default=True,
+)
+@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -93,7 +108,7 @@ def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> 
     show_default=True,
 )
 @click_option_verbosity()
-def main(verbosity, output):
+def main(verbosity, output, no_cache, cache_dir):
     """
     Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
 
@@ -102,7 +117,13 @@ def main(verbosity, output):
         [{ "section": "Name", "venues": [{ "place_id": "…", … }, … ] }, … ]
     """
     setup_logging(verbosity)
-    places_client = get_places_client()
+
+    if cache_dir and not no_cache:
+        cache = diskcache.Cache(cache_dir)
+    else:
+        cache = None
+
+    client = get_places_client(cache=cache)
 
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
@@ -144,7 +165,7 @@ def main(verbosity, output):
                 place_name = row.iloc[0]
                 t.set_postfix(name=place_name)
                 with logging_context(f"place_name={place_name}"):
-                    api_result = get_place_data_from_api(places_client, place_name)
+                    api_result = get_place_data_from_api(client, place_name)
                     return {
                         "place_id": api_result["place_id"],
                         "place_name": place_name,

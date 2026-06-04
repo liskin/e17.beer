@@ -3,6 +3,7 @@ import logging
 import re
 
 import click
+import diskcache  # type: ignore [import-untyped]
 from google.maps.places_v1 import GetPlaceRequest, PlacesClient
 from google.maps.places_v1.types import Place
 from tqdm import tqdm
@@ -229,6 +230,20 @@ def process_venue(client: PlacesClient, venue: dict):
 
 @click.command()
 @click.option(
+    "-C",
+    "--no-cache",
+    is_flag=True,
+    show_default=True,
+)
+@click.option(
+    "-c",
+    "--cache-dir",
+    type=click.Path(file_okay=False),
+    default="_data/_cache",
+    help="Cache directory",
+    show_default=True,
+)
+@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -242,7 +257,7 @@ def process_venue(client: PlacesClient, venue: dict):
     default="_data/venue_metadata.json",
 )
 @click_option_verbosity()
-def main(verbosity, input, output):
+def main(verbosity, input, output, no_cache, cache_dir):
     """
     Load/update information about venues
 
@@ -251,7 +266,13 @@ def main(verbosity, input, output):
         [{ "section": "Name", "venues": [{ "place_id": "…", … }, … ] }, … ]
     """
     setup_logging(verbosity)
-    client = get_places_client()
+
+    if cache_dir and not no_cache:
+        cache = diskcache.Cache(cache_dir)
+    else:
+        cache = None
+
+    client = get_places_client(cache=cache)
 
     sections = json.load(input)
     if not sections:
