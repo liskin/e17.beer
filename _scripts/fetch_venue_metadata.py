@@ -6,41 +6,51 @@ import textwrap
 import click
 import diskcache  # type: ignore [import-untyped]
 import pandas as pd
-from google.maps import places_v1
+from google.maps.places_v1 import PlacesClient, SearchTextRequest
+from google.maps.places_v1.types import Circle
+from google.type.latlng_pb2 import LatLng  # type: ignore [import-untyped]
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
-def get_place_data_from_api(client: places_v1.PlacesClient, place_name: str) -> dict:
+def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """
-    # Specific search overrides for accuracy
+    # Specific search overrides for accuracy (TODO: move to the spreadsheet)
+    search_name = place_name
+    search_type = None
+
     if place_name == "Hackney Church":
         search_name = place_name + " Blackhorse"
     elif place_name == "Borough Wines":
         search_name = place_name + " Taproom"
-    else:
-        search_name = place_name
+
+    if place_name == "Ferry Boat Inn":
+        search_type = "pub"
 
     search_query = f"{search_name} E17"
+    search_kwargs: dict = {}
+    if search_type:
+        search_kwargs |= {
+            "included_type": search_type,
+        }
 
-    # Define request parameters as a clean dictionary
-    request_data = {
-        "text_query": search_query,
-        "location_bias": {
-            "circle": {
-                "center": {"latitude": 51.5886, "longitude": -0.0118},
-                "radius": 5000.0,
-            }
-        },
-    }
-
-    # the dictionary directly to the 'request' argument
+    request = SearchTextRequest(
+        text_query=f"{search_name} E17",
+        location_bias=SearchTextRequest.LocationBias(
+            circle=Circle(
+                center=LatLng(latitude=51.5886, longitude=-0.0118),
+                radius=5000.0,
+            ),
+        ),
+        **search_kwargs,
+    )
     response = client.search_text(
-        request=request_data, metadata=[("x-goog-fieldmask", "places.id,places.displayName,places.googleMapsUri")]
+        request=request,
+        metadata=[("x-goog-fieldmask", "places.id,places.displayName,places.googleMapsUri")],
     )
 
     places = list(response.places)  # Convert iterator to list
