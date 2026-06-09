@@ -63,7 +63,7 @@
 				{% assign i = forloop.index0 -%}
 				<tr class="venue" style="--venue: venue{{ section_index }}-{{ i }}">
 					<th class="venue" scope="row" data-loc-lat="{{ venue.location.lat }}" data-loc-lng="{{ venue.location.lng }}">
-						<a href="{{ venue.url }}" target="_blank">{{ venue.place_name }}</a>
+						<a href="{{ venue.url }}" target="_blank"><span class="notranslate">{{ venue.place_name }}</span></a>
 					</th>
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}
@@ -132,13 +132,13 @@
 			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
 			</p>
 			<p>
-			See more (run clubs, …) at <a href="{{ "/" | relative_url }}" target="_blank">E17.beer</a>.
+			See more (run clubs, …) at <a href="{{ "/" | relative_url }}" target="_blank"><span class="notranslate">E17.beer</span></a>.
 			</p>
 			<p>
 			Follow <a href="https://instagram.com/e17.beer" target="_blank">@e17.beer on Instagram</a> for updates.
 			</p>
 			<p>
-			Submit feedback to <a href="mailto:hours@e17.beer">hours@e17.beer</a> or comment on
+			Submit feedback to <a href="mailto:hours@e17.beer"><span class="notranslate">hours@e17.beer</span></a> or comment on
 			<a href="https://docs.google.com/spreadsheets/d/1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0/edit?usp=sharing">the happy hours spreadsheet</a>.
 			</p>
 		</footer>
