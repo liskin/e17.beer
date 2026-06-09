@@ -355,10 +355,6 @@
                 },
                 "keyframe_periods": [
                     {
-                        "open": 0.0,
-                        "close": 1.1905
-                    },
-                    {
                         "open": 7.1429,
                         "close": 11.9048
                     },
@@ -369,10 +365,6 @@
                     {
                         "open": 80.9524,
                         "close": 86.9048
-                    },
-                    {
-                        "open": 92.8571,
-                        "close": 100.0
                     }
                 ],
                 "day_sort_values": [
@@ -391,10 +383,7 @@
                         "open": 80.9524,
                         "close": 86.9048
                     },
-                    {
-                        "open": 92.8571,
-                        "close": 101.1905
-                    }
+                    null
                 ],
                 "current_schedule": {
                     "time_text_sun_to_sat": [
@@ -404,7 +393,7 @@
                         "Closed",
                         "4:00 – 11:00 pm",
                         "4:00 pm – 2:00 am",
-                        "12:00 pm – 2:00 am"
+                        "Closed"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
@@ -413,7 +402,7 @@
                         "Closed",
                         "16:00–23:00",
                         "16:00–02:00",
-                        "12:00–02:00"
+                        "Closed"
                     ]
                 },
                 "regular_schedule": {
@@ -556,10 +545,6 @@
                     {
                         "open": 78.5714,
                         "close": 85.119
-                    },
-                    {
-                        "open": 92.8571,
-                        "close": 99.4048
                     }
                 ],
                 "day_sort_values": [
@@ -578,10 +563,7 @@
                         "open": 78.5714,
                         "close": 85.119
                     },
-                    {
-                        "open": 92.8571,
-                        "close": 99.4048
-                    }
+                    null
                 ],
                 "current_schedule": {
                     "time_text_sun_to_sat": [
@@ -591,7 +573,7 @@
                         "Closed",
                         "5:00 – 11:00 pm",
                         "12:00 – 11:00 pm",
-                        "12:00 – 11:00 pm"
+                        "Closed"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–18:00",
@@ -600,7 +582,7 @@
                         "Closed",
                         "17:00–23:00",
                         "12:00–23:00",
-                        "12:00–23:00"
+                        "Closed"
                     ]
                 },
                 "regular_schedule": {
@@ -647,6 +629,10 @@
                         "close": 11.9048
                     },
                     {
+                        "open": 24.4048,
+                        "close": 27.9762
+                    },
+                    {
                         "open": 67.2619,
                         "close": 70.8333
                     },
@@ -664,7 +650,10 @@
                         "open": 7.1429,
                         "close": 11.9048
                     },
-                    null,
+                    {
+                        "open": 24.4048,
+                        "close": 27.9762
+                    },
                     null,
                     null,
                     {
@@ -683,7 +672,7 @@
                 "current_schedule": {
                     "time_text_sun_to_sat": [
                         "12:00 – 8:00 pm",
-                        "Closed",
+                        "5:00 – 11:00 pm",
                         "Closed",
                         "Closed",
                         "5:00 – 11:00 pm",
@@ -692,7 +681,7 @@
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
-                        "Closed",
+                        "17:00–23:00",
                         "Closed",
                         "Closed",
                         "17:00–23:00",
@@ -703,7 +692,7 @@
                 "regular_schedule": {
                     "time_text_sun_to_sat": [
                         "12:00 – 8:00 pm",
-                        "Closed",
+                        "5:00 – 11:00 pm",
                         "Closed",
                         "Closed",
                         "5:00 – 11:00 pm",
@@ -712,7 +701,7 @@
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
-                        "Closed",
+                        "17:00–23:00",
                         "Closed",
                         "Closed",
                         "17:00–23:00",
@@ -1041,7 +1030,7 @@
                 "url": "https://maps.google.com/?cid=1139078256478541350&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
                     null,
-                    "£5 pints of East London Brewing beers",
+                    "£5 pints of East London Brewing draught beers",
                     null,
                     null,
                     "£16.50 burger + fries + can of East London Brewing<br><br><span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
