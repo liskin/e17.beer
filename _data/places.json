@@ -355,6 +355,10 @@
                 },
                 "keyframe_periods": [
                     {
+                        "open": 0.0,
+                        "close": 1.1905
+                    },
+                    {
                         "open": 7.1429,
                         "close": 11.9048
                     },
@@ -365,6 +369,10 @@
                     {
                         "open": 80.9524,
                         "close": 86.9048
+                    },
+                    {
+                        "open": 92.8571,
+                        "close": 100.0
                     }
                 ],
                 "day_sort_values": [
@@ -383,7 +391,10 @@
                         "open": 80.9524,
                         "close": 86.9048
                     },
-                    null
+                    {
+                        "open": 92.8571,
+                        "close": 101.1905
+                    }
                 ],
                 "current_schedule": {
                     "time_text_sun_to_sat": [
@@ -393,7 +404,7 @@
                         "Closed",
                         "4:00 – 11:00 pm",
                         "4:00 pm – 2:00 am",
-                        "Closed"
+                        "12:00 pm – 2:00 am"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
@@ -402,7 +413,7 @@
                         "Closed",
                         "16:00–23:00",
                         "16:00–02:00",
-                        "Closed"
+                        "12:00–02:00"
                     ]
                 },
                 "regular_schedule": {
