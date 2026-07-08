@@ -133,7 +133,7 @@
                     null,
                     null,
                     "<span class=\"offer-name\">Games Night</span><br>£5 wine",
-                    "<span class=\"offer-name\">First Pour Thursday</span><br>£4.50 new releases, core pints<br>£10 pizza (excl specials)<br>£20 six cans takeaway",
+                    "<span class=\"offer-name\">First Pour Thursday</span><br>£4.50 new releases, core pints<br>£10 pizza (excl specials)<br>£25 six cans takeaway",
                     null,
                     null
                 ],
@@ -556,6 +556,10 @@
                     {
                         "open": 78.5714,
                         "close": 85.119
+                    },
+                    {
+                        "open": 92.8571,
+                        "close": 99.4048
                     }
                 ],
                 "day_sort_values": [
@@ -574,7 +578,10 @@
                         "open": 78.5714,
                         "close": 85.119
                     },
-                    null
+                    {
+                        "open": 92.8571,
+                        "close": 99.4048
+                    }
                 ],
                 "current_schedule": {
                     "time_text_sun_to_sat": [
@@ -584,7 +591,7 @@
                         "Closed",
                         "5:00 – 11:00 pm",
                         "12:00 – 11:00 pm",
-                        "Closed"
+                        "12:00 – 11:00 pm"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–18:00",
@@ -593,7 +600,7 @@
                         "Closed",
                         "17:00–23:00",
                         "12:00–23:00",
-                        "Closed"
+                        "12:00–23:00"
                     ]
                 },
                 "regular_schedule": {
