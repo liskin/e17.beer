@@ -747,13 +747,13 @@
                 "place_name": "East London Brewing",
                 "url": "https://maps.google.com/?cid=17523584926227548588&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
-                    "£5 pints all May (bring your own cup)",
                     null,
                     null,
                     null,
                     null,
-                    "£5 pints all May (bring your own cup)",
-                    "£5 pints all May (bring your own cup)"
+                    "<span class=\"offer-name\">Thirsty Thursday</span><br>£4 core pints<br>£5 frozen margs",
+                    null,
+                    null
                 ],
                 "location": {
                     "lat": 51.595348699999995,
@@ -763,18 +763,6 @@
                     {
                         "open": 7.1429,
                         "close": 11.9048
-                    },
-                    {
-                        "open": 24.4048,
-                        "close": 27.381
-                    },
-                    {
-                        "open": 38.6905,
-                        "close": 41.6667
-                    },
-                    {
-                        "open": 52.9762,
-                        "close": 55.9524
                     },
                     {
                         "open": 67.2619,
@@ -794,18 +782,9 @@
                         "open": 7.1429,
                         "close": 11.9048
                     },
-                    {
-                        "open": 24.4048,
-                        "close": 27.381
-                    },
-                    {
-                        "open": 38.6905,
-                        "close": 41.6667
-                    },
-                    {
-                        "open": 52.9762,
-                        "close": 55.9524
-                    },
+                    null,
+                    null,
+                    null,
                     {
                         "open": 67.2619,
                         "close": 70.2381
@@ -822,18 +801,18 @@
                 "current_schedule": {
                     "time_text_sun_to_sat": [
                         "12:00 – 8:00 pm",
-                        "5:00 – 10:00 pm",
-                        "5:00 – 10:00 pm",
-                        "5:00 – 10:00 pm",
+                        "Closed",
+                        "Closed",
+                        "Closed",
                         "5:00 – 10:00 pm",
                         "5:00 – 10:00 pm",
                         "12:00 – 10:00 pm"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
-                        "17:00–22:00",
-                        "17:00–22:00",
-                        "17:00–22:00",
+                        "Closed",
+                        "Closed",
+                        "Closed",
                         "17:00–22:00",
                         "17:00–22:00",
                         "12:00–22:00"
@@ -842,18 +821,18 @@
                 "regular_schedule": {
                     "time_text_sun_to_sat": [
                         "12:00 – 8:00 pm",
-                        "5:00 – 10:00 pm",
-                        "5:00 – 10:00 pm",
-                        "5:00 – 10:00 pm",
+                        "Closed",
+                        "Closed",
+                        "Closed",
                         "5:00 – 10:00 pm",
                         "5:00 – 10:00 pm",
                         "12:00 – 10:00 pm"
                     ],
                     "time_text_sun_to_sat_24h": [
                         "12:00–20:00",
-                        "17:00–22:00",
-                        "17:00–22:00",
-                        "17:00–22:00",
+                        "Closed",
+                        "Closed",
+                        "Closed",
                         "17:00–22:00",
                         "17:00–22:00",
                         "12:00–22:00"
