@@ -31,7 +31,11 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     if place_name == "Ferry Boat Inn":
         search_type = "pub"
 
-    search_query = f"{search_name} E17"
+    if place_name == "Pressure Drop":
+        search_query = f"{search_name} N17"
+    else:
+        search_query = f"{search_name} E17"
+
     search_kwargs: dict = {}
     if search_type:
         search_kwargs |= {
@@ -39,10 +43,10 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
         }
 
     request = SearchTextRequest(
-        text_query=f"{search_name} E17",
+        text_query=search_query,
         location_bias=SearchTextRequest.LocationBias(
             circle=Circle(
-                center=LatLng(latitude=51.5886, longitude=-0.0118),
+                center=LatLng(latitude=51.587, longitude=-0.041),
                 radius=5000.0,
             ),
         ),
