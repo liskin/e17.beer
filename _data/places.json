@@ -7,7 +7,7 @@
                 "place_name": "Signature Brew",
                 "url": "https://maps.google.com/?cid=17773207337008546366&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
-                    "£3.50 pint cask",
+                    "£3.50 pint cask (winter only)",
                     "free pint when £10+ spent on take-away cans",
                     "<span class=\"offer-name\">Taco Tuesday</span><br>£8 for 2 tacos, £11 for 3 tacos, plus free soft drink or core beer for £3",
                     "<span class=\"offer-name\">Wing Wednesday</span><br>£7 for 6 wings, £12 for 10 wings, plus free soft drink or core beer for £3",
@@ -942,11 +942,11 @@
                 "url": "https://maps.google.com/?cid=10283349538796355313&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
                     null,
-                    "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
-                    "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
-                    "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
-                    "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)<br><br><span class=\"offer-time\">17:00–close</span><br>half-price games at Flukes",
-                    "<span class=\"offer-time\">12:00–19:00</span><br>two-for-one selected drinks (house beers, …)",
+                    "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)",
+                    "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)",
+                    "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)",
+                    "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)<br><br><span class=\"offer-time\">17:00–close</span><br>half-price games at Flukes",
+                    "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)",
                     null
                 ],
                 "location": {
