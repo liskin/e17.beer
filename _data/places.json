@@ -346,7 +346,7 @@
                     null,
                     null,
                     "£4 pints<br>25% off wine bottles<br>£15 burger + fries + beer",
-                    null,
+                    "<span class=\"offer-time\">open–22:00</span><br>2 cocktails for £16",
                     null
                 ],
                 "location": {
