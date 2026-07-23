@@ -236,6 +236,7 @@ def test_format_happy_hours_line_offer_name():
 
 def test_format_happy_hours_line_offer_time():
     """Lines matching time patterns should be wrapped in offer-time span"""
+    assert format_happy_hours_line("open–17:00") == '<span class="offer-time">open–17:00</span>'
     assert format_happy_hours_line("17:00–close") == '<span class="offer-time">17:00–close</span>'
     assert format_happy_hours_line("12:00–19:00") == '<span class="offer-time">12:00–19:00</span>'
     assert format_happy_hours_line("6:00–20:00") == '<span class="offer-time">6:00–20:00</span>'

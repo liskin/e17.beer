@@ -20,7 +20,7 @@ def format_happy_hours_line(line: str) -> str:
         return f'<span class="offer-name">{line}</span>'
 
     # Lines matching time patterns (HH:mm–HH:mm or HH:mm–close)
-    if re.match(r"^\d{1,2}:\d{2}–", line):
+    if re.search(r"^\d{1,2}:\d{2}–|–\d{1,2}:\d{2}$", line):
         return f'<span class="offer-time">{line}</span>'
 
     # Other lines
