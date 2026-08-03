@@ -367,6 +367,10 @@
                         "close": 70.8333
                     },
                     {
+                        "open": 80.9524,
+                        "close": 86.9048
+                    },
+                    {
                         "open": 92.8571,
                         "close": 100.0
                     }
@@ -383,7 +387,10 @@
                         "open": 66.6667,
                         "close": 70.8333
                     },
-                    null,
+                    {
+                        "open": 80.9524,
+                        "close": 86.9048
+                    },
                     {
                         "open": 92.8571,
                         "close": 101.1905
@@ -396,7 +403,7 @@
                         "Closed",
                         "Closed",
                         "4:00 – 11:00 pm",
-                        "Closed",
+                        "4:00 pm – 2:00 am",
                         "12:00 pm – 2:00 am"
                     ],
                     "time_text_sun_to_sat_24h": [
@@ -405,7 +412,7 @@
                         "Closed",
                         "Closed",
                         "16:00–23:00",
-                        "Closed",
+                        "16:00–02:00",
                         "12:00–02:00"
                     ]
                 },
@@ -432,7 +439,7 @@
             },
             {
                 "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
-                "place_name": "Borough Wines",
+                "place_name": "Blackhorse Wines",
                 "url": "https://maps.google.com/?cid=10943805710222089070&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
                 "happy_hours": [
                     null,
