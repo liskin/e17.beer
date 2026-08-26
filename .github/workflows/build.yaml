@@ -1,0 +1,35 @@
+name: Build Jekyll site
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+      artifact-name:
+        type: string
+        default: 'pages'
+
+jobs:
+  build:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          cache-version: 0
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --verbose --trace
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          name: ${{ inputs.artifact-name }}
+          include-hidden-files: true
