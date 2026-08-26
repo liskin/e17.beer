@@ -1,9 +1,6 @@
 #!/usr/bin/env -S jq -r -f
 
-# $ git config edit
-#
-# [diff "places-textconv"]
-#     textconv = _scripts/places-textconv.jq
+# $ git config set diff.places-textconv.textconv _scripts/places-textconv.jq
 
 # inspired by https://news.ycombinator.com/item?id=25006277
 

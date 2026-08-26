@@ -48,8 +48,6 @@ jobs:
 
       - name: Post diff as PR comment
         uses: actions/github-script@v9
-        env:
-          DIFF_BODY: ${{ steps.site-diff.outputs.diff_body }}
         with:
           script: |
             const fs = require('fs');

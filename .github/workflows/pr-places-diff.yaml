@@ -1,0 +1,63 @@
+name: PR places.json diff
+
+on:
+  pull_request:
+    paths:
+      - _data/places.json
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Diff _site directories
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git config set diff.places-textconv.textconv _scripts/places-textconv.jq
+          git diff origin/"$BASE_REF"... -- _data/places.json >pr.diff
+
+      - name: Post diff as PR comment
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const diff = fs.readFileSync('pr.diff', 'utf8');
+
+            const body = diff.length
+              ? `<details><summary>Places data diff</summary>\n\n\`\`\`diff\n${diff}\`\`\`\n\n</details>`
+              : 'No changes in places data.';
+            const marker = '<!-- pr-places-diff -->';
+            const fullBody = marker + '\n' + body;
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.data.find(c => c.body.startsWith(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: fullBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: fullBody,
+              });
+            }
