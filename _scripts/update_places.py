@@ -1,6 +1,8 @@
+import datetime
 import json
 import logging
 import re
+from pathlib import Path
 
 import click
 import diskcache  # type: ignore [import-untyped]
@@ -34,7 +36,7 @@ def format_happy_hours(happy_hours_text: str | None) -> str | None:
     return "<br>".join(format_happy_hours_line(line) for line in happy_hours_text.splitlines())
 
 
-def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool = False) -> float:
+def get_week_percentage(day_nmb: int, hours: int, minutes: int) -> float:
     """Calculates the percentage of the week elapsed (week: Sun 0000 to Sat 2359)."""
     # TODO: update to work for 24 hours opened venues
 
@@ -53,41 +55,21 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int, truncated: bool 
     total_week_minutes = 7 * 24 * 60
     minutes_passed_in_day = (hours * 60) + minutes
     minutes_passed_in_week = (day_nmb * 1440) + minutes_passed_in_day
-
-    # Workaround for open before midnight yesterday and not closed yet at the time of request
-    # (Google will split period in two days: truncated in this_day with the close= 23h 59m and truncated in this_day-1 with open= 0h 0m)
-    if truncated and (hours, minutes) == (23, 59):
-        minutes_passed_in_week += 1
-
     percentage = (minutes_passed_in_week / total_week_minutes) * 100
-
     return round(percentage, 4)
 
 
-def periods_to_percentages(opening_hours_obj: Place.OpeningHours) -> list:
+def periods_to_percentages(periods: list[Place.OpeningHours.Period | None]) -> list:
     """Transforms periods into percentage-of-week intervals."""
 
-    if not opening_hours_obj or not opening_hours_obj.periods:
-        raise RuntimeError("No periods available.")
-
     pct_periods: list[dict] = []
-    for p in opening_hours_obj.periods:
-        # Check for missing period boundaries
-        # TODO: later update for the case of 24-hour venues, where Google omits 'close',
-        #  otherwise both open and close should be present
-        if "open_" not in p or "close" not in p:
-            msg = "open time" if "open_" not in p else "close time (possibly 24h venue)"
-            logging.warning("Incomplete period data (missing %s): %s", msg, p)
+    for p in periods:
+        if p is None:
             continue
 
-        if p.open.truncated:
-            logging.warning("Truncated open period: %s", p.open)
-        if p.close.truncated:
-            logging.warning("Truncated close period: %s", p.close)
-
         # Standard percentage calculation
-        open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
-        close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
+        open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
+        close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
 
         # Week wraparound logic (period span from Sat to Sun split into two)
         if open_pct > close_pct:
@@ -101,64 +83,38 @@ def periods_to_percentages(opening_hours_obj: Place.OpeningHours) -> list:
     return sorted(pct_periods, key=lambda x: x["open"])
 
 
-def calculate_day_sort_values(opening_hours_obj: Place.OpeningHours) -> list:
-    """Calculate earliest opening and latest closing percentages per day (Sun–Sat)."""
+def calculate_day_sort_value(p: Place.OpeningHours.Period | None) -> dict | None:
+    if p is None:
+        return None
 
-    if not opening_hours_obj or not opening_hours_obj.periods:
-        raise RuntimeError("No periods available.")
+    open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
+    close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
 
-    day_sort_values: list[dict | None] = [None] * 7
-    for p in opening_hours_obj.periods:
-        if "open_" not in p or "close" not in p:
-            # no warning, already issued from periods_to_percentages()
-            continue
+    # Handle week wraparound: if open_pct > close_pct, the closing is next week
+    # Instead of splitting like in periods_to_percentages, add 100 to close_pct
+    if open_pct > close_pct:
+        close_pct += 100
 
-        # Skip truncated intervals (e.g., Saturday late openings returned as Sunday morning)
-        # TODO: Preprocess periods from current, regular and saved opening hours to get rid of truncated intervals
-        if p.open.truncated:
-            if p.close.hour >= 4:
-                logging.warning("Skipping truncated interval closing after 4am (%s – %s)", p.open, p.close)
-            continue
-
-        open_day = p.open.day
-
-        # Use get_week_percentage for consistent calculation
-        open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute, p.open.truncated)
-        close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute, p.close.truncated)
-
-        # Handle week wraparound: if open_pct > close_pct, the closing is next week
-        # Instead of splitting like in periods_to_percentages, add 100 to close_pct
-        if open_pct > close_pct:
-            close_pct += 100
-
-        # Update the opening day entry
-        if day_sort_values[open_day] is None:
-            day_sort_values[open_day] = {"open": open_pct, "close": close_pct}
-        else:
-            # Track earliest opening and latest closing for this day
-            day_sort_values[open_day]["open"] = min(day_sort_values[open_day]["open"], open_pct)
-            day_sort_values[open_day]["close"] = max(day_sort_values[open_day]["close"], close_pct)
-
-    return day_sort_values
+    return {"open": open_pct, "close": close_pct}
 
 
-def process_weekday_descriptions_en(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
-    return process_weekday_descriptions(
+def extract_weekday_descriptions_en(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
+    return extract_weekday_descriptions(
         opening_hours_obj,
         days=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         closed="Closed",
     )
 
 
-def process_weekday_descriptions_sv(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
-    return process_weekday_descriptions(
+def extract_weekday_descriptions_sv(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
+    return extract_weekday_descriptions(
         opening_hours_obj,
         days=["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"],
         closed="Stängt",
     )
 
 
-def process_weekday_descriptions(
+def extract_weekday_descriptions(
     opening_hours_obj: Place.OpeningHours, days: list[str], closed: str
 ) -> list[str | None]:
     """Extracts text descriptions ordered Sunday to Saturday."""
@@ -186,7 +142,118 @@ def process_weekday_descriptions(
     return ordered_hours_text
 
 
-def process_venue(client: PlacesClient, venue: dict):
+# TODO: support multiple periods for one day - list[list[Place.OpeningHours.Period]]
+def extract_weekday_periods(opening_hours_obj: Place.OpeningHours) -> list[Place.OpeningHours.Period | None]:
+    if not opening_hours_obj or not opening_hours_obj.periods:
+        raise RuntimeError("No periods available.")
+
+    weekday_periods: list[Place.OpeningHours.Period | None] = [None for _ in range(7)]
+
+    for p in opening_hours_obj.periods:
+        # Check for missing period boundaries
+        # TODO: later update for the case of 24-hour venues, where Google omits 'close',
+        #  otherwise both open and close should be present
+        if "open_" not in p or "close" not in p:
+            msg = "open time" if "open_" not in p else "close time (possibly 24h venue)"
+            raise RuntimeError(f"Incomplete period data (missing {msg}): {p}")
+
+        if weekday_periods[p.open.day] is None:
+            weekday_periods[p.open.day] = p
+        else:
+            raise RuntimeError(f"Multiple periods per day unsupported: {opening_hours_obj}")
+
+    return weekday_periods
+
+
+def process_irregular_hours(place: Place, place_24h: Place, irregular_hours: dict):
+    current_time_texts = extract_weekday_descriptions_en(place.current_opening_hours)
+    regular_time_texts = extract_weekday_descriptions_en(place.regular_opening_hours)
+    current_time_texts_24h = extract_weekday_descriptions_sv(place_24h.current_opening_hours)
+    regular_time_texts_24h = extract_weekday_descriptions_sv(place_24h.regular_opening_hours)
+    current_periods = extract_weekday_periods(place.current_opening_hours)
+    regular_periods = extract_weekday_periods(place.regular_opening_hours)
+
+    today = datetime.date.today()
+    for i in range(7):
+        date = today + datetime.timedelta(days=i)
+        weekday = date.isoweekday() % 7
+        isoformat = date.isoformat()
+
+        # assert that current_opening_hours returns 7 days starting from today
+        sanity_check_period = current_periods[weekday]
+        if sanity_check_period is not None:
+            sanity_check_date = sanity_check_period.open.date
+            assert date == datetime.date(sanity_check_date.year, sanity_check_date.month, sanity_check_date.day)
+
+        regular_time_text = regular_time_texts[weekday]
+        regular_time_text_24h = regular_time_texts_24h[weekday]
+        regular_period = regular_periods[weekday]
+
+        if i == 0:
+            # today - use data from irregular_hours (if any) or regular
+            if isoformat in irregular_hours:
+                current_time_text = irregular_hours[isoformat]["time_text_sun_to_sat"]
+                current_time_text_24h = irregular_hours[isoformat]["time_text_sun_to_sat_24h"]
+                current_period_dict = irregular_hours[isoformat]["period"]
+                current_period = None if current_period_dict is None else Place.OpeningHours.Period(current_period_dict)
+            else:
+                current_time_text = regular_time_text
+                current_time_text_24h = regular_time_text_24h
+                current_period = regular_period
+        elif 0 < i < 6:
+            # neither today nor the last day - current hours won't be truncated, use them and persist
+            current_time_text = current_time_texts[weekday]
+            current_time_text_24h = current_time_texts_24h[weekday]
+            current_period = current_periods[weekday]
+
+            # persist to irregular_hours
+            if regular_time_text == current_time_text:
+                if isoformat in irregular_hours:
+                    del irregular_hours[isoformat]
+            else:
+                current_period_dict = None
+                if current_period is not None:
+                    current_period_dict = Place.OpeningHours.Period.to_dict(
+                        current_period, preserving_proto_field_name=False, always_print_fields_with_no_presence=False
+                    )
+                    assert Place.OpeningHours.Period(current_period_dict) == current_period
+
+                irregular_hours[isoformat] = {
+                    "time_text_sun_to_sat": current_time_text,
+                    "time_text_sun_to_sat_24h": current_time_text_24h,
+                    "period": current_period_dict,
+                }
+        else:  # i == 6
+            # last day - always use regular as current might be truncated
+            current_time_text = regular_time_text
+            current_time_text_24h = regular_time_text_24h
+            current_period = regular_period
+
+        if regular_period is not None:
+            assert not regular_period.open.truncated
+            assert not regular_period.close.truncated
+
+        if current_period is not None:
+            assert not current_period.open.truncated
+            assert not current_period.close.truncated
+            if current_period.open.hour < 4:
+                logging.warning("Open before 4am (%s – %s)", current_period.open, current_period.close)
+
+        current_time_texts[weekday] = current_time_text
+        current_time_texts_24h[weekday] = current_time_text_24h
+        current_periods[weekday] = current_period
+
+    return (
+        current_time_texts,
+        regular_time_texts,
+        current_time_texts_24h,
+        regular_time_texts_24h,
+        current_periods,
+        regular_periods,
+    )
+
+
+def process_venue(client: PlacesClient, venue: dict, irregular_hours: dict):
     """
     Fetches opening hours AND GPS location from Google Places API (New). Maps the current opening hours to percentages within Sun-to-Sat week. Combines the hours and GPS with metadata (happy hours, URLs)
     """
@@ -200,30 +267,27 @@ def process_venue(client: PlacesClient, venue: dict):
     field_mask_24h = "regularOpeningHours,currentOpeningHours"
     place_24h = client.get_place(request=request_24h, metadata=[("x-goog-fieldmask", field_mask_24h)])
 
-    current_time_text = process_weekday_descriptions_en(place.current_opening_hours)
-    regular_time_text = process_weekday_descriptions_en(place.regular_opening_hours)
-    current_time_text_24h = process_weekday_descriptions_sv(place_24h.current_opening_hours)
-    regular_time_text_24h = process_weekday_descriptions_sv(place_24h.regular_opening_hours)
-
-    # Use regular_opening_hours for percentage calculations if descriptions match
-    # (temporary fix for glitches when venues are open past midnight at the beginning/end of the 7 day window)
-    if current_time_text == regular_time_text:
-        opening_hours = place.regular_opening_hours
-    else:
-        opening_hours = place.current_opening_hours
+    (
+        current_time_texts,
+        regular_time_texts,
+        current_time_texts_24h,
+        regular_time_texts_24h,
+        current_periods,
+        regular_periods,
+    ) = process_irregular_hours(place=place, place_24h=place_24h, irregular_hours=irregular_hours)
 
     venue.update(
         happy_hours=[format_happy_hours(hh) for hh in venue["happy_hours"]],
         location={"lat": place.location.latitude, "lng": place.location.longitude} if place.location else None,
-        keyframe_periods=periods_to_percentages(opening_hours),
-        day_sort_values=calculate_day_sort_values(opening_hours),
+        keyframe_periods=periods_to_percentages(current_periods),
+        day_sort_values=[calculate_day_sort_value(p) for p in current_periods],
         current_schedule={
-            "time_text_sun_to_sat": current_time_text,
-            "time_text_sun_to_sat_24h": current_time_text_24h,
+            "time_text_sun_to_sat": current_time_texts,
+            "time_text_sun_to_sat_24h": current_time_texts_24h,
         },
         regular_schedule={
-            "time_text_sun_to_sat": regular_time_text,
-            "time_text_sun_to_sat_24h": regular_time_text_24h,
+            "time_text_sun_to_sat": regular_time_texts,
+            "time_text_sun_to_sat_24h": regular_time_texts_24h,
         },
     )
 
@@ -251,13 +315,20 @@ def process_venue(client: PlacesClient, venue: dict):
     help="Output file",
     show_default=True,
 )
+@click.option(
+    "--irregular-hours",
+    type=click.Path(dir_okay=False, writable=True, path_type=Path),
+    default="_data/irregular_hours.json",
+    help="Output file",
+    show_default=True,
+)
 @click.argument(
     "input",
     type=click.File(),
     default="_data/venue_metadata.json",
 )
 @click_option_verbosity()
-def main(verbosity, input, output, no_cache, cache_dir):
+def main(verbosity, input, output, irregular_hours: Path, no_cache: bool, cache_dir):
     """
     Load/update information about venues
 
@@ -278,15 +349,22 @@ def main(verbosity, input, output, no_cache, cache_dir):
     if not sections:
         raise RuntimeError("No data found in input JSON.")
 
+    if irregular_hours.exists():
+        with irregular_hours.open() as f:
+            irregular_hours_dict = json.load(f)
+    else:
+        irregular_hours_dict = {}
+
     def process_section(venues):
         with tqdm(
             venues,
             disable=True if verbosity < 0 else None,
         ) as t:
             for venue in t:
-                t.set_postfix(name=venue["place_name"])
-                with logging_context(f"place_name={venue['place_name']}"):
-                    process_venue(client=client, venue=venue)
+                name = venue["place_name"]
+                t.set_postfix(name=name)
+                with logging_context(f"place_name={name}"):
+                    process_venue(client=client, venue=venue, irregular_hours=irregular_hours_dict.setdefault(name, {}))
 
     with tqdm_logging_redirect(
         sections,
@@ -301,6 +379,10 @@ def main(verbosity, input, output, no_cache, cache_dir):
 
     json.dump(sections, output, indent=4, ensure_ascii=False)
     output.write("\n")
+
+    with irregular_hours.open(mode="w") as f:
+        json.dump(irregular_hours_dict, f, indent=4, ensure_ascii=False)
+        f.write("\n")
 
 
 if __name__ == "__main__":

@@ -6,13 +6,13 @@ import pytest
 from google.maps.places_v1.types import Place
 
 from update_places import (
-    calculate_day_sort_values,
+    extract_weekday_descriptions_en,
+    extract_weekday_descriptions_sv,
+    extract_weekday_periods,
     format_happy_hours_line,
     get_week_percentage,
     periods_to_percentages,
     process_venue,
-    process_weekday_descriptions_en,
-    process_weekday_descriptions_sv,
 )
 
 # --- PERCENTAGE CALCULATION TESTS ---
@@ -58,16 +58,14 @@ def test_midnight_transition():
 
 
 def test_wraparound_split():
-    opening_hours_obj = Place.OpeningHours(
-        periods=[
-            Place.OpeningHours.Period(
-                open=Place.OpeningHours.Period.Point(day=6, hour=22, minute=0),
-                close=Place.OpeningHours.Period.Point(day=0, hour=2, minute=0),
-            )
-        ]
-    )
+    periods = [
+        Place.OpeningHours.Period(
+            open=Place.OpeningHours.Period.Point(day=6, hour=22, minute=0),
+            close=Place.OpeningHours.Period.Point(day=0, hour=2, minute=0),
+        )
+    ]
 
-    intervals = periods_to_percentages(opening_hours_obj)
+    intervals = periods_to_percentages(periods)
     assert len(intervals) == 2
 
     # 1st interval should start at the beginning of week
@@ -84,15 +82,13 @@ def test_wraparound_split():
 
 def test_wraparound_split_eow():
     """Wraparound split doesn't emit a (0, 0) interval when a venue closes Saturday/Sunday midnight"""
-    opening_hours_obj = Place.OpeningHours(
-        periods=[
-            Place.OpeningHours.Period(
-                open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
-                close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
-            )
-        ]
-    )
-    intervals = periods_to_percentages(opening_hours_obj)
+    periods = [
+        Place.OpeningHours.Period(
+            open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
+            close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
+        )
+    ]
+    intervals = periods_to_percentages(periods)
     assert len(intervals) == 1
 
 
@@ -113,7 +109,7 @@ def test_weekday_text_ordering_and_format():
         ]
     )
 
-    times = process_weekday_descriptions_en(opening_hours_obj)
+    times = extract_weekday_descriptions_en(opening_hours_obj)
 
     # Verify Sunday is first (index 0)
     assert times[0] == "12:00 – 11:30 PM"
@@ -137,7 +133,7 @@ def test_weekday_sv():
             "söndag: 12:00 – 20:00",
         ]
     )
-    times = process_weekday_descriptions_sv(opening_hours_obj)
+    times = extract_weekday_descriptions_sv(opening_hours_obj)
     assert times[1] == "Closed"
 
 
@@ -177,7 +173,7 @@ def test_incomplete_weekday_text_error():
     opening_hours_obj = Place.OpeningHours(weekday_descriptions=["Monday: 9:00 AM – 5:00 PM"])
 
     with pytest.raises(RuntimeError) as excinfo:
-        process_weekday_descriptions_en(opening_hours_obj)
+        extract_weekday_descriptions_en(opening_hours_obj)
 
     assert "Missing data for Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday" in str(excinfo.value)
 
@@ -185,16 +181,17 @@ def test_incomplete_weekday_text_error():
 # --- API RETURN TESTS ---
 
 
-def test_incomplete_period_handling(caplog):
-    """Verify that a period missing a 'close' time doesn't crash the script"""
+def test_incomplete_period_handling():
+    """Verify that a period missing a 'close' time raises an exception"""
 
     opening_hours_obj = Place.OpeningHours(
         periods=[Place.OpeningHours.Period(open=Place.OpeningHours.Period.Point(day=1, hour=21, minute=0))]
     )
 
-    # should be empty - it skipped the bad period instead of crashing
-    assert periods_to_percentages(opening_hours_obj) == []
-    assert "missing close time" in caplog.text
+    with pytest.raises(RuntimeError) as excinfo:
+        extract_weekday_periods(opening_hours_obj)
+
+    assert "missing close time" in str(excinfo.value)
 
 
 def test_midnight_not_mistaken_as_incomplete():
@@ -208,8 +205,8 @@ def test_midnight_not_mistaken_as_incomplete():
             )
         ]
     )
-    assert periods_to_percentages(opening_hours_obj) != []
-    assert calculate_day_sort_values(opening_hours_obj)[6] is not None
+
+    assert extract_weekday_periods(opening_hours_obj)[6] is not None
 
 
 def test_fetch_place_api_error_handling():
@@ -220,7 +217,7 @@ def test_fetch_place_api_error_handling():
     mock_client.get_place.side_effect = google.api_core.exceptions.InvalidArgument(google_reason)
 
     with pytest.raises(google.api_core.exceptions.InvalidArgument) as excinfo:
-        process_venue(mock_client, venue=defaultdict(str, place_id="bad_id"))
+        process_venue(mock_client, venue=defaultdict(str, place_id="bad_id"), irregular_hours={})
 
     assert google_reason in str(excinfo.value)
 
