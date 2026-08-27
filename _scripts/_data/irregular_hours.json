@@ -1,0 +1,155 @@
+{
+    "Signature Brew": {},
+    "Pretty Decent": {
+        "2026-08-30": {
+            "time_text_sun_to_sat": "12:00 – 10:00 pm",
+            "time_text_sun_to_sat_24h": "12:00–22:00",
+            "period": {
+                "open": {
+                    "day": 0,
+                    "hour": 12,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 30
+                    }
+                },
+                "close": {
+                    "day": 0,
+                    "hour": 22,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 30
+                    }
+                }
+            }
+        },
+        "2026-08-31": {
+            "time_text_sun_to_sat": "12:00 – 8:00 pm",
+            "time_text_sun_to_sat_24h": "12:00–20:00",
+            "period": {
+                "open": {
+                    "day": 1,
+                    "hour": 12,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                },
+                "close": {
+                    "day": 1,
+                    "hour": 20,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                }
+            }
+        }
+    },
+    "Hackney Church": {},
+    "Exale": {
+        "2026-08-30": {
+            "time_text_sun_to_sat": "12:00 pm – 2:00 am",
+            "time_text_sun_to_sat_24h": "12:00–02:00",
+            "period": {
+                "open": {
+                    "day": 0,
+                    "hour": 12,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 30
+                    }
+                },
+                "close": {
+                    "day": 1,
+                    "hour": 2,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                }
+            }
+        },
+        "2026-08-31": {
+            "time_text_sun_to_sat": "12:00 – 8:00 pm",
+            "time_text_sun_to_sat_24h": "12:00–20:00",
+            "period": {
+                "open": {
+                    "day": 1,
+                    "hour": 12,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                },
+                "close": {
+                    "day": 1,
+                    "hour": 20,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                }
+            }
+        }
+    },
+    "Blackhorse Wines": {},
+    "Renegade": {
+        "2026-08-29": {
+            "time_text_sun_to_sat": "Closed",
+            "time_text_sun_to_sat_24h": "Closed",
+            "period": null
+        }
+    },
+    "40ft": {},
+    "East London Brewing": {},
+    "Burnt Faith": {},
+    "Big Penny": {
+        "2026-08-30": {
+            "time_text_sun_to_sat": "12:00 pm – 12:00 am",
+            "time_text_sun_to_sat_24h": "12:00–00:00",
+            "period": {
+                "open": {
+                    "day": 0,
+                    "hour": 12,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 30
+                    }
+                },
+                "close": {
+                    "day": 1,
+                    "hour": 0,
+                    "minute": 0,
+                    "date": {
+                        "year": 2026,
+                        "month": 8,
+                        "day": 31
+                    }
+                }
+            }
+        }
+    },
+    "Tavern on the Hill": {},
+    "Ferry Boat Inn": {},
+    "Pressure Drop": {},
+    "Blondies Brewery": {}
+}
