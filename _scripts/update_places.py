@@ -234,6 +234,14 @@ def process_irregular_hours(
                 current_time_text_24h = irregular_hours[isoformat]["time_text_sun_to_sat_24h"]
                 current_periods_dicts = irregular_hours[isoformat]["periods"]
                 current_periods = [Place.OpeningHours.Period(p) for p in current_periods_dicts]
+
+                # Warn if the API current hours differ (TODO: handle truncated)
+                if current_time_text != current_time_texts[weekday]:
+                    logging.warning(
+                        "Using stored irregular %s, cf. current %s",
+                        fmt(current_periods),
+                        fmt(current_weekday_periods[weekday]),
+                    )
             else:
                 current_time_text = regular_time_text
                 current_time_text_24h = regular_time_text_24h
