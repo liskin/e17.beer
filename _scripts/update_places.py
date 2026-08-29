@@ -2,6 +2,7 @@ import datetime
 import json
 import logging
 import re
+from collections.abc import Iterable
 from pathlib import Path
 
 import click
@@ -12,6 +13,34 @@ from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
 from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
+
+
+def fmt(x) -> str:
+    match x:
+        case Place.OpeningHours():
+            return f"{fmt(x.periods)}; weekday_descriptions = {fmt(x.weekday_descriptions)}"
+
+        case Place.OpeningHours.Period():
+            return f"{fmt(x.open)} → {fmt(x.close)}"
+
+        case Place.OpeningHours.Period.Point():
+            weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][x.day]
+            time = (
+                ("[[" if x.truncated else "")
+                + datetime.time(x.hour, x.minute).isoformat("minutes")
+                + ("]]" if x.truncated else "")
+            )
+            date = "" if x.date is None else f"({datetime.date(x.date.year, x.date.month, x.date.day)}) "
+            return f"{date}{weekday}: {time}"
+
+        case str() | bytes():
+            return str(x)
+
+        case Iterable():
+            return "[" + ", ".join(fmt(y) for y in x) + "]"
+
+        case _:
+            return str(x)
 
 
 def format_happy_hours_line(line: str) -> str:
@@ -137,7 +166,7 @@ def extract_weekday_descriptions(
     # Check if any day came back as None
     if None in ordered_hours_text:
         missing_days = [days[i] for i, val in enumerate(ordered_hours_text) if val is None]
-        raise RuntimeError(f"Missing data for {', '.join(missing_days)}: {opening_hours_obj.weekday_descriptions}")
+        raise RuntimeError(f"Missing data for {', '.join(missing_days)}: {fmt(opening_hours_obj.weekday_descriptions)}")
 
     return ordered_hours_text
 
@@ -155,12 +184,12 @@ def extract_weekday_periods(opening_hours_obj: Place.OpeningHours) -> list[Place
         #  otherwise both open and close should be present
         if "open_" not in p or "close" not in p:
             msg = "open time" if "open_" not in p else "close time (possibly 24h venue)"
-            raise RuntimeError(f"Incomplete period data (missing {msg}): {p}")
+            raise RuntimeError(f"Incomplete period data (missing {msg}): {fmt(p)}")
 
         if weekday_periods[p.open.day] is None:
             weekday_periods[p.open.day] = p
         else:
-            raise RuntimeError(f"Multiple periods per day unsupported: {opening_hours_obj}")
+            raise RuntimeError(f"Multiple periods per day unsupported: {fmt(opening_hours_obj)}")
 
     return weekday_periods
 
@@ -237,7 +266,7 @@ def process_irregular_hours(place: Place, place_24h: Place, irregular_hours: dic
             assert not current_period.open.truncated
             assert not current_period.close.truncated
             if current_period.open.hour < 4:
-                logging.warning("Open before 4am (%s – %s)", current_period.open, current_period.close)
+                logging.warning("Open before 4am %s", fmt(current_period))
 
         current_time_texts[weekday] = current_time_text
         current_time_texts_24h[weekday] = current_time_text_24h
