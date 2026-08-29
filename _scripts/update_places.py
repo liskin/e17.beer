@@ -3,6 +3,7 @@ import json
 import logging
 import re
 from collections.abc import Iterable
+from itertools import chain
 from pathlib import Path
 
 import click
@@ -88,14 +89,11 @@ def get_week_percentage(day_nmb: int, hours: int, minutes: int) -> float:
     return round(percentage, 4)
 
 
-def periods_to_percentages(periods: list[Place.OpeningHours.Period | None]) -> list:
+def periods_to_percentages(weekday_periods: list[list[Place.OpeningHours.Period]]) -> list:
     """Transforms periods into percentage-of-week intervals."""
 
     pct_periods: list[dict] = []
-    for p in periods:
-        if p is None:
-            continue
-
+    for p in chain.from_iterable(weekday_periods):
         # Standard percentage calculation
         open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
         close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
@@ -112,19 +110,25 @@ def periods_to_percentages(periods: list[Place.OpeningHours.Period | None]) -> l
     return sorted(pct_periods, key=lambda x: x["open"])
 
 
-def calculate_day_sort_value(p: Place.OpeningHours.Period | None) -> dict | None:
-    if p is None:
+def calculate_day_sort_value(periods: list[Place.OpeningHours.Period]) -> dict | None:
+    if not periods:
         return None
 
-    open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
-    close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
+    # Find earliest opening and latest closing for this day
+    min_open, max_close = None, None
+    for p in periods:
+        open_pct = get_week_percentage(p.open.day, p.open.hour, p.open.minute)
+        close_pct = get_week_percentage(p.close.day, p.close.hour, p.close.minute)
 
-    # Handle week wraparound: if open_pct > close_pct, the closing is next week
-    # Instead of splitting like in periods_to_percentages, add 100 to close_pct
-    if open_pct > close_pct:
-        close_pct += 100
+        # Handle week wraparound: if open_pct > close_pct, the closing is next week
+        # Instead of splitting like in periods_to_percentages, add 100 to close_pct
+        if open_pct > close_pct:
+            close_pct += 100
 
-    return {"open": open_pct, "close": close_pct}
+        min_open = open_pct if min_open is None else min(min_open, open_pct)
+        max_close = close_pct if max_close is None else max(max_close, close_pct)
+
+    return {"open": min_open, "close": max_close}
 
 
 def extract_weekday_descriptions_en(opening_hours_obj: Place.OpeningHours) -> list[str | None]:
@@ -171,12 +175,11 @@ def extract_weekday_descriptions(
     return ordered_hours_text
 
 
-# TODO: support multiple periods for one day - list[list[Place.OpeningHours.Period]]
-def extract_weekday_periods(opening_hours_obj: Place.OpeningHours) -> list[Place.OpeningHours.Period | None]:
+def extract_weekday_periods(opening_hours_obj: Place.OpeningHours) -> list[list[Place.OpeningHours.Period]]:
     if not opening_hours_obj or not opening_hours_obj.periods:
         raise RuntimeError("No periods available.")
 
-    weekday_periods: list[Place.OpeningHours.Period | None] = [None for _ in range(7)]
+    weekday_periods: list[list[Place.OpeningHours.Period]] = [[] for _ in range(7)]
 
     for p in opening_hours_obj.periods:
         # Check for missing period boundaries
@@ -186,21 +189,27 @@ def extract_weekday_periods(opening_hours_obj: Place.OpeningHours) -> list[Place
             msg = "open time" if "open_" not in p else "close time (possibly 24h venue)"
             raise RuntimeError(f"Incomplete period data (missing {msg}): {fmt(p)}")
 
-        if weekday_periods[p.open.day] is None:
-            weekday_periods[p.open.day] = p
-        else:
-            raise RuntimeError(f"Multiple periods per day unsupported: {fmt(opening_hours_obj)}")
+        weekday_periods[p.open.day].append(p)
 
     return weekday_periods
 
 
-def process_irregular_hours(place: Place, place_24h: Place, irregular_hours: dict):
+def process_irregular_hours(
+    place: Place, place_24h: Place, irregular_hours: dict
+) -> tuple[
+    list[str | None],
+    list[str | None],
+    list[str | None],
+    list[str | None],
+    list[list[Place.OpeningHours.Period]],
+    list[list[Place.OpeningHours.Period]],
+]:
     current_time_texts = extract_weekday_descriptions_en(place.current_opening_hours)
     regular_time_texts = extract_weekday_descriptions_en(place.regular_opening_hours)
     current_time_texts_24h = extract_weekday_descriptions_sv(place_24h.current_opening_hours)
     regular_time_texts_24h = extract_weekday_descriptions_sv(place_24h.regular_opening_hours)
-    current_periods = extract_weekday_periods(place.current_opening_hours)
-    regular_periods = extract_weekday_periods(place.regular_opening_hours)
+    current_weekday_periods = extract_weekday_periods(place.current_opening_hours)
+    regular_weekday_periods = extract_weekday_periods(place.regular_opening_hours)
 
     today = datetime.date.today()
     for i in range(7):
@@ -209,76 +218,78 @@ def process_irregular_hours(place: Place, place_24h: Place, irregular_hours: dic
         isoformat = date.isoformat()
 
         # assert that current_opening_hours returns 7 days starting from today
-        sanity_check_period = current_periods[weekday]
-        if sanity_check_period is not None:
-            sanity_check_date = sanity_check_period.open.date
+        sanity_check_period = current_weekday_periods[weekday]
+        if sanity_check_period:
+            sanity_check_date = sanity_check_period[0].open.date
             assert date == datetime.date(sanity_check_date.year, sanity_check_date.month, sanity_check_date.day)
 
         regular_time_text = regular_time_texts[weekday]
         regular_time_text_24h = regular_time_texts_24h[weekday]
-        regular_period = regular_periods[weekday]
+        regular_periods = regular_weekday_periods[weekday]
 
+        # today - use data from irregular_hours (if any) or regular
         if i == 0:
-            # today - use data from irregular_hours (if any) or regular
             if isoformat in irregular_hours:
                 current_time_text = irregular_hours[isoformat]["time_text_sun_to_sat"]
                 current_time_text_24h = irregular_hours[isoformat]["time_text_sun_to_sat_24h"]
-                current_period_dict = irregular_hours[isoformat]["period"]
-                current_period = None if current_period_dict is None else Place.OpeningHours.Period(current_period_dict)
+                current_periods_dicts = irregular_hours[isoformat]["periods"]
+                current_periods = [Place.OpeningHours.Period(p) for p in current_periods_dicts]
             else:
                 current_time_text = regular_time_text
                 current_time_text_24h = regular_time_text_24h
-                current_period = regular_period
+                current_periods = regular_periods
+
+        # neither today nor the last day - current hours won't be truncated, use them and persist
         elif 0 < i < 6:
-            # neither today nor the last day - current hours won't be truncated, use them and persist
             current_time_text = current_time_texts[weekday]
             current_time_text_24h = current_time_texts_24h[weekday]
-            current_period = current_periods[weekday]
+            current_periods = current_weekday_periods[weekday]
 
             # persist to irregular_hours
             if regular_time_text == current_time_text:
                 if isoformat in irregular_hours:
                     del irregular_hours[isoformat]
             else:
-                current_period_dict = None
-                if current_period is not None:
-                    current_period_dict = Place.OpeningHours.Period.to_dict(
-                        current_period, preserving_proto_field_name=False, always_print_fields_with_no_presence=False
+                current_periods_dicts = [
+                    Place.OpeningHours.Period.to_dict(
+                        p, preserving_proto_field_name=False, always_print_fields_with_no_presence=False
                     )
-                    assert Place.OpeningHours.Period(current_period_dict) == current_period
-
+                    for p in current_periods
+                ]
                 irregular_hours[isoformat] = {
                     "time_text_sun_to_sat": current_time_text,
                     "time_text_sun_to_sat_24h": current_time_text_24h,
-                    "period": current_period_dict,
+                    "periods": current_periods_dicts,
                 }
+                assert [Place.OpeningHours.Period(p) for p in current_periods_dicts] == current_periods
+
+        # last day - always use regular as current might be truncated
         else:  # i == 6
-            # last day - always use regular as current might be truncated
             current_time_text = regular_time_text
             current_time_text_24h = regular_time_text_24h
-            current_period = regular_period
+            current_periods = regular_periods
 
-        if regular_period is not None:
-            assert not regular_period.open.truncated
-            assert not regular_period.close.truncated
+        for p in regular_periods:
+            assert not p.open.truncated
+            assert not p.close.truncated
 
-        if current_period is not None:
-            assert not current_period.open.truncated
-            assert not current_period.close.truncated
-            if current_period.open.hour < 4:
-                logging.warning("Open before 4am %s", fmt(current_period))
+        for p in current_periods:
+            assert not p.open.truncated
+            assert not p.close.truncated
+            if p.open.hour < 4:
+                logging.warning("Open before 4am %s", fmt(current_periods))
 
         current_time_texts[weekday] = current_time_text
         current_time_texts_24h[weekday] = current_time_text_24h
-        current_periods[weekday] = current_period
+        current_weekday_periods[weekday] = current_periods
 
     return (
         current_time_texts,
         regular_time_texts,
         current_time_texts_24h,
         regular_time_texts_24h,
-        current_periods,
-        regular_periods,
+        current_weekday_periods,
+        regular_weekday_periods,
     )
 
 
