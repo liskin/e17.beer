@@ -25,8 +25,6 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
 
     if place_name == "Hackney Church":
         search_name = place_name + " Blackhorse"
-    elif place_name == "Borough Wines":
-        search_name = place_name + " Taproom"
 
     if place_name == "Ferry Boat Inn":
         search_type = "pub"
@@ -94,7 +92,8 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
         candidates = [p.display_name.text for p in places]
         raise RuntimeError(
             f"No strict match for '{search_query}'. Google identified {len(strict_matches)} potential match(es): "
-            f"({', '.join(candidates)}). Please refine the search_name."
+            f"({', '.join(candidates)}).\n"
+            f"Perhaps the place changed name? Investigate and update the spreadsheet."
         )
 
 
