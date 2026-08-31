@@ -235,8 +235,16 @@ def process_irregular_hours(
                 current_periods_dicts = irregular_hours[isoformat]["periods"]
                 current_periods = [Place.OpeningHours.Period(p) for p in current_periods_dicts]
 
-                # Warn if the API current hours differ (TODO: handle truncated)
-                if current_time_text != current_time_texts[weekday]:
+                # Warn if the API current hours differ
+                api_current_time_text = current_time_texts[weekday]
+                if current_time_text != api_current_time_text and not (
+                    current_time_text is not None
+                    and api_current_time_text is not None
+                    and re.search(r"\b" + re.escape(current_time_text) + r"\b", api_current_time_text)
+                    # the following is considered okay:
+                    #   api_current_time_text: 12:00 – 2:00 am, 12:00 – 8:00 pm
+                    #   current_time_text:                      12:00 – 8:00 pm
+                ):
                     logging.warning(
                         "Using stored irregular %s, cf. current %s",
                         fmt(current_periods),
