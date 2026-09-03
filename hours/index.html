@@ -135,7 +135,7 @@
 			<p hidden id="warning-time-zone-mismatch">
 			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
 			</p>
-			<p>
+			<p hidden>
 			<button id="pwa-install">Install app (add to home screen)</button>
 			</p>
 			<p>
@@ -173,13 +173,13 @@
 			</label>
 		</div>
 
+		<pwa-install manifest-url="manifest.json" manual-apple manual-chrome></pwa-install>
+
 		<script>
 {% include hours/script.js %}
 		</script>
 
-		<!-- PWA -->
-		<script src="//unpkg.com/@khmyznikov/pwa-install@0.6.4/dist/pwa-install.bundle.js"></script>
-		<pwa-install manifest-url="manifest.json" manual-apple manual-chrome>
+		<script src="//cdn.jsdelivr.net/gh/khmyznikov/pwa-install@f2b27b1b9fc2507cdbf3475ada0eaf0ae463af97/dist/pwa-install.bundle.js"></script>
 	</body>
 
 <!-- TODO: vis opening hours within cells -->

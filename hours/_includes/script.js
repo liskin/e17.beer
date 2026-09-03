@@ -226,12 +226,11 @@ sortVenuesByDistanceIfPermitted();
 /* -------------------------------------------------------------------------------- */
 /* PWA */
 
-async function hidePWAInstalled() {
-	const apps = await navigator.getInstalledRelatedApps?.();
-	if (apps?.length > 0) {
-		document.querySelector('p:has(> button#pwa-install)').hidden = true;
-	}
-}
-
-document.getElementById('pwa-install').addEventListener('click', () => document.querySelector('pwa-install').install());
-hidePWAInstalled();
+document.querySelector('pwa-install').addEventListener('pwa-install-available-event', () =>
+	document.querySelector('p:has(> button#pwa-install)').hidden = false);
+document.querySelector('pwa-install').addEventListener('pwa-install-fail-event', (e) =>
+	console.error(e.detail));
+document.getElementById('pwa-install').addEventListener('click', () => {
+	document.querySelector('pwa-install').showDialog();
+	document.querySelector('pwa-install').install();
+});
