@@ -22,6 +22,7 @@ twitter:
 locale: en_GB
 
 theme: linkhub-jekyll-theme
+ga4: dummy
 
 exclude:
   - Justfile
