@@ -96,7 +96,7 @@ table#opening-hours {
 				width: calc(100vw - 60px);
 				position: sticky;
 				left: 30px;
-				z-index: 4;
+				z-index: 4; /* not strictly necessary but helps animation performance */
 			}
 		}
 	}
@@ -159,7 +159,7 @@ table#opening-hours {
 		/* make sure it's readable with the icon underneath */
 		div.opening-hours, div.happy-hours {
 			position: relative;
-			z-index: 1;
+			z-index: 1; /* not strictly necessary but helps animation performance */
 			-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
 			paint-order: stroke fill;
 
@@ -218,7 +218,6 @@ table#opening-hours {
 
 			div.happy-hours-icon {
 				position: absolute;
-				z-index: 0;
 
 				bottom: 1px;
 				right: 1px;
@@ -419,14 +418,12 @@ div#toolbar {
 				font-size: 20px;
 
 				position: relative;
-				z-index: 12;
 			}
 
 			div.use-time-24h-icon {
 				position: absolute;
 				top: 0;
 				left: 0;
-				z-index: 11;
 
 				font-size: 25px;
 			}

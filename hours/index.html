@@ -73,6 +73,13 @@
 					{% assign last_close = venue.day_sort_values[day].close %}
 					<td class="day" data-day="{{ day }}" data-first-open="{{ first_open }}" data-last-close="{{ last_close }}">
 						<div>
+							{% if venue.happy_hours[day] -%}
+							<div class="happy-hours-icon">
+								<label for="show-happy-hours" title="show/hide happy hours">
+									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+								</label>
+							</div>
+							{% endif %}
 							<div class="opening-hours">
 								<div class="time-12h">
 									<span>
@@ -96,11 +103,6 @@
 								<span>
 									{{ venue.happy_hours[day] }}
 								</span>
-							</div>
-							<div class="happy-hours-icon">
-								<label for="show-happy-hours" title="show/hide happy hours">
-									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
-								</label>
 							</div>
 							{% endif %}
 						</div>
@@ -165,9 +167,9 @@
 
 			<input type="checkbox" id="use-time-24h">
 			<label for="use-time-24h" title="toggle 12h/24h clock format">
+				<div class="use-time-24h-icon">🕐</div>
 				<div class="time-12h">24</div>
 				<div class="time-24h">12</div>
-				<div class="use-time-24h-icon">🕐</div>
 			</label>
 		</div>
 
