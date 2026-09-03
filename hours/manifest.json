@@ -1,5 +1,6 @@
 {
   "name": "e17.beer/hours",
+  "description": "Blackhorse Beer Mile - Opening Hours",
   "start_url": "/hours/",
   "display": "standalone",
   "icons": [
@@ -17,6 +18,12 @@
       "src": "/assets/logo512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "/hours/manifest.json"
     }
   ]
 }

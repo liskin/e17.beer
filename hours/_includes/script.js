@@ -222,3 +222,16 @@ sortVenuesByDistanceIfPermitted();
 		useTime24hCheckbox.checked = useTime24h === 'true';
 	}
 }
+
+/* -------------------------------------------------------------------------------- */
+/* PWA */
+
+async function hidePWAInstalled() {
+	const apps = await navigator.getInstalledRelatedApps?.();
+	if (apps?.length > 0) {
+		document.querySelector('p:has(> button#pwa-install)').hidden = true;
+	}
+}
+
+document.getElementById('pwa-install').addEventListener('click', () => document.querySelector('pwa-install').install());
+hidePWAInstalled();

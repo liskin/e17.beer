@@ -134,6 +134,9 @@
 			Warning: local time zone different than Europe/London - highlighting of open venues might be incorrect.
 			</p>
 			<p>
+			<button id="pwa-install">Install app (add to home screen)</button>
+			</p>
+			<p>
 			Last updated on {{ site.places_json_last_update }}.
 			</p>
 			<p>
@@ -171,6 +174,10 @@
 		<script>
 {% include hours/script.js %}
 		</script>
+
+		<!-- PWA -->
+		<script src="//unpkg.com/@khmyznikov/pwa-install@0.6.4/dist/pwa-install.bundle.js"></script>
+		<pwa-install manifest-url="manifest.json" manual-apple manual-chrome>
 	</body>
 
 <!-- TODO: vis opening hours within cells -->

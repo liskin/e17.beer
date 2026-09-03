@@ -295,6 +295,26 @@ footer {
 	p#warning-time-zone-mismatch {
 		color: rgb(200, 0, 0);
 	}
+
+	button#pwa-install {
+		display: inline;
+		padding: 0;
+
+		border: none;
+		text-decoration: underline;
+
+		color: rgb(0, 0, 238);
+		text-decoration-color: rgb(0, 0, 238);
+		background-color: initial;
+
+		cursor: pointer;
+
+		@media (display-mode: standalone) {
+			p:has(> &) {
+				display: none;
+			}
+		}
+	}
 }
 
 div#location-indicator {
