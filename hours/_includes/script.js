@@ -1,5 +1,8 @@
 "use strict";
 
+/* -------------------------------------------------------------------------------- */
+/* time setting */
+
 function setWeekSecondsElapsed(date, opts) {
 	const dateIsNow = !date;
 	if (dateIsNow) {
@@ -48,6 +51,7 @@ setInterval(syncCSSAnimations, 10_000);
 document.addEventListener('visibilitychange', syncCSSAnimations);
 
 /* -------------------------------------------------------------------------------- */
+/* time machine */
 
 /* update animation time on time-machine input */
 document.getElementById('time-machine').addEventListener('input', (e) => {
@@ -87,6 +91,7 @@ document.getElementById('show-time-machine').addEventListener('input', (e) => {
 });
 
 /* -------------------------------------------------------------------------------- */
+/* geolocation utils */
 
 /* async wrapper for getCurrentPosition */
 function getCurrentPosition(options) {
@@ -124,6 +129,7 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 /* -------------------------------------------------------------------------------- */
+/* sorting */
 
 /* counter to track the latest sort request and ignore stale geolocation results */
 let lastSortId = 0;
@@ -202,6 +208,7 @@ document.querySelectorAll('button.sort-last-close').forEach((b) =>
 sortVenuesByDistanceIfPermitted();
 
 /* -------------------------------------------------------------------------------- */
+/* local storage for preferences */
 
 {
 	const useTime24hCheckbox = document.getElementById('use-time-24h');
