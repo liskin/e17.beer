@@ -115,6 +115,34 @@
                     }
                 }
             ]
+        },
+        "2026-09-19": {
+            "time_text_sun_to_sat": "11:00 am – 2:00 am",
+            "time_text_sun_to_sat_24h": "11:00–02:00",
+            "periods": [
+                {
+                    "open": {
+                        "day": 6,
+                        "hour": 11,
+                        "minute": 0,
+                        "date": {
+                            "year": 2026,
+                            "month": 9,
+                            "day": 19
+                        }
+                    },
+                    "close": {
+                        "day": 0,
+                        "hour": 2,
+                        "minute": 0,
+                        "date": {
+                            "year": 2026,
+                            "month": 9,
+                            "day": 20
+                        }
+                    }
+                }
+            ]
         }
     },
     "Blackhorse Wines": {},
