@@ -159,9 +159,13 @@ table#opening-hours {
 		/* make sure it's readable with the icon underneath */
 		div.opening-hours, div.happy-hours {
 			position: relative;
-			z-index: 1; /* not strictly necessary but helps animation performance */
 			-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
 			paint-order: stroke fill;
+
+			/* not strictly necessary but helps animation performance on mobile */
+			@media screen and (resolution > 1x) {
+				z-index: 1;
+			}
 
 			/* workaround for https://issues.chromium.org/issues/41433814 */
 			s { text-decoration-color: rgb(0 0 0); }
