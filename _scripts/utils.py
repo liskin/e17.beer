@@ -3,6 +3,7 @@ import logging
 import os
 from contextlib import contextmanager
 from contextvars import ContextVar
+from enum import StrEnum, auto
 from typing import ClassVar
 
 import click
@@ -100,12 +101,12 @@ def click_option_verbosity():
 
 
 class CacheWrapper:
-    def __init__(self, wrapped, cache: diskcache.Cache, expire: int, tag: str, delete: bool):
+    def __init__(self, wrapped, cache: diskcache.Cache, expire: int, tag: CacheTag, delete: bool):
         self._wrapped = wrapped
         self._cache = cache
         self._delete = delete
 
-        @self._cache.memoize(typed=True, expire=expire, tag=tag)
+        @self._cache.memoize(typed=True, expire=expire, tag=str(tag))
         def _memoized_call(name, *args, **kwargs):
             method = getattr(self._wrapped, name)
             return method(*args, **kwargs)
@@ -122,7 +123,13 @@ class CacheWrapper:
         return f
 
 
-def get_places_client(cache: diskcache.Cache, expire: int, tag: str, delete: bool) -> CacheWrapper:
+class CacheTag(StrEnum):
+    SPREADSHEET = auto()
+    PLACES_CLIENT_SEARCH = auto()
+    PLACES_CLIENT_HOURS = auto()
+
+
+def get_places_client(cache: diskcache.Cache, expire: int, tag: CacheTag, delete: bool) -> CacheWrapper:
     load_dotenv()
 
     api_key = os.getenv("GOOGLE_MAPS_API_KEY")

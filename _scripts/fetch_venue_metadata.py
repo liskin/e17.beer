@@ -12,7 +12,7 @@ from google.type.latlng_pb2 import LatLng  # type: ignore [import-untyped]
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import CacheWrapper, click_option_verbosity, get_places_client, logging_context, setup_logging
+from utils import CacheTag, CacheWrapper, click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
 def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str) -> dict:
@@ -106,7 +106,7 @@ def row_days(row) -> list[str | None]:
     ]
 
 
-@click.command()
+@click.command(context_settings={"max_content_width": 120})
 @click.option(
     "-C",
     "--no-cache",
@@ -122,6 +122,13 @@ def row_days(row) -> list[str | None]:
     show_default=True,
 )
 @click.option(
+    "-E",
+    "--cache-evict",
+    type=click.Choice(CacheTag, case_sensitive=False),
+    multiple=True,
+    help="Evict cache entries",
+)
+@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -130,7 +137,7 @@ def row_days(row) -> list[str | None]:
     show_default=True,
 )
 @click_option_verbosity()
-def main(verbosity, output, no_cache: bool, cache_dir):
+def main(verbosity, output, no_cache: bool, cache_dir, cache_evict):
     """
     Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
 
@@ -141,10 +148,15 @@ def main(verbosity, output, no_cache: bool, cache_dir):
     setup_logging(verbosity)
 
     cache = diskcache.Cache(cache_dir)
-    client = get_places_client(cache=cache, expire=5 * 3600, tag="places_client_search", delete=no_cache)
+    for tag in cache_evict:
+        cache.evict(str(tag))
+
+    client = get_places_client(cache=cache, expire=5 * 3600, tag=CacheTag.PLACES_CLIENT_SEARCH, delete=no_cache)
 
     # skiprows=1 ignores the note in the first row
-    spreadsheet = CacheWrapper(wrapped=Spreadsheet(), cache=cache, expire=1 * 3600, tag="spreadsheet", delete=no_cache)
+    spreadsheet = CacheWrapper(
+        wrapped=Spreadsheet(), cache=cache, expire=1 * 3600, tag=CacheTag.SPREADSHEET, delete=no_cache
+    )
     hours = spreadsheet.fetch("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
     metadata = spreadsheet.fetch(
         "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="1967915400", skiprows=1, index_col=0
