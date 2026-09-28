@@ -12,7 +12,14 @@ from google.type.latlng_pb2 import LatLng  # type: ignore [import-untyped]
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, get_places_client, human_timedelta_to_seconds, logging_context, setup_logging
+from utils import (
+    CacheWrapper,
+    click_option_verbosity,
+    get_places_client,
+    human_timedelta_to_seconds,
+    logging_context,
+    setup_logging,
+)
 
 
 def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str) -> dict:
@@ -89,13 +96,14 @@ def get_place_data_from_api(client: PlacesClient, place_name: str, search_query:
         )
 
 
-def fetch_spreadsheet(sheet_id: str, gid: str, **pd_read_csv_kwargs):
-    google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
+class Spreadsheet:
+    def fetch(self, sheet_id: str, gid: str, **pd_read_csv_kwargs):
+        google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
 
-    try:
-        return pd.read_csv(google_sheet_url, **pd_read_csv_kwargs)
-    except Exception as e:
-        raise RuntimeError("Could not read Google Sheet CSV") from e
+        try:
+            return pd.read_csv(google_sheet_url, **pd_read_csv_kwargs)
+        except Exception as e:
+            raise RuntimeError("Could not read Google Sheet CSV") from e
 
 
 def row_days(row) -> list[str | None]:
@@ -150,12 +158,15 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
         cache = diskcache.Cache(cache_dir)
     else:
         cache = None
+    expire = human_timedelta_to_seconds(cache_expire)
 
-    client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
+    client = get_places_client(cache=cache, expire=expire)
 
     # skiprows=1 ignores the note in the first row
-    hours = fetch_spreadsheet("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
-    metadata = fetch_spreadsheet(
+    spreadsheet: Spreadsheet | CacheWrapper = Spreadsheet()
+    spreadsheet = CacheWrapper(wrapped=spreadsheet, cache=cache, expire=expire) if cache is not None else spreadsheet
+    hours = spreadsheet.fetch("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
+    metadata = spreadsheet.fetch(
         "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="1967915400", skiprows=1, index_col=0
     )
 

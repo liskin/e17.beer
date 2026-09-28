@@ -106,14 +106,14 @@ class CacheWrapper:
         self._cache = cache
 
         @self._cache.memoize(expire=expire, typed=True)
-        def _memoized_call(name, **kwargs):
+        def _memoized_call(name, *args, **kwargs):
             method = getattr(self._wrapped, name)
-            return method(**kwargs)
+            return method(*args, **kwargs)
 
         self._memoized_call = _memoized_call
 
     def __getattr__(self, name):
-        return lambda **kwargs: self._memoized_call(name, **kwargs)
+        return lambda *args, **kwargs: self._memoized_call(name, *args, **kwargs)
 
 
 def get_places_client(cache: None | diskcache.Cache, expire: int) -> places_v1.PlacesClient | CacheWrapper:
