@@ -90,7 +90,7 @@
                     "12:00–19:00\n£7 selected wines\n£5 pints\n£7 selected cocktails",
                     null
                 ],
-                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs"
+                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs#:~:text=Locals%20Cards"
             },
             {
                 "place_id": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
@@ -105,7 +105,7 @@
                     null,
                     null
                 ],
-                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood"
+                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=LOCALS%20DISCOUNT"
             },
             {
                 "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
@@ -212,6 +212,21 @@
                     null,
                     "£4 pints (except guest beers)",
                     "Karaoke Night\n2-for-1 cocktails",
+                    null,
+                    null
+                ],
+                "locals_url": null
+            },
+            {
+                "place_id": "ChIJCcD1GVoddkgRfgpvRrbCLYc",
+                "place_name": "Chevy's Pizza (Yonder)",
+                "url": "https://maps.google.com/?cid=9740655657193769598&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "happy_hours": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    "free Pretty Decent pint with 18\" pizza",
                     null,
                     null
                 ],

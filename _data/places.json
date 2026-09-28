@@ -545,7 +545,7 @@
                     "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
                     null
                 ],
-                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs",
+                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs#:~:text=Locals%20Cards",
                 "location": {
                     "lat": 51.595413199999996,
                     "lng": -0.043168
@@ -643,7 +643,7 @@
                     null,
                     null
                 ],
-                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood",
+                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=LOCALS%20DISCOUNT",
                 "location": {
                     "lat": 51.5957661,
                     "lng": -0.041589299999999996
@@ -1487,6 +1487,90 @@
                         "15:00–23:00",
                         "15:00–23:00",
                         "09:00–23:00"
+                    ]
+                }
+            },
+            {
+                "place_id": "ChIJCcD1GVoddkgRfgpvRrbCLYc",
+                "place_name": "Chevy's Pizza (Yonder)",
+                "url": "https://maps.google.com/?cid=9740655657193769598&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "happy_hours": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    "free Pretty Decent pint with 18\" pizza",
+                    null,
+                    null
+                ],
+                "locals_url": null,
+                "location": {
+                    "lat": 51.589601099999996,
+                    "lng": -0.0406982
+                },
+                "keyframe_periods": [
+                    {
+                        "open": 67.2619,
+                        "close": 70.2381
+                    },
+                    {
+                        "open": 81.5476,
+                        "close": 84.5238
+                    }
+                ],
+                "day_sort_values": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    {
+                        "open": 67.2619,
+                        "close": 70.2381
+                    },
+                    {
+                        "open": 81.5476,
+                        "close": 84.5238
+                    },
+                    null
+                ],
+                "current_schedule": {
+                    "time_text_sun_to_sat": [
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "5:00 – 10:00 pm",
+                        "5:00 – 10:00 pm",
+                        "Closed"
+                    ],
+                    "time_text_sun_to_sat_24h": [
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "17:00–22:00",
+                        "17:00–22:00",
+                        "Closed"
+                    ]
+                },
+                "regular_schedule": {
+                    "time_text_sun_to_sat": [
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "5:00 – 10:00 pm",
+                        "5:00 – 10:00 pm",
+                        "Closed"
+                    ],
+                    "time_text_sun_to_sat_24h": [
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "Closed",
+                        "17:00–22:00",
+                        "17:00–22:00",
+                        "Closed"
                     ]
                 }
             }
