@@ -65,13 +65,17 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     strict_matches = [p for p in places if place_name.lower() in p.display_name.text.lower()]
 
     logging.debug(
-        "get_place_data_from_api('%s'): places=\n%s",
+        "get_place_data_from_api: place_name=%s search_query=%s search_kwargs=%s",
         place_name,
+        search_query,
+        search_kwargs,
+    )
+    logging.debug(
+        "get_place_data_from_api: places=\n%s",
         textwrap.indent(pprint.pformat(places, indent=2), "  "),
     )
     logging.debug(
-        "get_place_data_from_api('%s'): strict_matches=\n%s",
-        place_name,
+        "get_place_data_from_api: strict_matches=\n%s",
         textwrap.indent(pprint.pformat(strict_matches, indent=2), "  "),
     )
 
