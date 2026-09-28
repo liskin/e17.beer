@@ -15,7 +15,7 @@ from tqdm.contrib.logging import tqdm_logging_redirect
 from utils import CacheTag, CacheWrapper, click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
-def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str) -> dict:
+def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str, search_filter: str) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """
@@ -29,10 +29,11 @@ def get_place_data_from_api(client: PlacesClient, place_name: str, search_query:
                 raise RuntimeError(f"Cannot parse search_query line: {l}")
 
     logging.debug(
-        "get_place_data_from_api: place_name=%s search_query=%s search_kwargs=%s",
+        "get_place_data_from_api: place_name=%s search_query=%s search_kwargs=%s search_filter=%s",
         place_name,
         search_query,
         search_kwargs,
+        search_filter,
     )
     request = SearchTextRequest(
         text_query=search_query,
@@ -56,7 +57,7 @@ def get_place_data_from_api(client: PlacesClient, place_name: str, search_query:
         raise RuntimeError(f"No results for '{search_query}'. Please refine the search_name.")
 
     # Match filtering
-    strict_matches = [p for p in places if place_name.lower() in p.display_name.text.lower()]
+    strict_matches = [p for p in places if search_filter.lower() in p.display_name.text.lower()]
 
     logging.debug(
         "get_place_data_from_api: places=\n%s",
@@ -83,7 +84,8 @@ def get_place_data_from_api(client: PlacesClient, place_name: str, search_query:
     else:
         candidates = [p.display_name.text for p in places]
         raise RuntimeError(
-            f"No strict match for '{search_query}'. Google identified {len(strict_matches)} potential match(es): "
+            f"No strict match for query '{search_query}' / filter '{search_filter}'.\n"
+            f"Google found {len(candidates)} potential match(es): "
             f"({', '.join(candidates)}).\n"
             f"Perhaps the place changed name? Investigate and update the spreadsheet."
         )
@@ -192,11 +194,15 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_evict):
 
             def process_row(place_name, row):
                 metadata_row = metadata.loc[place_name]
-                search_query = metadata_row.get("search")
+                search_query = metadata_row.get("search_query")
+                search_filter = metadata_row.get("search_filter")
                 t.set_postfix(name=place_name)
                 with logging_context(f"place_name={place_name}"):
                     api_result = get_place_data_from_api(
-                        client=client, place_name=place_name, search_query=search_query
+                        client=client,
+                        place_name=place_name,
+                        search_query=search_query,
+                        search_filter=search_filter,
                     )
                     return {
                         "place_id": api_result["place_id"],
