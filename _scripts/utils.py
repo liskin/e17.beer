@@ -7,7 +7,6 @@ from typing import ClassVar
 
 import click
 import diskcache  # type: ignore [import-untyped]
-import pandas as pd
 from dotenv import load_dotenv
 from google.maps import places_v1
 
@@ -101,11 +100,12 @@ def click_option_verbosity():
 
 
 class CacheWrapper:
-    def __init__(self, wrapped, cache, expire):
+    def __init__(self, wrapped, cache: diskcache.Cache, expire: int, tag: str, delete: bool):
         self._wrapped = wrapped
         self._cache = cache
+        self._delete = delete
 
-        @self._cache.memoize(expire=expire, typed=True)
+        @self._cache.memoize(typed=True, expire=expire, tag=tag)
         def _memoized_call(name, *args, **kwargs):
             method = getattr(self._wrapped, name)
             return method(*args, **kwargs)
@@ -113,10 +113,16 @@ class CacheWrapper:
         self._memoized_call = _memoized_call
 
     def __getattr__(self, name):
-        return lambda *args, **kwargs: self._memoized_call(name, *args, **kwargs)
+        def f(*args, **kwargs):
+            if self._delete:
+                self._cache.delete(self._memoized_call.__cache_key__(name, *args, **kwargs))
+
+            return self._memoized_call(name, *args, **kwargs)
+
+        return f
 
 
-def get_places_client(cache: None | diskcache.Cache, expire: int) -> places_v1.PlacesClient | CacheWrapper:
+def get_places_client(cache: diskcache.Cache, expire: int, tag: str, delete: bool) -> CacheWrapper:
     load_dotenv()
 
     api_key = os.getenv("GOOGLE_MAPS_API_KEY")
@@ -124,8 +130,4 @@ def get_places_client(cache: None | diskcache.Cache, expire: int) -> places_v1.P
         raise ValueError("No API Key found! Check your .env file.")
 
     client = places_v1.PlacesClient(client_options={"api_key": api_key})
-    return CacheWrapper(wrapped=client, cache=cache, expire=expire) if cache is not None else client
-
-
-def human_timedelta_to_seconds(t: str) -> int:
-    return pd.Timedelta(t).seconds
+    return CacheWrapper(wrapped=client, cache=cache, expire=expire, tag=tag, delete=delete)

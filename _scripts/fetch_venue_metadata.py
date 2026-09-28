@@ -12,14 +12,7 @@ from google.type.latlng_pb2 import LatLng  # type: ignore [import-untyped]
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import (
-    CacheWrapper,
-    click_option_verbosity,
-    get_places_client,
-    human_timedelta_to_seconds,
-    logging_context,
-    setup_logging,
-)
+from utils import CacheWrapper, click_option_verbosity, get_places_client, logging_context, setup_logging
 
 
 def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str) -> dict:
@@ -129,13 +122,6 @@ def row_days(row) -> list[str | None]:
     show_default=True,
 )
 @click.option(
-    "-E",
-    "--cache-expire",
-    default="5 hour",
-    help="Cache expire timeout",
-    show_default=True,
-)
-@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -144,7 +130,7 @@ def row_days(row) -> list[str | None]:
     show_default=True,
 )
 @click_option_verbosity()
-def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
+def main(verbosity, output, no_cache: bool, cache_dir):
     """
     Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
 
@@ -154,17 +140,11 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
     """
     setup_logging(verbosity)
 
-    if cache_dir and not no_cache:
-        cache = diskcache.Cache(cache_dir)
-    else:
-        cache = None
-    expire = human_timedelta_to_seconds(cache_expire)
-
-    client = get_places_client(cache=cache, expire=expire)
+    cache = diskcache.Cache(cache_dir)
+    client = get_places_client(cache=cache, expire=5 * 3600, tag="places_client_search", delete=no_cache)
 
     # skiprows=1 ignores the note in the first row
-    spreadsheet: Spreadsheet | CacheWrapper = Spreadsheet()
-    spreadsheet = CacheWrapper(wrapped=spreadsheet, cache=cache, expire=expire) if cache is not None else spreadsheet
+    spreadsheet = CacheWrapper(wrapped=Spreadsheet(), cache=cache, expire=1 * 3600, tag="spreadsheet", delete=no_cache)
     hours = spreadsheet.fetch("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
     metadata = spreadsheet.fetch(
         "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="1967915400", skiprows=1, index_col=0
