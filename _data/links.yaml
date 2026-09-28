@@ -1,6 +1,11 @@
 fixed-button-width: true
 
 buttons:
+  - category: 🍻 Beer 🍻
+    items:
+      - title: Blackhorse Beer Mile opening/happy hours
+        url: /hours/
+        icon: fluent-mdl2:business-hours-sign
   - category: 🏃 Run Clubs 🏃
     items:
       - title: Calendar (preview)
@@ -12,30 +17,6 @@ buttons:
       - title: iCal (for Outlook, Apple, …)
         url: webcal://calendar.google.com/calendar/ical/0a2764edfca663dd8e5add46e73652c0abfe7efe3980264b02d733f9f9bb09fc%40group.calendar.google.com/public/basic.ics
         icon: mdi:calendar-outline
-  - category: 🍻 Beer 🍻
-    items:
-      - title: Blackhorse Beer Mile opening/happy hours
-        url: /hours/
-        icon: fluent-mdl2:business-hours-sign
-      - title: official Blackhorse Beer Mile website
-        url: https://www.blackhorsebeermile.co.uk/
-        icon: mdi:web
-      - title: Exale
-        url: https://www.exale.uk/offers
-        icon: mdi:loyalty
-        tag: E17 locals card
-      - title: 40ft
-        url: https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood
-        icon: mdi:loyalty
-        tag: E17 locals card
-      - title: Renegade
-        url: https://mailchi.mp/renegadelondonwine/kkt3uxddad
-        icon: mdi:loyalty
-        tag: E17 locals card
-      - title: Pressure Drop
-        url: https://reddit.com/r/walthamstow/comments/1q1z3vj/e17_n17_and_n15_locals_discount_card_at_pressure/
-        icon: mdi:loyalty
-        tag: E17 locals card
   - category: 📩 Contact 📩
     items:
       - title: follow @e17.beer on Instagram
