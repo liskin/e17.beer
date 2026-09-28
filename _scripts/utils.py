@@ -3,6 +3,7 @@ import logging
 import os
 from contextlib import contextmanager
 from contextvars import ContextVar
+from typing import ClassVar
 
 import click
 import diskcache  # type: ignore [import-untyped]
@@ -19,7 +20,7 @@ class ContextFormatterMixin:
 
 
 class EmojiFormatterMixin:
-    LEVEL_EMOJIS = {
+    LEVEL_EMOJIS: ClassVar = {
         logging.DEBUG: "💡",
         logging.INFO: "✅",
         logging.WARNING: "⚠️",

@@ -25,5 +25,10 @@ packages = []  # disable automatic discovery
 [tool.ruff]
 line-length = 120
 
+[tool.ruff.lint]
+ignore = [
+    "LOG015",
+]
+
 [tool.mypy]
 python_executable = ".venv/bin/python3"

@@ -211,7 +211,7 @@ def process_irregular_hours(
     current_weekday_periods = extract_weekday_periods(place.current_opening_hours)
     regular_weekday_periods = extract_weekday_periods(place.regular_opening_hours)
 
-    today = datetime.date.today()
+    today = datetime.date.today()  # noqa: DTZ011
     for i in range(7):
         date = today + datetime.timedelta(days=i)
         weekday = date.isoweekday() % 7
@@ -263,8 +263,7 @@ def process_irregular_hours(
 
             # persist to irregular_hours
             if regular_time_text == current_time_text:
-                if isoformat in irregular_hours:
-                    del irregular_hours[isoformat]
+                irregular_hours.pop(isoformat, None)
             else:
                 current_periods_dicts = [
                     Place.OpeningHours.Period.to_dict(
@@ -329,7 +328,7 @@ def process_venue(client: PlacesClient, venue: dict, irregular_hours: dict):
         current_time_texts_24h,
         regular_time_texts_24h,
         current_periods,
-        regular_periods,
+        _regular_periods,
     ) = process_irregular_hours(place=place, place_24h=place_24h, irregular_hours=irregular_hours)
 
     venue.update(
