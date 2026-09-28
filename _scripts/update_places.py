@@ -13,7 +13,7 @@ from google.maps.places_v1.types import Place
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
+from utils import click_option_verbosity, get_places_client, human_timedelta_to_seconds, logging_context, setup_logging
 
 
 def fmt(x) -> str:
@@ -363,6 +363,13 @@ def process_venue(client: PlacesClient, venue: dict, irregular_hours: dict):
     show_default=True,
 )
 @click.option(
+    "-E",
+    "--cache-expire",
+    default="5 hour",
+    help="Cache expire timeout",
+    show_default=True,
+)
+@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -383,7 +390,7 @@ def process_venue(client: PlacesClient, venue: dict, irregular_hours: dict):
     default="_data/venue_metadata.json",
 )
 @click_option_verbosity()
-def main(verbosity, input, output, irregular_hours: Path, no_cache: bool, cache_dir):
+def main(verbosity, input, output, irregular_hours: Path, no_cache: bool, cache_dir, cache_expire: str):
     """
     Load/update information about venues
 
@@ -398,7 +405,7 @@ def main(verbosity, input, output, irregular_hours: Path, no_cache: bool, cache_
     else:
         cache = None
 
-    client = get_places_client(cache=cache)
+    client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
 
     sections = json.load(input)
     if not sections:

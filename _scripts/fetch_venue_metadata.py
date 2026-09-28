@@ -12,7 +12,7 @@ from google.type.latlng_pb2 import LatLng  # type: ignore [import-untyped]
 from tqdm import tqdm
 from tqdm.contrib.logging import tqdm_logging_redirect
 
-from utils import click_option_verbosity, get_places_client, logging_context, setup_logging
+from utils import click_option_verbosity, get_places_client, human_timedelta_to_seconds, logging_context, setup_logging
 
 
 def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
@@ -113,6 +113,13 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     show_default=True,
 )
 @click.option(
+    "-E",
+    "--cache-expire",
+    default="5 hour",
+    help="Cache expire timeout",
+    show_default=True,
+)
+@click.option(
     "-o",
     "--output",
     type=click.File("w"),
@@ -121,7 +128,7 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     show_default=True,
 )
 @click_option_verbosity()
-def main(verbosity, output, no_cache, cache_dir):
+def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
     """
     Fetch venue metadata from Google Sheet, find Place IDs and other metadata, and output as JSON.
 
@@ -136,7 +143,7 @@ def main(verbosity, output, no_cache, cache_dir):
     else:
         cache = None
 
-    client = get_places_client(cache=cache)
+    client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
 
     sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
     google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
