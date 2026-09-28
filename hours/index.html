@@ -65,7 +65,16 @@
 				{% assign i = forloop.index0 -%}
 				<tr class="venue" style="--venue: venue{{ section_index }}-{{ i }}">
 					<th class="venue" scope="row" data-loc-lat="{{ venue.location.lat }}" data-loc-lng="{{ venue.location.lng }}">
-						<a href="{{ venue.url }}" target="_blank"><span class="notranslate">{{ venue.place_name }}</span></a>
+						<div>
+							{% if venue.locals_url -%}
+							<a class="locals-card-icon" href="{{ venue.locals_url }}" target="_blank" title="locals card">
+								<img src="{{ "/assets/card-holder-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+							</a>
+							{% endif %}
+							<a class="venue" href="{{ venue.url }}" target="_blank" title="Google Maps: {{ venue.place_name }}">
+								<span class="notranslate">{{ venue.place_name }}</span>
+							</a>
+						</div>
 					</th>
 					{% for _day in (0..6) -%}
 					{% assign day = _day | plus: 1 | modulo: 7 -%}

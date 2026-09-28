@@ -15,6 +15,7 @@
                     "<span class=\"offer-name\">Friday Lunch Menu</span><br>£10 any flatbread and soft drink",
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5916078,
                     "lng": -0.0428948
@@ -137,6 +138,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.591877399999994,
                     "lng": -0.041494199999999995
@@ -241,6 +243,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5907765,
                     "lng": -0.040632
@@ -349,6 +352,7 @@
                     "<span class=\"offer-time\">open–22:00</span><br>2 cocktails for £16",
                     null
                 ],
+                "locals_url": "https://www.exale.uk/offers",
                 "location": {
                     "lat": 51.5932337,
                     "lng": -0.0414756
@@ -450,6 +454,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5932588,
                     "lng": -0.0418763
@@ -540,6 +545,7 @@
                     "<span class=\"offer-time\">12:00–19:00</span><br>£7 selected wines<br>£5 pints<br>£7 selected cocktails",
                     null
                 ],
+                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs",
                 "location": {
                     "lat": 51.595413199999996,
                     "lng": -0.043168
@@ -637,6 +643,7 @@
                     null,
                     null
                 ],
+                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood",
                 "location": {
                     "lat": 51.5957661,
                     "lng": -0.041589299999999996
@@ -734,6 +741,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.595348699999995,
                     "lng": -0.042222699999999995
@@ -831,6 +839,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.590790999999996,
                     "lng": -0.0382645
@@ -928,6 +937,7 @@
                     "<span class=\"offer-time\">12:00–19:00</span><br>£5.01 selected drinks (lagers, …)",
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5908551,
                     "lng": -0.041318099999999996
@@ -1055,6 +1065,7 @@
                     "<span class=\"offer-time\">16:00–20:00</span><br>£6 margaritas",
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.596764,
                     "lng": -0.034974
@@ -1177,6 +1188,7 @@
                     "2-for-1 cocktails",
                     "2-for-1 cocktails"
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5868611,
                     "lng": -0.0524694
@@ -1295,6 +1307,7 @@
                     "£4 pints (core)",
                     null
                 ],
+                "locals_url": "https://reddit.com/r/walthamstow/comments/1q1z3vj/e17_n17_and_n15_locals_discount_card_at_pressure/",
                 "location": {
                     "lat": 51.590553,
                     "lng": -0.05769709999999999
@@ -1385,6 +1398,7 @@
                     null,
                     null
                 ],
+                "locals_url": null,
                 "location": {
                     "lat": 51.5696764,
                     "lng": -0.0242162

@@ -14,7 +14,8 @@
                     "Thirsty Thursday\n£4 core pints\n£5 cocktails",
                     "Friday Lunch Menu\n£10 any flatbread and soft drink",
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJK_3JDekddkgR_9lv8ApNmVo",
@@ -28,7 +29,8 @@
                     "First Pour Thursday\n£4.50 new releases, core pints\n£10 pizza (excl specials)\n£25 six cans takeaway",
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJmcEKbdwddkgRTntDc6Ttn3E",
@@ -42,7 +44,8 @@
                     "£3.50 core pints",
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJn5s47P0ddkgRs97vifafiI0",
@@ -56,7 +59,8 @@
                     "£4 pints\n25% off wine bottles\n£15 burger + fries + beer",
                     "open–22:00\n2 cocktails for £16",
                     null
-                ]
+                ],
+                "locals_url": "https://www.exale.uk/offers"
             },
             {
                 "place_id": "ChIJ2bbKMAAddkgRbtutiE814Jc",
@@ -70,7 +74,8 @@
                     null,
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJ57WCm8cddkgRxgrdo8eIs7c",
@@ -84,7 +89,8 @@
                     "17:00–close\n£7 selected wines\n£5 pints\n£7 selected cocktails",
                     "12:00–19:00\n£7 selected wines\n£5 pints\n£7 selected cocktails",
                     null
-                ]
+                ],
+                "locals_url": "https://www.renegadelondonwine.com/renegadefaqs"
             },
             {
                 "place_id": "ChIJGWBqTAAddkgRGIDV9sSwSPQ",
@@ -98,7 +104,8 @@
                     "£4 selected pints\n£5 Aperol Spritz",
                     null,
                     null
-                ]
+                ],
+                "locals_url": "https://40ftbrewery.com/pages/blackhorse-road#:~:text=ALL%20E17%20RESIDENTS-,LOCALS%20DISCOUNT,-Join%20our%20Neighbourhood"
             },
             {
                 "place_id": "ChIJCcHPmKUddkgRrMkuf6VHMPM",
@@ -112,7 +119,8 @@
                     "Thirsty Thursday\n£4 core pints\n£5 frozen margs",
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJt44reHMddkgRK2rJwANEAyI",
@@ -126,7 +134,8 @@
                     "Thirsty Thursday\n£7 house cocktails",
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJOXISL-oddkgR8T4iCezLtY4",
@@ -140,7 +149,8 @@
                     "12:00–19:00\n£5.01 selected drinks (lagers, …)\n\n17:00–close\nhalf-price games at Flukes",
                     "12:00–19:00\n£5.01 selected drinks (lagers, …)",
                     null
-                ]
+                ],
+                "locals_url": null
             }
         ]
     },
@@ -159,7 +169,8 @@
                     "£16.50 burger + fries + can of East London Brewing\n\n16:00–20:00\n£6 margaritas",
                     "16:00–20:00\n£6 margaritas",
                     null
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJMx4DJDIcdkgRxOVl_zEjmCE",
@@ -173,7 +184,8 @@
                     null,
                     "2-for-1 cocktails",
                     "2-for-1 cocktails"
-                ]
+                ],
+                "locals_url": null
             },
             {
                 "place_id": "ChIJQeFXoy8cdkgRrIXf96VGQyI",
@@ -187,7 +199,8 @@
                     null,
                     "£4 pints (core)",
                     null
-                ]
+                ],
+                "locals_url": "https://reddit.com/r/walthamstow/comments/1q1z3vj/e17_n17_and_n15_locals_discount_card_at_pressure/"
             },
             {
                 "place_id": "ChIJj4Jz2N4ddkgRo7KEHp0rGRM",
@@ -201,7 +214,8 @@
                     "Karaoke Night\n2-for-1 cocktails",
                     null,
                     null
-                ]
+                ],
+                "locals_url": null
             }
         ]
     }

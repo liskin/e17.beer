@@ -25,7 +25,7 @@ body {
 table {
 	height: 100%;
 	tr { height: 100%; }
-	td {
+	th, td {
 		height: 100%;
 		> div { height: 100%; }
 	}
@@ -48,25 +48,6 @@ table#opening-hours {
 	}
 	th.day, td.day {
 		min-width: 12em;
-	}
-
-	/* venue hyperlinks */
-	th.venue:has(a) {
-		padding: 0;
-
-		a {
-			display: block;
-			padding: 6px 8px;
-
-			color: unset;
-			text-decoration: unset;
-
-			@media(hover: hover) and (pointer: fine) {
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-		}
 	}
 
 	/* sticky column headers */
@@ -129,7 +110,8 @@ table#opening-hours {
 		th {
 			animation: var(--venue) 604800s var(--open-animation-delay) step-end infinite;
 			animation-play-state: paused;
-			background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
+			--background-color: color-mix(in srgb, var(--background-closed), var(--background-open) calc(var(--open) * 100%));
+			background-color: var(--background-color);
 		}
 
 		/* cells - highlight open/today */
@@ -145,6 +127,71 @@ table#opening-hours {
 				) calc(var(--today) * 100%)
 			);
 			background-color: var(--background-color);
+		}
+	}
+
+	/* venue row headers */
+	tbody th.venue {
+		padding: 0;
+
+		> div {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* venue hyperlinks */
+		a.venue {
+			display: block;
+			padding: 6px 8px;
+
+			color: unset;
+			text-decoration: unset;
+
+			@media(hover: hover) and (pointer: fine) {
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		/* make sure it's readable with the icon underneath */
+		a.venue {
+			position: relative;
+			-webkit-text-stroke: 5px color-mix(in srgb, var(--background-color), transparent 30%);
+			paint-order: stroke fill;
+
+			/* not strictly necessary but helps animation performance on mobile */
+			@media screen and (resolution > 1x) {
+				z-index: 1;
+			}
+
+			/* workaround for https://issues.chromium.org/issues/41433814 */
+			&:hover {
+				text-decoration-color: rgb(0 0 0);
+				text-decoration-thickness: 3px;
+			}
+
+			/* register clicks on the entire non-covered part of div.happy-hours-icon */
+			pointer-events: none;
+			span { pointer-events: auto; }
+		}
+
+		/* locals card icons */
+		a.locals-card-icon {
+			position: absolute;
+
+			bottom: 1px;
+			right: 1px;
+
+			img {
+				opacity: 0.4;
+				display: block;
+
+				a:hover & {
+					opacity: 1.0;
+				}
+			}
 		}
 	}
 
@@ -173,9 +220,6 @@ table#opening-hours {
 			/* register clicks on the entire non-covered part of div.happy-hours-icon */
 			pointer-events: none;
 			span { pointer-events: auto; }
-		}
-		::selection {
-			-webkit-text-stroke: unset;
 		}
 
 		div.happy-hours {
@@ -238,6 +282,11 @@ table#opening-hours {
 				}
 			}
 		}
+	}
+
+	/* no font stroke/border/shadow when selecting text */
+	tbody::selection {
+		-webkit-text-stroke: unset;
 	}
 
 	tr#time-machine-row {

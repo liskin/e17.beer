@@ -101,9 +101,13 @@ class Spreadsheet:
 
 def row_days(row) -> list[str | None]:
     return [
-        str(row.get(day)) if pd.notna(row.get(day)) else None
+        pd_str_or_none(row.get(day))
         for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     ]
+
+
+def pd_str_or_none(x):
+    return str(x) if pd.notna(x) else None
 
 
 @click.command(context_settings={"max_content_width": 120})
@@ -199,6 +203,7 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_evict):
                         "place_name": place_name,
                         "url": api_result["url"],
                         "happy_hours": row_days(row),
+                        "locals_url": pd_str_or_none(metadata_row.get("locals")),
                     }
 
             return [process_row(place_name, row) for place_name, row in t]
