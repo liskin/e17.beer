@@ -154,21 +154,26 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
     client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
 
     # skiprows=1 ignores the note in the first row
-    df = fetch_spreadsheet("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
+    hours = fetch_spreadsheet("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
+    metadata = fetch_spreadsheet(
+        "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="1967915400", skiprows=1, index_col=0
+    )
 
-    if not df.index.is_unique:
-        raise RuntimeError(f"Spreadsheet index not unique: {df.index}")
+    if not hours.index.is_unique:
+        raise RuntimeError(f"Spreadsheet index not unique: {hours.index}")
+    if not metadata.index.is_unique:
+        raise RuntimeError(f"Spreadsheet index not unique: {metadata.index}")
 
     # Venues before separator are beer mile, after are nearby
-    separator_idx = df.index.get_loc("near, but not beer mile:")
+    separator_idx = hours.index.get_loc("near, but not beer mile:")
     sections = [
         {
             "section": "Blackhorse Beer Mile",
-            "df": df.iloc[:separator_idx].copy(),
+            "df": hours.iloc[:separator_idx].copy(),
         },
         {
             "section": "nearby",
-            "df": df.iloc[separator_idx + 1 :].copy(),
+            "df": hours.iloc[separator_idx + 1 :].copy(),
         },
     ]
 
@@ -179,7 +184,8 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
         ) as t:
 
             def process_row(place_name, row):
-                search_query = row.get("search")
+                metadata_row = metadata.loc[place_name]
+                search_query = metadata_row.get("search")
                 t.set_postfix(name=place_name)
                 with logging_context(f"place_name={place_name}"):
                     api_result = get_place_data_from_api(
