@@ -89,14 +89,20 @@ def get_place_data_from_api(client: PlacesClient, place_name: str, search_query:
         )
 
 
-def fetch_spreadsheet():
-    sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
-    google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+def fetch_spreadsheet(sheet_id: str, gid: str, **pd_read_csv_kwargs):
+    google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
 
     try:
-        return pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
+        return pd.read_csv(google_sheet_url, **pd_read_csv_kwargs)
     except Exception as e:
         raise RuntimeError("Could not read Google Sheet CSV") from e
+
+
+def row_days(row) -> list[str | None]:
+    return [
+        str(row.get(day)) if pd.notna(row.get(day)) else None
+        for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    ]
 
 
 @click.command()
@@ -147,27 +153,22 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
 
     client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
 
-    df = fetch_spreadsheet()
+    # skiprows=1 ignores the note in the first row
+    df = fetch_spreadsheet("1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0", gid="0", skiprows=1, index_col=0)
 
-    separator = "near, but not beer mile:"
-    days_ordered = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
-    # Find the separator row
-    separator_indices = df[df.iloc[:, 0].notna() & (df.iloc[:, 0].str.strip() == separator)].index.tolist()
-
-    if len(separator_indices) != 1:
-        raise RuntimeError(f"Exactly 1 separator row expected, found: {len(separator_indices)}")
+    if not df.index.is_unique:
+        raise RuntimeError(f"Spreadsheet index not unique: {df.index}")
 
     # Venues before separator are beer mile, after are nearby
-    separator_idx = separator_indices[0]
+    separator_idx = df.index.get_loc("near, but not beer mile:")
     sections = [
         {
             "section": "Blackhorse Beer Mile",
-            "df": df[:separator_idx][df[:separator_idx].iloc[:, 0].notna()].copy(),
+            "df": df.iloc[:separator_idx].copy(),
         },
         {
             "section": "nearby",
-            "df": df[separator_idx + 1 :][df[separator_idx + 1 :].iloc[:, 0].notna()].copy(),
+            "df": df.iloc[separator_idx + 1 :].copy(),
         },
     ]
 
@@ -177,8 +178,7 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
             disable=True if verbosity < 0 else None,
         ) as t:
 
-            def process_row(row):
-                place_name = row.iloc[0]
+            def process_row(place_name, row):
                 search_query = row.get("search")
                 t.set_postfix(name=place_name)
                 with logging_context(f"place_name={place_name}"):
@@ -189,10 +189,10 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
                         "place_id": api_result["place_id"],
                         "place_name": place_name,
                         "url": api_result["url"],
-                        "happy_hours": [str(row.get(day)) if pd.notna(row.get(day)) else None for day in days_ordered],
+                        "happy_hours": row_days(row),
                     }
 
-            return [process_row(row) for _, row in t]
+            return [process_row(place_name, row) for place_name, row in t]
 
     with tqdm_logging_redirect(
         sections,
