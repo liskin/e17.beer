@@ -59,10 +59,12 @@ def test_midnight_transition():
 
 def test_wraparound_split():
     periods = [
-        Place.OpeningHours.Period(
-            open=Place.OpeningHours.Period.Point(day=6, hour=22, minute=0),
-            close=Place.OpeningHours.Period.Point(day=0, hour=2, minute=0),
-        )
+        [
+            Place.OpeningHours.Period(
+                open=Place.OpeningHours.Period.Point(day=6, hour=22, minute=0),
+                close=Place.OpeningHours.Period.Point(day=0, hour=2, minute=0),
+            )
+        ]
     ]
 
     intervals = periods_to_percentages(periods)
@@ -83,10 +85,12 @@ def test_wraparound_split():
 def test_wraparound_split_eow():
     """Wraparound split doesn't emit a (0, 0) interval when a venue closes Saturday/Sunday midnight"""
     periods = [
-        Place.OpeningHours.Period(
-            open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
-            close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
-        )
+        [
+            Place.OpeningHours.Period(
+                open=Place.OpeningHours.Period.Point(day=6, hour=12, minute=0),
+                close=Place.OpeningHours.Period.Point(day=0, hour=0, minute=0),
+            )
+        ]
     ]
     intervals = periods_to_percentages(periods)
     assert len(intervals) == 1
