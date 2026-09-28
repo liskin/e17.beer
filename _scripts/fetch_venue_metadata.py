@@ -15,31 +15,25 @@ from tqdm.contrib.logging import tqdm_logging_redirect
 from utils import click_option_verbosity, get_places_client, human_timedelta_to_seconds, logging_context, setup_logging
 
 
-def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
+def get_place_data_from_api(client: PlacesClient, place_name: str, search_query: str) -> dict:
     """
     Searches Google Places API (New) using the official client library. Returns ID and URL.
     """
-    # Specific search overrides for accuracy (TODO: move to the spreadsheet)
-    search_name = place_name
-    search_type = None
-
-    if place_name == "Hackney Church":
-        search_name = place_name + " Blackhorse"
-
-    if place_name == "Ferry Boat Inn":
-        search_type = "pub"
-
-    if place_name == "Pressure Drop":
-        search_query = f"{search_name} N17"
-    else:
-        search_query = f"{search_name} E17"
-
+    search_query, *search_kwargs_lines = search_query.splitlines()
     search_kwargs: dict = {}
-    if search_type:
-        search_kwargs |= {
-            "included_type": search_type,
-        }
+    for l in search_kwargs_lines:
+        match l.partition("="):
+            case (k, "=", v):
+                search_kwargs[k] = v
+            case _:
+                raise RuntimeError(f"Cannot parse search_query line: {l}")
 
+    logging.debug(
+        "get_place_data_from_api: place_name=%s search_query=%s search_kwargs=%s",
+        place_name,
+        search_query,
+        search_kwargs,
+    )
     request = SearchTextRequest(
         text_query=search_query,
         location_bias=SearchTextRequest.LocationBias(
@@ -64,12 +58,6 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
     # Match filtering
     strict_matches = [p for p in places if place_name.lower() in p.display_name.text.lower()]
 
-    logging.debug(
-        "get_place_data_from_api: place_name=%s search_query=%s search_kwargs=%s",
-        place_name,
-        search_query,
-        search_kwargs,
-    )
     logging.debug(
         "get_place_data_from_api: places=\n%s",
         textwrap.indent(pprint.pformat(places, indent=2), "  "),
@@ -99,6 +87,16 @@ def get_place_data_from_api(client: PlacesClient, place_name: str) -> dict:
             f"({', '.join(candidates)}).\n"
             f"Perhaps the place changed name? Investigate and update the spreadsheet."
         )
+
+
+def fetch_spreadsheet():
+    sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
+    google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+
+    try:
+        return pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
+    except Exception as e:
+        raise RuntimeError("Could not read Google Sheet CSV") from e
 
 
 @click.command()
@@ -149,13 +147,7 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
 
     client = get_places_client(cache=cache, expire=human_timedelta_to_seconds(cache_expire))
 
-    sheet_id = "1YhJ2YD-W759uPHqMqIMBR14bq32Vxm0hQ1x0iEFrPB0"
-    google_sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-
-    try:
-        df = pd.read_csv(google_sheet_url, skiprows=1)  # skiprows=1 ignores the note in the first row
-    except Exception as e:
-        raise RuntimeError("Could not read Google Sheet CSV") from e
+    df = fetch_spreadsheet()
 
     separator = "near, but not beer mile:"
     days_ordered = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -187,9 +179,12 @@ def main(verbosity, output, no_cache: bool, cache_dir, cache_expire: str):
 
             def process_row(row):
                 place_name = row.iloc[0]
+                search_query = row.get("search")
                 t.set_postfix(name=place_name)
                 with logging_context(f"place_name={place_name}"):
-                    api_result = get_place_data_from_api(client, place_name)
+                    api_result = get_place_data_from_api(
+                        client=client, place_name=place_name, search_query=search_query
+                    )
                     return {
                         "place_id": api_result["place_id"],
                         "place_name": place_name,
