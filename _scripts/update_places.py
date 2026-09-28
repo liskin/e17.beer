@@ -31,7 +31,7 @@ def fmt(x) -> str:
                 + datetime.time(x.hour, x.minute).isoformat("minutes")
                 + ("]]" if x.truncated else "")
             )
-            date = "" if x.date is None else f"({datetime.date(x.date.year, x.date.month, x.date.day)}) "
+            date = "" if "date" not in x else f"({datetime.date(x.date.year, x.date.month, x.date.day)}) "
             return f"{date}{weekday}: {time}"
 
         case str() | bytes():
