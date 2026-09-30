@@ -8,9 +8,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 		<meta name="theme-color" content="#ffffff">
 		<link rel="shortcut icon" href="{{ "/assets/logo256.png" | relative_url }}" type="image/png">
-		<link rel="manifest" href="manifest.json">
 
-		<title>Blackhorse Beer Mile - Opening Hours</title>
+		<link rel="manifest" href="manifest.json"><!-- PWA -->
+
+		<link rel="canonical" href="{{ page.url | absolute_url }}">
+		<meta property="og:url" content="{{ page.url | absolute_url }}">
+
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="e17.beer">
+
+		<title>Blackhorse Beer Mile: Opening & Happy Hours | Walthamstow, London E17</title>
+		<meta property="og:title" content="Blackhorse Beer Mile: Opening & Happy Hours">
+
+		<meta name="description" content="Live opening hours and happy hour discounts at the Blackhorse Beer Mile in Walthamstow, London E17.">
+		<meta property="og:description" content="Live opening hours and happy hour discounts at the Blackhorse Beer Mile in Walthamstow, London E17.">
+
+		<meta property="og:image" content="{{ "/assets/og-image.jpg" | absolute_url }}">
+		<meta name="twitter:card" content="summary_large_image">
 
 		{% include ga4.html %}
 
