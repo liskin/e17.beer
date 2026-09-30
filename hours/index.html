@@ -73,7 +73,8 @@
 			{% assign section_index = forloop.index0 -%}
 			<tbody>
 				<tr class="section-header">
-					<td colspan="8"><div>
+					<td colspan="8">
+						<div>
 							{% if section_index == 0 -%}
 							<h1>
 								<span><a href="https://www.blackhorsebeermile.co.uk/" target="_blank" title="official Blackhorse Beer Mile website">Blackhorse Beer Mile</a></span>
@@ -82,7 +83,8 @@
 							{% else -%}
 							{{ section.section }}
 							{% endif %}
-					</div></td>
+						</div>
+					</td>
 				</tr>
 				{% for venue in section.venues -%}
 				{% assign i = forloop.index0 -%}
