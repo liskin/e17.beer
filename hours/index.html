@@ -77,7 +77,7 @@
 						<div>
 							{% if venue.locals_url -%}
 							<a class="locals-card-icon" href="{{ venue.locals_url }}" target="_blank" title="locals card">
-								<img src="{{ "/assets/card-holder-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+								<img src="{{ "/assets/card-holder-svgrepo-com.svg" | relative_url }}" width="25" height="25" alt="loyalty card icon">
 							</a>
 							{% endif %}
 							<a class="venue" href="{{ venue.url }}" target="_blank" title="Google Maps: {{ venue.place_name }}">
@@ -94,7 +94,7 @@
 							{% if venue.happy_hours[day] -%}
 							<div class="happy-hours-icon">
 								<label for="show-happy-hours" title="show/hide happy hours">
-									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+									<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25" alt="discount icon">
 								</label>
 							</div>
 							{% endif %}
@@ -175,12 +175,12 @@
 		<div id="toolbar">
 			<input type="checkbox" id="show-happy-hours">
 			<label for="show-happy-hours" title="show/hide happy hours">
-				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+				<img src="{{ "/assets/tag-discount-svgrepo-com.svg" | relative_url }}" width="25" height="25" alt="discount icon">
 			</label>
 
 			<input type="checkbox" id="show-time-machine">
 			<label for="show-time-machine" title="show/hide time machine">
-				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25">
+				<img src="{{ "/assets/rewind-time-rewind-svgrepo-com.svg" | relative_url }}" width="25" height="25" alt="time machine icon">
 			</label>
 
 			<input type="checkbox" id="use-time-24h">
