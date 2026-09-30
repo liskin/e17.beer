@@ -480,7 +480,9 @@ div#toolbar {
 		}
 
 		&[for="use-time-24h"] {
-			div {
+			span {
+				display: block;
+
 				height: calc(10px + 25px + 10px);
 				width: calc(10px + 25px + 10px);
 				overflow: clip;
@@ -494,7 +496,7 @@ div#toolbar {
 				position: relative;
 			}
 
-			div.use-time-24h-icon {
+			span.use-time-24h-icon {
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -502,8 +504,8 @@ div#toolbar {
 				font-size: 25px;
 			}
 
-			body:has(input#use-time-24h:checked) & div.time-12h { display: none; }
-			body:not(:has(input#use-time-24h:checked)) & div.time-24h { display: none; }
+			body:has(input#use-time-24h:checked) & span.time-12h { display: none; }
+			body:not(:has(input#use-time-24h:checked)) & span.time-24h { display: none; }
 		}
 	}
 }
