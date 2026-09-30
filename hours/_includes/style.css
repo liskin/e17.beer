@@ -70,8 +70,9 @@ table#opening-hours {
 
 	/* section headers */
 	tr.section-header {
-		th {
+		td {
 			background-color: rgb(245 245 245);
+			font-weight: bold;
 
 			div {
 				width: calc(100vw - 60px);
@@ -86,6 +87,19 @@ table#opening-hours {
 					text-decoration-skip-ink: none;
 					text-decoration-thickness: 3px;
 				}
+			}
+
+			/* SEO: inline h1 */
+			h1 {
+				display: inline;
+				font-size: inherit;
+				font-weight: inherit;
+				margin: 0;
+			}
+
+			/* better line breaks */
+			span {
+				display: inline-block;
 			}
 		}
 	}

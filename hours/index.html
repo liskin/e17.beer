@@ -59,16 +59,16 @@
 			{% assign section_index = forloop.index0 -%}
 			<tbody>
 				<tr class="section-header">
-					<th colspan="8"><div>
-							{% if section.section == "Blackhorse Beer Mile" %}{% assign section_link = true -%}
-							<a href="https://www.blackhorsebeermile.co.uk/" target="_blank" title="official Blackhorse Beer Mile website">
-							{% else %}{% assign section_link = null %}{% endif -%}
-
+					<td colspan="8"><div>
+							{% if section_index == 0 -%}
+							<h1>
+								<span><a href="https://www.blackhorsebeermile.co.uk/" target="_blank" title="official Blackhorse Beer Mile website">Blackhorse Beer Mile</a></span>
+								<span>opening and happy hours</span>
+							</h1>
+							{% else -%}
 							{{ section.section }}
-							{% if section_link -%}
-							</a>
 							{% endif %}
-					</div></th>
+					</div></td>
 				</tr>
 				{% for venue in section.venues -%}
 				{% assign i = forloop.index0 -%}
