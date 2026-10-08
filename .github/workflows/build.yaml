@@ -26,6 +26,8 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
           cache-version: 0
+      - name: last_update_git_fetch
+        run: _plugins/last_update_git_fetch.sh
       - name: Build with Jekyll
         run: bundle exec jekyll build --verbose --trace
       - name: Upload artifact
