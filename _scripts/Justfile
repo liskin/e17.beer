@@ -1,3 +1,7 @@
+set ignore-comments
+
+# ----------------------------------------------------------------------
+
 help:
     @just --list --unsorted
 
@@ -25,3 +29,9 @@ update-places *args:
 [group('run')]
 fetch-venue-metadata *args:
     uv run fetch_venue_metadata.py {{ args }}
+
+[group('run')]
+evict-irregular-hours:
+    # discarding everything before today would likely work just as well, but doing it in the second week of the month seems more chill :-)
+    jq --indent 4 '(now - 604800 | todate | .[0:8] + "01") as $month_start | .[] |= with_entries(select(.key >= $month_start))' _data/irregular_hours.json >_data/irregular_hours.json.tmp
+    mv _data/irregular_hours.json.tmp _data/irregular_hours.json

@@ -78,6 +78,7 @@ jobs:
         run: |
           set -ex
 
+          just evict-irregular-hours
           just fetch-venue-metadata $CACHE_EVICT
           just update-places $CACHE_EVICT
 
