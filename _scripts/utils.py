@@ -100,6 +100,12 @@ def click_option_verbosity():
     return lambda f: verbose(quiet(f))
 
 
+class CacheTag(StrEnum):
+    SPREADSHEET = auto()
+    PLACES_CLIENT_SEARCH = auto()
+    PLACES_CLIENT_HOURS = auto()
+
+
 class CacheWrapper:
     def __init__(self, wrapped, cache: diskcache.Cache, expire: int, tag: CacheTag, delete: bool):
         self._wrapped = wrapped
@@ -121,12 +127,6 @@ class CacheWrapper:
             return self._memoized_call(name, *args, **kwargs)
 
         return f
-
-
-class CacheTag(StrEnum):
-    SPREADSHEET = auto()
-    PLACES_CLIENT_SEARCH = auto()
-    PLACES_CLIENT_HOURS = auto()
 
 
 def get_places_client(cache: diskcache.Cache, expire: int, tag: CacheTag, delete: bool) -> CacheWrapper:
