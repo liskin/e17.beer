@@ -27,6 +27,9 @@ bundle-outdated: bundle-install
 bundle-update: bundle-install
     {{ BUNDLE }} update
 
+bundle *args:
+    {{ BUNDLE }} {{ args }}
+
 # ----------------------------------------------------------------------
 
 mod _scripts
