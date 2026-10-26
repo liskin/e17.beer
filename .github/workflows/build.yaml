@@ -27,7 +27,7 @@ jobs:
           bundler-cache: true
           cache-version: 0
       - name: Build with Jekyll
-        run: bundle exec make build-prod
+        run: make build-prod
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

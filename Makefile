@@ -8,4 +8,4 @@ _just_default_ $(MAKECMDGOALS) &::
 
 build-prod:
 	_plugins/last_update_git_fetch.sh
-	jekyll build --verbose --trace
+	bundle exec jekyll build --verbose --trace
