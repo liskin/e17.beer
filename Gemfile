@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "https://rubygems.org", cooldown: 7
 
 gem "jekyll", "~> 4.4.0"
 
