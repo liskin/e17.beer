@@ -3,32 +3,26 @@ help:
 
 # ----------------------------------------------------------------------
 
-BUNDLE := env("BUNDLE", "bundle")
-export BUNDLE_PATH := env("BUNDLE_PATH", justfile_directory() + "/.bundle/gems")
-
 build: bundle-install
-    {{ BUNDLE }} exec jekyll build --drafts
+    bundle exec jekyll build --drafts
 
 serve: bundle-install
-    {{ BUNDLE }} exec jekyll serve --drafts --host localhost --port 12345 --livereload
+    bundle exec jekyll serve --drafts --host localhost --port 12345 --livereload
 
 serve-public: bundle-install
-    {{ BUNDLE }} exec jekyll serve --drafts --host 0.0.0.0 --port 12123 --livereload --livereload-port 12124
+    bundle exec jekyll serve --drafts --host 0.0.0.0 --port 12123 --livereload --livereload-port 12124
 
 clean *opts:
     git -c core.excludesFile= clean -ffdX -e '!.env' {{ opts }}
 
 bundle-install:
-    {{ BUNDLE }} install
+    bundle install
 
 bundle-outdated: bundle-install
-    {{ BUNDLE }} outdated --only-explicit
+    bundle outdated --only-explicit
 
 bundle-update: bundle-install
-    {{ BUNDLE }} update
-
-bundle *args:
-    {{ BUNDLE }} {{ args }}
+    bundle update
 
 # ----------------------------------------------------------------------
 
