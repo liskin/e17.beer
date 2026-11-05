@@ -24,4 +24,6 @@ def test_get_place_data_from_api_ambiguous():
 
     # We expect an error because result is ambiguous
     with pytest.raises(RuntimeError, match=r"(?i)ambiguous result"):
-        get_place_data_from_api(client=mock_client, place_name="Brewery", search_query="Brewery")
+        get_place_data_from_api(
+            client=mock_client, place_name="Brewery", search_query="Brewery", search_filter="Brewery"
+        )
