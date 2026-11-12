@@ -1,0 +1,34 @@
+name: Test scripts
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  # avoid resolution even if exclude-newer differs
+  UV_FROZEN: 1
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: true
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Test
+        run: |
+          just _scripts::test
