@@ -1,5 +1,8 @@
+---
+---
+{% assign sitename = site.url | split: "://" | last -%}
 {
-  "name": "e17.beer/hours",
+  "name": "{{ sitename }}/hours",
   "description": "Blackhorse Beer Mile - Opening Hours",
   "start_url": "/hours/",
   "display": "standalone",
