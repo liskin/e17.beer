@@ -20,6 +20,9 @@ fmt:
 ipython:
     uv run --with ipython python -m IPython
 
+uv-lock-upgrade:
+    uv lock --upgrade
+
 # ----------------------------------------------------------------------
 
 [group('run')]
